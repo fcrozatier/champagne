@@ -10,11 +10,19 @@ Champagne is a voting platform for massive competitions. It implements the [Node
 
 You can use this project by setting a few environment variables in your local `.env` file:
 
-- `PUBLIC_CURRENT_PHASE` _(number 0, 1, 2 or 3)_ is a semantic variable that allows to display information on the current state of the competition
-- `PUBLIC_REGISTRATION_DEADLINE` _(string )_ An ISO 8601 string representing the registration deadline "yyyy-mm-ddThh:mm:ssZ"
-- `PUBLIC_VOTING_OPEN`, `PUBLIC_RESULTS_OPEN` _(number 0 or 1)_ are three logic variables that give you granular control on which forms and widgets are actually live.
 
-The decoupling between UI info and logic gives time for cleanup/maintenance between phases.
+| name                           | value                  | description                                       |
+| ------------------------------ | ---------------------- | ------------------------------------------------- |
+| `PUBLIC_CURRENT_PHASE`         | 0, 1, 2 or 3           | the current state of the competition (0 for none) |
+| `PUBLIC_REGISTRATION_DEADLINE` | "yyyy-mm-ddThh:mm:ssZ" | An ISO 8601 string for the registration deadline  |
+| `PUBLIC_VOTING_OPEN`           | 0 or 1                 | 1 if the voting phase in open                     |
+| `PUBLIC_RESULTS_OPEN`          | 0 or 1                 | 1 if results are available                        |
+
+
+
+`PUBLIC_CURRENT_PHASE` is a semantic variable that allows the UI to display information on the current state of the competition while the other three are logic variables that give you granular control on which forms and widgets are actually live.
+
+The decoupling between UI and logic gives time for cleanup/maintenance between phases: you can easily disable forms and widgets while still providing meaningful info on the phase.
 
 ## Licence
 
