@@ -1,6 +1,6 @@
-# Champagne
+# Champagne 🍾
 
-> Bubble up the outstanding and celebrate the best!
+Bubble up the outstanding and celebrate the best!
 
 ## What is champagne?
 
