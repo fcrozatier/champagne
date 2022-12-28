@@ -14,4 +14,4 @@ You can use this project by setting a few environment variables in you local `.e
 - `PUBLIC_REGISTRATION_DEADLINE` _(string )_ An ISO 8601 string representing the registration deadline "yyyy-mm-ddThh:mm:ssZ"
 - `PUBLIC_VOTING_OPEN`, `PUBLIC_RESULTS_OPEN` _(number 0 or 1)_ are three logic variables that give you granular control on which forms and widgets are actually live.
 
-The decoupling between UI info and logic allows you to take your time between phases.
+The decoupling between UI info and logic gives time for cleanup/maintenance between phases.
