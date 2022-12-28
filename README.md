@@ -6,7 +6,6 @@ Bubble up the outstanding and celebrate the best!
 
 Champagne is a voting platform for massive competitions implementing a peer ranking algorithm. The algorithm is an implementaion of NodeRank.
 
-
 ## How to use it?
 
 You can use this project by setting a few environment variables in you local `.env` file:
