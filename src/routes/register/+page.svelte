@@ -33,7 +33,7 @@
 		</p>
 		<h3>Rules</h3>
 		<ul>
-			<li>You can only register one entry for the competition</li>
+			<li>You can only register one entry per person/group for the competition</li>
 			<li>You cannot register both as a creator and as a judge</li>
 		</ul>
 		<p>Read the <a href="/rules">rules</a> first</p>
