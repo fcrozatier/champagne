@@ -1,10 +1,10 @@
 # Champagne
 
-Bubble up the outstanding and celebrate the best!
+> Bubble up the outstanding and celebrate the best!
 
 ## What is champagne?
 
-Champagne is a voting platform for massive competitions implementing a peer ranking algorithm. The algorithm is an implementaion of NodeRank.
+Champagne is a voting platform for massive competitions implementing a peer ranking algorithm. The algorithm is an implementaion of [NodeRank](https://github.com/fcrozatier/NodeRank).
 
 ## How to use it?
 
@@ -15,3 +15,7 @@ You can use this project by setting a few environment variables in you local `.e
 - `PUBLIC_VOTING_OPEN`, `PUBLIC_RESULTS_OPEN` _(number 0 or 1)_ are three logic variables that give you granular control on which forms and widgets are actually live.
 
 The decoupling between UI info and logic gives time for cleanup/maintenance between phases.
+
+## Licence
+
+[MIT](/LICENCE)
