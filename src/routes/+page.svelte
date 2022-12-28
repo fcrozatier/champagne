@@ -6,9 +6,9 @@
 		PUBLIC_REGISTRATION_DEADLINE
 	} from '$env/static/public';
 	import { getContext } from 'svelte';
+	import { registrationOpen } from '../lib/utils';
 
 	const intl = getContext('intl');
-	const registrationOpen = getContext('registrationOpen');
 
 	const phase = parseInt(PUBLIC_CURRENT_PHASE);
 
@@ -44,7 +44,7 @@
 		<p>The competition is closed, stay tuned for the next edition !</p>
 	{/if}
 
-	{#if registrationOpen}
+	{#if registrationOpen()}
 		<h2>Participate</h2>
 		<strong>Phase 1 is open</strong>
 		<p>

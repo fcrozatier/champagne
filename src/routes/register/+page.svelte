@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { registrationOpen } from '../../lib/utils';
 	import type { ActionData } from './$types';
-	import { getContext } from 'svelte';
 
 	export let form: ActionData;
-
-	const registrationOpen = getContext('registrationOpen');
 
 	let value: 'creator' | 'judge';
 </script>
@@ -106,7 +104,7 @@
 				{#if form?.invalid}
 					<span class="block text-error">something went wrong. Please try again </span>
 				{/if}
-				<button class="btn block" disabled={!registrationOpen}>Register</button>
+				<button class="btn block" disabled={!registrationOpen()}>Register</button>
 				<a href="/">Back to main page</a>
 			</p>
 		</form>

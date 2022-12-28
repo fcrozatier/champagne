@@ -1,8 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { getContext } from 'svelte';
-
-const registrationOpen = getContext('registrationOpen');
+import { registrationOpen } from '../../lib/utils';
 
 const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];
@@ -10,7 +8,7 @@ const users = ['creator', 'judge'];
 export const actions: Actions = {
 	default: async ({ request }) => {
 		try {
-			if (!registrationOpen) {
+			if (!registrationOpen()) {
 				return fail(422, { invalid: true });
 			}
 
@@ -48,6 +46,7 @@ export const actions: Actions = {
 
 			return { success: true, email };
 		} catch (error) {
+			console.log(error);
 			return fail(400, { invalid: true });
 		}
 	}
