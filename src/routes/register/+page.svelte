@@ -38,75 +38,81 @@
 		</ul>
 		<p>Read the <a href="/rules">rules</a> first</p>
 
-		<form method="post" use:enhance>
-			<label for="user" class="label">I want to register as a</label>
-			<select
-				id="user"
-				name="user"
-				bind:value
-				class="select select-bordered w-full max-w-xs"
-				required
-			>
-				<option disabled />
-				<option value="creator">Creator</option>
-				<option value="judge">Judge</option>
-			</select>
-			{#if form?.userInvalid}
-				<span class="block text-error">invalid value</span>
-			{/if}
-
-			<label for="email" class="label">Email</label>
-			<input
-				id="email"
-				type="email"
-				name="email"
-				placeholder="john@gmail.com"
-				class="input input-bordered w-full max-w-xs"
-				required
-			/>
-			{#if form?.emailInvalid}
-				<span class="block text-error">email is required</span>
-			{/if}
-
-			{#if value === 'creator'}
-				<label for="entry" class="label">Type of entry </label>
-				<select id="entry" name="entry" class="select select-bordered w-full max-w-xs" required>
-					<option value="video">Video</option>
-					<option value="non-video">Non video</option>
+		{#if !registrationOpen()}
+			<p>
+				<strong>Registration is now closed</strong>
+			</p>
+		{:else}
+			<form method="post" use:enhance>
+				<label for="user" class="label">I want to register as a</label>
+				<select
+					id="user"
+					name="user"
+					bind:value
+					class="select select-bordered w-full max-w-xs"
+					required
+				>
+					<option disabled />
+					<option value="creator">Creator</option>
+					<option value="judge">Judge</option>
 				</select>
-				{#if form?.entryInvalid}
-					<span class="block text-error">entry is invalid</span>
+				{#if form?.userInvalid}
+					<span class="block text-error">invalid value</span>
 				{/if}
 
-				<label for="link" class="label">Link to your entry</label>
+				<label for="email" class="label">Email</label>
 				<input
-					id="link"
-					type="url"
-					name="link"
-					placeholder="https://"
+					id="email"
+					type="email"
+					name="email"
+					placeholder="john@gmail.com"
 					class="input input-bordered w-full max-w-xs"
 					required
 				/>
-				{#if form?.linkInvalid}
-					<span class="block text-error">a link to your entry is required </span>
+				{#if form?.emailInvalid}
+					<span class="block text-error">email is required</span>
 				{/if}
-			{/if}
 
-			<label for="rules" class="label flex gap-2">
-				<input id="rules" type="checkbox" name="rules" class="checkbox" required />
-				<span class="flex-1"> I've read the <a href="/rules">rules</a> of the competition </span>
-			</label>
-			{#if form?.rulesInvalid}
-				<span class="block text-error">you need to read the rules first </span>
-			{/if}
+				{#if value === 'creator'}
+					<label for="entry" class="label">Type of entry </label>
+					<select id="entry" name="entry" class="select select-bordered w-full max-w-xs" required>
+						<option value="video">Video</option>
+						<option value="non-video">Non video</option>
+					</select>
+					{#if form?.entryInvalid}
+						<span class="block text-error">entry is invalid</span>
+					{/if}
 
-			<p>
-				{#if form?.invalid}
-					<span class="block text-error">something went wrong. Please try again </span>
+					<label for="link" class="label">Link to your entry</label>
+					<input
+						id="link"
+						type="url"
+						name="link"
+						placeholder="https://"
+						class="input input-bordered w-full max-w-xs"
+						required
+					/>
+					{#if form?.linkInvalid}
+						<span class="block text-error">a link to your entry is required </span>
+					{/if}
 				{/if}
-				<button class="btn block" disabled={!registrationOpen()}>Register</button>
-				<a href="/">Back to main page</a>
-			</p>
-		</form>
+
+				<label for="rules" class="label flex gap-2">
+					<input id="rules" type="checkbox" name="rules" class="checkbox" required />
+					<span class="flex-1"> I've read the <a href="/rules">rules</a> of the competition </span>
+				</label>
+				{#if form?.rulesInvalid}
+					<span class="block text-error">you need to read the rules first </span>
+				{/if}
+
+				<p>
+					{#if form?.invalid}
+						<span class="block text-error">something went wrong. Please try again </span>
+					{/if}
+					<button class="btn block" disabled={!registrationOpen()}>Register</button>
+					<a href="/">Back to main page</a>
+				</p>
+			</form>
+		{/if}
 	{/if}
 </article>
