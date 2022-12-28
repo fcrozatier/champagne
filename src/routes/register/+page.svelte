@@ -13,15 +13,17 @@
 </svelte:head>
 
 <article>
-	<h2>Register for the competition</h2>
 	{#if form?.success}
+		<h2>Thank you for participating!</h2>
 		<p>
-			A confirmation email was just sent to {form.email} with your link for the voting phase.
+			A confirmation email was just sent to <em>{form.email}</em> with your link for the voting phase.
 		</p>
 		<p>
 			<strong>Do not delete this email.</strong>
 		</p>
+		<p>See you in the voting phase.</p>
 	{:else}
+		<h2>Register for the competition</h2>
 		<h3>Creators</h3>
 		<p>
 			If you are a creator, fill the form below to register your entry for the voting phase. As a

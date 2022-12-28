@@ -27,16 +27,18 @@ export const actions: Actions = {
 				return fail(400, { emailInvalid: true });
 			}
 
-			if (!entry || typeof entry !== 'string' || !entries.includes(entry)) {
-				return fail(400, { entryInvalid: true });
-			}
-
-			if (!link || typeof link !== 'string') {
-				return fail(400, { linkInvalid: true });
-			}
-
 			if (!rules) {
 				return fail(400, { rulesInvalid: true });
+			}
+
+			if (user === 'creator') {
+				if (!entry || typeof entry !== 'string' || !entries.includes(entry)) {
+					return fail(400, { entryInvalid: true });
+				}
+
+				if (!link || typeof link !== 'string') {
+					return fail(400, { linkInvalid: true });
+				}
 			}
 
 			// TODO save on db
