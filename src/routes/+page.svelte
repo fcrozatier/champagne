@@ -49,9 +49,9 @@
 		<strong>Phase 1 is open</strong>
 		<p>
 			You can register until
-			<time datetime={PUBLIC_REGISTRATION_DEADLINE}
-				>{intl.format(Date.parse(PUBLIC_REGISTRATION_DEADLINE))}</time
-			>
+			<time datetime={PUBLIC_REGISTRATION_DEADLINE}>
+				{intl.format(Date.parse(PUBLIC_REGISTRATION_DEADLINE))}
+			</time>
 		</p>
 		<p><a class="btn" href="/register">Go to registration page</a></p>
 	{/if}
