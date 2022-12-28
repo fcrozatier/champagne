@@ -19,6 +19,10 @@
 	];
 </script>
 
+<svelte:head>
+	<title>Champagne</title>
+</svelte:head>
+
 <article>
 	<p>
 		The SOME <small>(Summer Of Math Exposition)</small> is an annual competition to foster the creation

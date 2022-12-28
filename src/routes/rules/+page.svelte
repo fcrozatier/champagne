@@ -5,6 +5,10 @@
 	const intl = getContext('intl');
 </script>
 
+<svelte:head>
+	<title>Rules</title>
+</svelte:head>
+
 <article>
 	<h2>What are the constraints for entries?</h2>
 
