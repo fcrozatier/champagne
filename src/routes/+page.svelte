@@ -44,8 +44,8 @@
 		<p>The competition is closed, stay tuned for the next edition !</p>
 	{/if}
 
+	<h2>Participate</h2>
 	{#if registrationOpen()}
-		<h2>Participate</h2>
 		<strong>Phase 1 is open</strong>
 		<p>
 			You can register until
