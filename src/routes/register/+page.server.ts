@@ -49,7 +49,7 @@ export const actions: Actions = {
 			return { success: true, email };
 		} catch (error) {
 			console.log(error);
-			return fail(400, { invalid: true });
+			return fail(500, { invalid: true });
 		}
 	}
 };
