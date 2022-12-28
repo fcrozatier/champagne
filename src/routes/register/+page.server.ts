@@ -1,8 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { PUBLIC_REGISTRATION_OPEN } from '$env/static/public';
+import { getContext } from 'svelte';
 
-const registrationOpen = parseInt(PUBLIC_REGISTRATION_OPEN);
+const registrationOpen = getContext('registrationOpen');
 
 const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];

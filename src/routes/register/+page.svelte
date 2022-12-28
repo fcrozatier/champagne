@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
-	import { PUBLIC_REGISTRATION_OPEN } from '$env/static/public';
+	import { getContext } from 'svelte';
 
 	export let form: ActionData;
 
-	const registrationOpen = parseInt(PUBLIC_REGISTRATION_OPEN);
+	const registrationOpen = getContext('registrationOpen');
 
 	let value: 'creator' | 'judge';
 </script>
@@ -38,7 +38,7 @@
 			<li>You can only register one entry for the competition</li>
 			<li>You cannot register both as a creator and as a judge</li>
 		</ul>
-		<p>Read the <a href="/rules">rules section</a> first</p>
+		<p>Read the <a href="/rules">rules</a> first</p>
 
 		<form method="post" use:enhance>
 			<label for="user" class="label">I want to register as a</label>

@@ -1,6 +1,13 @@
 <script>
 	import '../app.css';
 	import { setContext } from 'svelte';
+	import { PUBLIC_REGISTRATION_DEADLINE } from '$env/static/public';
+
+	const now = new Date();
+	const deadline = new Date(PUBLIC_REGISTRATION_DEADLINE);
+	const registrationOpen = now < deadline;
+
+	setContext('registrationOpen', registrationOpen);
 
 	setContext(
 		'intl',
