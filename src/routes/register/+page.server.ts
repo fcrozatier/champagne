@@ -1,6 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { registrationOpen } from '../../lib/utils';
+import { registrationOpen } from '$lib/utils';
 
 const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];

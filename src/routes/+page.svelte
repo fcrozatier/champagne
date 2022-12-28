@@ -6,7 +6,7 @@
 		PUBLIC_REGISTRATION_DEADLINE
 	} from '$env/static/public';
 	import { getContext } from 'svelte';
-	import { registrationOpen } from '../lib/utils';
+	import { registrationOpen } from '$lib/utils';
 
 	const intl = getContext('intl');
 
