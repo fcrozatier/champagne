@@ -16,7 +16,7 @@
 	{#if form?.success}
 		<h2>Thank you for participating!</h2>
 		<p>
-			A confirmation email was just sent to <em>{form.email}</em> with your link for the voting phase.
+			A confirmation email has been sent to <em>{form.email}</em> with your link for the voting phase.
 		</p>
 		<p>
 			<strong>Do not delete this email.</strong>
@@ -73,6 +73,8 @@
 				/>
 				{#if form?.emailInvalid}
 					<span class="block text-error">email is required</span>
+				{:else if form?.emailExists}
+					<span class="block text-error">email already registered</span>
 				{/if}
 
 				{#if value === 'creator'}
@@ -96,6 +98,8 @@
 					/>
 					{#if form?.linkInvalid}
 						<span class="block text-error">a link to your entry is required </span>
+					{:else if form?.linkExists}
+						<span class="block text-error">entry already registered</span>
 					{/if}
 				{/if}
 
