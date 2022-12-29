@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { registrationOpen } from '$lib/utils';
+import { driver } from '$lib/noe4j.server';
 
 const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];
@@ -41,8 +42,63 @@ export const actions: Actions = {
 				}
 			}
 
-			// TODO save on db
-			// const token = crypto.randomUUID();
+			const session = driver.session();
+
+			// Prevent duplicate data
+			const res = await session.executeRead((tx) => {
+				return tx.run(
+					`
+				MATCH (n)
+				WHERE n.email = $email
+				OR n.link = $link
+				RETURN n.email AS email, n.link AS link
+				`,
+					{
+						email,
+						link: link ?? ''
+					}
+				);
+			});
+
+			for (const record of res.records) {
+				if (record.get('email') === email) {
+					return fail(400, { emailExists: true });
+				}
+				if (user === 'creator' && record.get('link') === link) {
+					return fail(400, { linkExists: true });
+				}
+			}
+
+			// Save data
+			const token = crypto.randomUUID();
+			if (user === 'creator') {
+				await session.executeWrite((tx) => {
+					return tx.run(
+						`
+					CREATE (:Creator {email: $email, token: $token})-[:CREATED]->(:Entry {link: $link, entry: $entry})
+					`,
+						{
+							email,
+							token,
+							link,
+							entry
+						}
+					);
+				});
+			} else {
+				await session.executeWrite((tx) => {
+					return tx.run(
+						`
+					CREATE (:Judge {email: $email, token: $token})
+					`,
+						{
+							email,
+							token
+						}
+					);
+				});
+			}
+			await session.close();
 
 			// TODO send mail
 
