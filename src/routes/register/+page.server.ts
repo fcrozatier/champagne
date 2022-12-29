@@ -1,10 +1,16 @@
-import { fail } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import { error, fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/noe4j.server';
 
 const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];
+
+export const load: PageServerLoad = async () => {
+	if (!registrationOpen()) {
+		throw error(403, 'The registration phase is not open');
+	}
+};
 
 export const actions: Actions = {
 	default: async ({ request }) => {
