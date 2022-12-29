@@ -1,21 +1,16 @@
 <script>
-	import {
-		PUBLIC_CURRENT_PHASE,
-		PUBLIC_VOTING_OPEN,
-		PUBLIC_RESULTS_OPEN,
-		PUBLIC_REGISTRATION_DEADLINE
-	} from '$env/static/public';
 	import { getContext } from 'svelte';
-	import { registrationOpen } from '$lib/utils';
+	import { registrationOpen, votingOpen, resultsAvailabe, competitionStarted } from '$lib/utils';
+	import { PUBLIC_REGISTRATION_END, PUBLIC_REGISTRATION_START } from '$env/static/public';
 
 	const intl = getContext('intl');
 
-	const phase = parseInt(PUBLIC_CURRENT_PHASE);
+	const phases = [registrationOpen(), votingOpen(), resultsAvailabe()];
 
 	const descriptions = [
 		'Phase 1: Register as a creator or judge',
 		'Phase 2: Vote for the best contributions',
-		'Phase 3: Results'
+		'Phase 3: Results and feedback'
 	];
 </script>
 
@@ -33,10 +28,10 @@
 	<p>The competition has three phases:</p>
 	<ul>
 		{#each descriptions as description, i}
-			<li class={phase === i + 1 ? 'marker:text-green-500' : ''}>
+			<li class={phases[i] ? 'marker:text-green-500' : ''}>
 				<p class="flex items-center gap-2">
 					{description}
-					{#if phase === i + 1}
+					{#if phases[i]}
 						<span class="badge badge-success">current</span>
 					{/if}
 				</p>
@@ -44,17 +39,26 @@
 		{/each}
 	</ul>
 
-	{#if phase === 0}
-		<p>The competition is closed, stay tuned for the next edition !</p>
+	{#if !competitionStarted()}
+		{#if !PUBLIC_REGISTRATION_START}
+			<p>The competition has not started yet.</p>
+			<p>Stay tuned for the announcement of phase 1.</p>
+		{:else}
+			<p>
+				The competition will start <time datetime={PUBLIC_REGISTRATION_START}>
+					{intl.format(Date.parse(PUBLIC_REGISTRATION_START))}
+				</time>
+			</p>
+		{/if}
 	{/if}
 
-	<h2>Participate</h2>
 	{#if registrationOpen()}
+		<h2>Register</h2>
 		<strong>Phase 1 is open</strong>
 		<p>
 			You can register until
-			<time datetime={PUBLIC_REGISTRATION_DEADLINE}>
-				{intl.format(Date.parse(PUBLIC_REGISTRATION_DEADLINE))}
+			<time datetime={PUBLIC_REGISTRATION_END}>
+				{intl.format(Date.parse(PUBLIC_REGISTRATION_END))}
 			</time>
 		</p>
 		<p><a class="btn" href="/register">Go to registration page</a></p>
