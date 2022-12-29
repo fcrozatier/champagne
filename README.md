@@ -14,22 +14,16 @@ This project is a [SvelteKit](https://kit.svelte.dev/) app running a [Neo4j](htt
 
 You can use this project by setting a few environment variables in your local `.env` file:
 
-
-| name                           | value                   | description                                       |
-| ------------------------------ | ----------------------- | ------------------------------------------------- |
-| `PUBLIC_CURRENT_PHASE`         | 0, 1, 2 or 3            | the current state of the competition (0 for none) |
-| `PUBLIC_REGISTRATION_DEADLINE` | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the registration deadline  |
-| `PUBLIC_VOTING_OPEN`           | 0 or 1                  | 1 if the voting phase in open                     |
-| `PUBLIC_RESULTS_OPEN`          | 0 or 1                  | 1 if results are available                        |
-| `NEO4J_URI`                    | "bolt://localhost:7687" | neo4j connection string                           |
-| `NEO4J_USERNAME`               | string                  | neo4j user                                        |
-| `NEO4J_PASSWORD`               | string                  | neo4j password                                    |
-
-
-
-`PUBLIC_CURRENT_PHASE` is a semantic variable that allows the UI to display information on the current state of the competition while the other three are logic variables that give you granular control on which forms and widgets are actually live.
-
-The decoupling between UI and logic gives time for cleanup/maintenance between phases: you can easily disable forms and widgets while still providing meaningful info on the phase.
+| name                        | value                   | description                                   |
+| --------------------------- | ----------------------- | --------------------------------------------- |
+| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the registration start |
+| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the registration end   |
+| `PUBLIC_VOTING_START`       | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the voting phase start |
+| `PUBLIC_VOTING_END`         | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the voting phase end   |
+| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                  | 1 if results are available                    |
+| `NEO4J_URI`                 | "bolt://localhost:7687" | neo4j connection string                       |
+| `NEO4J_USERNAME`            | string                  | neo4j user                                    |
+| `NEO4J_PASSWORD`            | string                  | neo4j password                                |
 
 ## Running locally
 
