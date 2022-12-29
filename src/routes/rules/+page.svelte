@@ -1,6 +1,7 @@
 <script>
-	import { PUBLIC_REGISTRATION_DEADLINE } from '$env/static/public';
+	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
 	import { getContext } from 'svelte';
+	import { competitionStarted } from '$lib/utils';
 
 	const intl = getContext('intl');
 </script>
@@ -52,11 +53,15 @@
 	</ol>
 
 	<h2>When is the deadline?</h2>
-	<p>
-		<time datetime={PUBLIC_REGISTRATION_DEADLINE}
-			>{intl.format(Date.parse(PUBLIC_REGISTRATION_DEADLINE))}</time
-		>
-	</p>
+	{#if competitionStarted()}
+		<p>
+			<time datetime={PUBLIC_REGISTRATION_END}
+				>{intl.format(Date.parse(PUBLIC_REGISTRATION_END))}</time
+			>
+		</p>
+	{:else}
+		<p>The competition has not started yet</p>
+	{/if}
 
 	<h2>How will winners be selected?</h2>
 	<p>Here's what we're looking for:</p>
