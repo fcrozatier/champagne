@@ -116,7 +116,6 @@
 						<span class="block text-error">something went wrong. Please try again </span>
 					{/if}
 					<button class="btn block" disabled={!registrationOpen()}>Register</button>
-					<a href="/">Back to main page</a>
 				</p>
 			</form>
 		{/if}
