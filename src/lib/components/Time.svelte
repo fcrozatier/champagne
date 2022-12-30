@@ -10,9 +10,9 @@
 </script>
 
 <script lang="ts">
-	export let date: string;
+	export let datetime: string;
 </script>
 
-<time datetime={date}>
-	{intl.format(Date.parse(date))}
+<time {datetime}>
+	{intl.format(Date.parse(datetime))}
 </time>

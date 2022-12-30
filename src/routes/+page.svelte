@@ -47,7 +47,7 @@
 			<p>Stay tuned for the announcement of phase 1.</p>
 		{:else}
 			<p>
-				The competition will start <Time date={PUBLIC_REGISTRATION_START} />
+				The competition will start <Time datetime={PUBLIC_REGISTRATION_START} />
 			</p>
 		{/if}
 	{/if}
@@ -57,7 +57,7 @@
 		<strong>Phase 1 is open</strong>
 		<p>
 			You can register until
-			<Time date={PUBLIC_REGISTRATION_END} />
+			<Time datetime={PUBLIC_REGISTRATION_END} />
 		</p>
 		<p><a class="btn" href="/register">Go to registration page</a></p>
 	{/if}
@@ -67,7 +67,7 @@
 		<strong>Phase 2 is open</strong>
 		<p>
 			You can vote until
-			<Time date={PUBLIC_VOTE_END} />
+			<Time datetime={PUBLIC_VOTE_END} />
 		</p>
 		<p class="">If you are registered you can vote with the link you received by email</p>
 	{/if}

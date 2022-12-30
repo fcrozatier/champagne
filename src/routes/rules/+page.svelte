@@ -54,7 +54,7 @@
 	{#if competitionStarted()}
 		<p>
 			You can register until
-			<Time date={PUBLIC_REGISTRATION_END} />
+			<Time datetime={PUBLIC_REGISTRATION_END} />
 		</p>
 	{:else}
 		<p>The competition has not started yet</p>
