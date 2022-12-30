@@ -59,7 +59,10 @@ export const actions: Actions = {
 					await session.executeWrite((tx) => {
 						return tx.run(
 							`
-					CREATE (:User:Creator {email: $email, token: $token})-[:CREATED]->(:Entry {link: $link, entry: $entry})
+					MATCH (s:Seq)
+					CALL apoc.atomic.add(s, 'value', 1, 10)
+					YIELD newValue as seq
+					CREATE (:User:Creator {email: $email, token: $token})-[:CREATED]->(:Entry {link: $link, entry: $entry, number: seq, points: 1})
 					`,
 							{
 								email,

@@ -22,6 +22,15 @@ export const load: PageServerLoad = async () => {
       `);
 		});
 
+		// Sequence for entries
+		await session.executeWrite((tx) => {
+			return tx.run(`
+      MERGE (s:Seq)
+      ON CREATE
+        SET s.value = 0
+      `);
+		});
+
 		return { success: true };
 	} catch (error) {
 		console.log(error);
