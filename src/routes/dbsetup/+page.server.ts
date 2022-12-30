@@ -22,6 +22,16 @@ export const load: PageServerLoad = async () => {
       `);
 		});
 
+		// Index the entry number
+		await session.executeWrite((tx) => {
+			return tx.run(`
+      CREATE INDEX EntryNumberIndex
+      IF NOT EXISTS
+      FOR (entry:Entry)
+      ON entry.number;
+      `);
+		});
+
 		// Sequence for entries
 		await session.executeWrite((tx) => {
 			return tx.run(`
