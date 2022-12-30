@@ -1,11 +1,15 @@
 <script>
 	import { getContext } from 'svelte';
-	import { registrationOpen, votingOpen, resultsAvailabe, competitionStarted } from '$lib/utils';
-	import { PUBLIC_REGISTRATION_END, PUBLIC_REGISTRATION_START } from '$env/static/public';
+	import { registrationOpen, resultsAvailabe, competitionStarted, voteOpen } from '$lib/utils';
+	import {
+		PUBLIC_REGISTRATION_END,
+		PUBLIC_REGISTRATION_START,
+		PUBLIC_VOTE_END
+	} from '$env/static/public';
 
 	const intl = getContext('intl');
 
-	const phases = [registrationOpen(), votingOpen(), resultsAvailabe()];
+	const phases = [registrationOpen(), voteOpen(), resultsAvailabe()];
 
 	const descriptions = [
 		'Phase 1: Register as a creator or judge',
@@ -62,5 +66,17 @@
 			</time>
 		</p>
 		<p><a class="btn" href="/register">Go to registration page</a></p>
+	{/if}
+
+	{#if voteOpen()}
+		<h2>Vote</h2>
+		<strong>Phase 2 is open</strong>
+		<p>
+			You can vote until
+			<time datetime={PUBLIC_VOTE_END}>
+				{intl.format(Date.parse(PUBLIC_VOTE_END))}
+			</time>
+		</p>
+		<p class="">If you are registered you can vote with the link you received by email</p>
 	{/if}
 </article>
