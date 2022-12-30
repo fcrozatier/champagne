@@ -1,8 +1,8 @@
 import {
 	PUBLIC_REGISTRATION_START,
 	PUBLIC_REGISTRATION_END,
-	PUBLIC_VOTING_START,
-	PUBLIC_VOTING_END,
+	PUBLIC_VOTE_START,
+	PUBLIC_VOTE_END,
 	PUBLIC_RESULTS_AVAILABLE
 } from '$env/static/public';
 
@@ -27,8 +27,8 @@ export function registrationOpen() {
 	return phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END);
 }
 
-export function votingOpen() {
-	return phaseOpen(PUBLIC_VOTING_START, PUBLIC_VOTING_END);
+export function voteOpen() {
+	return phaseOpen(PUBLIC_VOTE_START, PUBLIC_VOTE_END);
 }
 
 export function resultsAvailabe() {
