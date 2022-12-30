@@ -31,6 +31,7 @@ You can use this project by setting a few environment variables in your local `.
 1. Set your environment variables in `.env`
 1. Install the packages `npm install`
 1. Run the dev server `npm run dev`
+1. Visit `localhost:5173/dbsetup` to add validation constraints to the database
 
 ## Licence
 

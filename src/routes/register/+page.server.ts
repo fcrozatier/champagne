@@ -2,6 +2,7 @@ import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/noe4j.server';
+import { Neo4jError } from 'neo4j-driver';
 
 const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];
@@ -48,63 +49,55 @@ export const actions: Actions = {
 				}
 			}
 
+			// Save data
 			const session = driver.session();
 
-			// Prevent duplicate data
-			const res = await session.executeRead((tx) => {
-				return tx.run(
-					`
-				MATCH (n)
-				WHERE n.email = $email
-				OR n.link = $link
-				RETURN n.email AS email, n.link AS link
-				`,
-					{
-						email,
-						link: link ?? ''
+			try {
+				const token = crypto.randomUUID();
+
+				if (user === 'creator') {
+					await session.executeWrite((tx) => {
+						return tx.run(
+							`
+					CREATE (:User:Creator {email: $email, token: $token})-[:CREATED]->(:Entry {link: $link, entry: $entry})
+					`,
+							{
+								email,
+								token,
+								link,
+								entry
+							}
+						);
+					});
+				} else {
+					await session.executeWrite((tx) => {
+						return tx.run(
+							`
+					CREATE (:User:Judge {email: $email, token: $token})
+					`,
+							{
+								email,
+								token
+							}
+						);
+					});
+				}
+			} catch (error) {
+				if (
+					error instanceof Neo4jError &&
+					error.code === 'Neo.ClientError.Schema.ConstraintValidationFailed'
+				) {
+					console.log(error.message);
+
+					if (error.message.includes('email')) {
+						return fail(422, { emailExists: true });
+					} else if (error.message.includes('link')) {
+						return fail(422, { linkExists: true });
 					}
-				);
-			});
-
-			for (const record of res.records) {
-				if (record.get('email') === email) {
-					return fail(400, { emailExists: true });
 				}
-				if (user === 'creator' && record.get('link') === link) {
-					return fail(400, { linkExists: true });
-				}
+			} finally {
+				await session.close();
 			}
-
-			// Save data
-			const token = crypto.randomUUID();
-			if (user === 'creator') {
-				await session.executeWrite((tx) => {
-					return tx.run(
-						`
-					CREATE (:Creator {email: $email, token: $token})-[:CREATED]->(:Entry {link: $link, entry: $entry})
-					`,
-						{
-							email,
-							token,
-							link,
-							entry
-						}
-					);
-				});
-			} else {
-				await session.executeWrite((tx) => {
-					return tx.run(
-						`
-					CREATE (:Judge {email: $email, token: $token})
-					`,
-						{
-							email,
-							token
-						}
-					);
-				});
-			}
-			await session.close();
 
 			// TODO send mail
 
