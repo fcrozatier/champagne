@@ -1,7 +1,7 @@
 import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
-import { driver } from '$lib/noe4j.server';
+import { driver } from '$lib/server/noe4j';
 import { Neo4jError } from 'neo4j-driver';
 
 const entries = ['video', 'non-video'];
