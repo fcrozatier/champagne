@@ -1,13 +1,11 @@
 <script>
-	import { getContext } from 'svelte';
 	import { registrationOpen, resultsAvailabe, competitionStarted, voteOpen } from '$lib/utils';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
 		PUBLIC_VOTE_END
 	} from '$env/static/public';
-
-	const intl = getContext('intl');
+	import Time from '$lib/components/Time.svelte';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailabe()];
 
@@ -49,9 +47,7 @@
 			<p>Stay tuned for the announcement of phase 1.</p>
 		{:else}
 			<p>
-				The competition will start <time datetime={PUBLIC_REGISTRATION_START}>
-					{intl.format(Date.parse(PUBLIC_REGISTRATION_START))}
-				</time>
+				The competition will start <Time date={PUBLIC_REGISTRATION_START} />
 			</p>
 		{/if}
 	{/if}
@@ -61,9 +57,7 @@
 		<strong>Phase 1 is open</strong>
 		<p>
 			You can register until
-			<time datetime={PUBLIC_REGISTRATION_END}>
-				{intl.format(Date.parse(PUBLIC_REGISTRATION_END))}
-			</time>
+			<Time date={PUBLIC_REGISTRATION_END} />
 		</p>
 		<p><a class="btn" href="/register">Go to registration page</a></p>
 	{/if}
@@ -73,9 +67,7 @@
 		<strong>Phase 2 is open</strong>
 		<p>
 			You can vote until
-			<time datetime={PUBLIC_VOTE_END}>
-				{intl.format(Date.parse(PUBLIC_VOTE_END))}
-			</time>
+			<Time date={PUBLIC_VOTE_END} />
 		</p>
 		<p class="">If you are registered you can vote with the link you received by email</p>
 	{/if}

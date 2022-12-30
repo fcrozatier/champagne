@@ -1,9 +1,7 @@
 <script>
 	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
-	import { getContext } from 'svelte';
 	import { competitionStarted } from '$lib/utils';
-
-	const intl = getContext('intl');
+	import Time from '$lib/components/Time.svelte';
 </script>
 
 <svelte:head>
@@ -55,9 +53,8 @@
 	<h2>When is the deadline?</h2>
 	{#if competitionStarted()}
 		<p>
-			<time datetime={PUBLIC_REGISTRATION_END}
-				>{intl.format(Date.parse(PUBLIC_REGISTRATION_END))}</time
-			>
+			You can register until
+			<Time date={PUBLIC_REGISTRATION_END} />
 		</p>
 	{:else}
 		<p>The competition has not started yet</p>
