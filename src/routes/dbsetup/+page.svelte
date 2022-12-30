@@ -8,5 +8,5 @@
 {#if data.success}
 	<p>Database contraints added successfully</p>
 {:else}
-	<p>Something went wrong went creating db contraints</p>
+	<p>Something went wrong when creating db contraints</p>
 {/if}
