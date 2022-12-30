@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import { driver } from '$lib/server/noe4j';
+import { driver } from '$lib/server/neo4j';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
