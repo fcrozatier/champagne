@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { registrationOpen, resultsAvailabe, competitionStarted, voteOpen } from '$lib/utils';
 	import {
 		PUBLIC_REGISTRATION_END,
@@ -6,6 +6,7 @@
 		PUBLIC_VOTE_END
 	} from '$env/static/public';
 	import Time from '$lib/components/Time.svelte';
+	import type { PageData } from './$types';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailabe()];
 
@@ -14,6 +15,8 @@
 		'Phase 2: Vote for the best contributions',
 		'Phase 3: Results and feedback'
 	];
+
+	export let data: PageData;
 </script>
 
 <svelte:head>
@@ -69,6 +72,10 @@
 			You can vote until
 			<Time datetime={PUBLIC_VOTE_END} />
 		</p>
-		<p class="">If you are registered you can vote with the link you received by email</p>
+		{#if data.token}
+			<p><a class="btn" href="/vote/{data.token}">Vote</a></p>
+		{:else}
+			<p class="">If you are registered you can vote with the link you received by email</p>
+		{/if}
 	{/if}
 </article>
