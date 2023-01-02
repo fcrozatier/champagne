@@ -9,3 +9,12 @@ interface CreatorProperties {
 }
 
 export type Creator = Node<Integer, CreatorProperties>;
+
+export interface EntryProperties extends Record<string, unknown> {
+	entry: 'video' | 'non-video';
+	link: string;
+	number: number;
+	points: number;
+}
+
+export type Entry = Node<Integer, EntryProperties>;
