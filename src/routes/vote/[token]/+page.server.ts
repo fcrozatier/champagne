@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	const session = driver.session();
 
 	try {
-		// Find user and his already assigned entries
+		// Find user and his already assigned entries (if any)
 		const res = await session.executeRead((tx) => {
 			return tx.run(
 				`
@@ -34,7 +34,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			return { userNotFound: true };
 		} else if (res.records[0].has('r')) {
 			const row = res.records[0];
-			console.log('already assigned');
+
 			// Return previously assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
