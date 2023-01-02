@@ -45,7 +45,18 @@
 				<strong>Registration is now closed</strong>
 			</p>
 		{:else}
-			<form method="post" use:enhance>
+			<form
+				method="post"
+				use:enhance={({ form }) => {
+					const button = form.querySelector('button');
+					button?.setAttribute('disabled', 'on');
+
+					return async ({ update }) => {
+						await update();
+						button?.removeAttribute('disabled');
+					};
+				}}
+			>
 				<label for="user" class="label">I want to register as a</label>
 				<select
 					id="user"
