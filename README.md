@@ -14,16 +14,16 @@ This project is a [SvelteKit](https://kit.svelte.dev/) app running a [Neo4j](htt
 
 You can use this project by setting a few environment variables in your local `.env` file:
 
-| name                        | value                   | description                                   |
-| --------------------------- | ----------------------- | --------------------------------------------- |
-| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the registration start |
-| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the registration end   |
-| `PUBLIC_VOTE_START`         | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 strE for the voting phase start   |
-| `PUBLIC_VOTING_END`         | "yyyy-mm-ddThh:mm:ssZ"  | An ISO 8601 string for the voting phase end   |
-| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                  | 1 if results are available                    |
-| `NEO4J_URI`                 | "bolt://localhost:7687" | neo4j connection string                       |
-| `NEO4J_USERNAME`            | string                  | neo4j user                                    |
-| `NEO4J_PASSWORD`            | string                  | neo4j password                                |
+| name                        | value                    | description                                   |
+| --------------------------- | ------------------------ | --------------------------------------------- |
+| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"   | An ISO 8601 string for the registration start |
+| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"   | An ISO 8601 string for the registration end   |
+| `PUBLIC_VOTE_START`         | "yyyy-mm-ddThh:mm:ssZ"   | An ISO 8601 strE for the voting phase start   |
+| `PUBLIC_VOTING_END`         | "yyyy-mm-ddThh:mm:ssZ"   | An ISO 8601 string for the voting phase end   |
+| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                   | 1 if results are available                    |
+| `NEO4J_URI`                 | "neo4j://localhost:7687" | neo4j connection string                       |
+| `NEO4J_USERNAME`            | string                   | neo4j user                                    |
+| `NEO4J_PASSWORD`            | string                   | neo4j password                                |
 
 ## Running locally
 
