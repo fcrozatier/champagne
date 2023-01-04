@@ -10,6 +10,11 @@ interface AssignedEntries {
 export const load: PageServerLoad = async ({ params, cookies }) => {
 	const { token } = params;
 
+	cookies.set('token', token, {
+		path: '/',
+		maxAge: 1000 * 60 * 60 * 24 * 30 // 1 month
+	});
+
 	const session = driver.session();
 
 	try {
@@ -19,7 +24,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 				`
 				MATCH (u:User)
 				WHERE u.token = $token
-				MATCH (n1)-[r:ASSIGNED]-(n2)
+				MATCH (n1:Entry)-[r:ASSIGNED]-(n2:Entry)
 				WHERE r.userToken = $token
 				RETURN u, r, n1, n2
 				LIMIT 1
@@ -40,14 +45,6 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
 			};
 		}
-
-		cookies.set('token', token, {
-			path: '/',
-			httpOnly: true,
-			sameSite: 'strict',
-			secure: true,
-			maxAge: 1000 * 60 * 60 * 24 * 30
-		});
 
 		// Assign entries
 		const assigned = await session.executeWrite((tx) => {
