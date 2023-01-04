@@ -23,7 +23,7 @@
 	<title>Champagne !</title>
 </svelte:head>
 
-<article>
+<article class="max-w-prose">
 	<p>
 		The SOME <small>(Summer Of Math Exposition)</small> is an annual competition to foster the creation
 		of excellent math content. You can contribute as a creator or judge in different categories, video

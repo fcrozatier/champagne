@@ -4,9 +4,11 @@
 	export let data: PageData;
 </script>
 
-<h2>Database setup</h2>
-{#if data.success}
-	<p>Database contraints added successfully</p>
-{:else}
-	<p>Something went wrong when creating db contraints</p>
-{/if}
+<article class="max-w-prose">
+	<h2>Database setup</h2>
+	{#if data.success}
+		<p>Database contraints added successfully</p>
+	{:else}
+		<p>Something went wrong when creating db contraints</p>
+	{/if}
+</article>
