@@ -14,7 +14,8 @@
 	<h2>Vote</h2>
 
 	{#each entries as entry}
-		<h3>entry</h3>
+		<h3>{entry.title}</h3>
+		<p>{entry.description}</p>
 		<p>Link: <a href={entry.link}>{entry.link}</a></p>
 	{/each}
 {/if}
