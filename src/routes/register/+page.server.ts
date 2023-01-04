@@ -24,6 +24,8 @@ export const actions: Actions = {
 			const user = values.get('user');
 			const email = values.get('email');
 			const entry = values.get('entry');
+			const title = values.get('title');
+			const description = values.get('description');
 			const link = values.get('link');
 			const rules = values.get('rules');
 
@@ -44,6 +46,14 @@ export const actions: Actions = {
 					return fail(400, { entryInvalid: true });
 				}
 
+				if (!title || typeof title !== 'string') {
+					return fail(400, { titleInvalid: true });
+				}
+
+				if (!description || typeof description !== 'string') {
+					return fail(400, { descriptionInvalid: true });
+				}
+
 				if (!link || typeof link !== 'string') {
 					return fail(400, { linkInvalid: true });
 				}
@@ -62,13 +72,17 @@ export const actions: Actions = {
 					MATCH (s:Seq)
 					CALL apoc.atomic.add(s, 'value', 1, 10)
 					YIELD newValue as seq
-					CREATE (:User:Creator {email: $email, token: $token})-[:CREATED]->(:Entry {link: $link, entry: $entry, number: seq, points: 1})
+					CREATE (:User:Creator $userProps)-[:CREATED]->(e:Entry $entryProps)
+					SET e.number = seq, e.points = 1
 					`,
 							{
-								email,
-								token,
-								link,
-								entry
+								userProps: { email, token },
+								entryProps: {
+									entry,
+									title,
+									description,
+									link
+								}
 							}
 						);
 					});

@@ -98,6 +98,29 @@
 						<span class="block text-error">entry is invalid</span>
 					{/if}
 
+					<label for="title" class="label">Title of your entry</label>
+					<input
+						id="title"
+						type="text"
+						name="title"
+						class="input input-bordered w-full max-w-xs"
+						required
+					/>
+					{#if form?.titleInvalid}
+						<span class="block text-error">a title is required</span>
+					{/if}
+
+					<label for="description" class="label">Short description of your entry</label>
+					<textarea
+						id="description"
+						name="description"
+						class="textarea textarea-bordered text-base w-full max-w-xs"
+						required
+					/>
+					{#if form?.descriptionInvalid}
+						<span class="block text-error">a title is required</span>
+					{/if}
+
 					<label for="link" class="label">Link to your entry</label>
 					<input
 						id="link"
@@ -132,3 +155,9 @@
 		{/if}
 	{/if}
 </article>
+
+<style>
+	label {
+		margin-top: theme('margin.2');
+	}
+</style>
