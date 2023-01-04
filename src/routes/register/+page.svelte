@@ -6,6 +6,7 @@
 	export let form: ActionData;
 
 	let value: 'creator' | 'judge';
+	let description = '';
 </script>
 
 <svelte:head>
@@ -115,10 +116,17 @@
 						id="description"
 						name="description"
 						class="textarea textarea-bordered text-base w-full max-w-xs"
+						maxlength="500"
 						required
+						bind:value={description}
 					/>
+					<div class="w-full max-w-xs text-right leading-none">
+						<span class="label-text-alt">{description.length}/500</span>
+					</div>
 					{#if form?.descriptionInvalid}
-						<span class="block text-error">a title is required</span>
+						<span class="block text-error">a description is required</span>
+					{:else if form?.descriptionTooLong}
+						<span class="block text-error">500 characters max</span>
 					{/if}
 
 					<label for="link" class="label">Link to your entry</label>

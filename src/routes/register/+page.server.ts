@@ -53,6 +53,9 @@ export const actions: Actions = {
 				if (!description || typeof description !== 'string') {
 					return fail(400, { descriptionInvalid: true });
 				}
+				if (description.length > 500) {
+					return fail(400, { descriptionTooLong: true });
+				}
 
 				if (!link || typeof link !== 'string') {
 					return fail(400, { linkInvalid: true });
