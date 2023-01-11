@@ -1,8 +1,10 @@
 import type { PageServerLoad } from './$types';
 import { driver } from '$lib/server/neo4j';
 import { creatorsData } from '$lib/server/fixtures';
+import { dev } from '$app/environment';
 
 export const load: PageServerLoad = async () => {
+	if (!dev) return;
 	const session = driver.session();
 
 	try {
