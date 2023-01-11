@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import type { ActionData, PageData } from './$types';
 
@@ -48,17 +48,34 @@
 		</section>
 		<div class="grid grid-cols-2 gap-40 max-w-full">
 			{#if form?.flagSuccess}
-				<p class="text-success">Entry flagged. Thank you</p>
-				<!-- TODO BLOCK Assignment /click next/call invalidate all  -->
+				<div>
+					<p class="text-success">Entry flagged. Thank you</p>
+					<!-- Force reload to grab a new pair of entries -->
+					<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+				</div>
 			{:else if form?.flagFail}
-				<p class="text-error">Something went wrong.</p>
+				<div>
+					<p class="text-error">Something went wrong.</p>
+					<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+				</div>
 			{:else}
 				{#each entries as entry}
 					<div>
 						<h3 class="capitalize">{entry.title}</h3>
 						<p class="capitalize">{entry.description}</p>
 						<p>Link: <a href={entry.link}>{entry.link}</a></p>
-						<form method="post" action="?/flag" use:enhance>
+						<form
+							method="post"
+							action="?/flag"
+							use:enhance={({ form }) => {
+								const buttons = document.querySelectorAll('button');
+								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+								return ({ result }) => {
+									applyAction(result);
+									buttons.forEach((b) => b.removeAttribute('disabled'));
+								};
+							}}
+						>
 							<input type="hidden" name="flagged" value={entry.link} />
 							<button type="submit" class="btn btn-sm btn-outline btn-error"
 								>Flag this entry
