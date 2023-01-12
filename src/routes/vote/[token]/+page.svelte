@@ -16,9 +16,9 @@
 			<p>You can use the link you received by email to vote</p>
 		</div>
 	{:else}
-		<h2>Vote</h2>
-		<h3>Guidelines</h3>
-		<section class="max-w-prose">
+		<section class="max-w-prose mx-auto">
+			<h2>Vote</h2>
+			<h3>Guidelines</h3>
 			<p>
 				Choose the best entry between the following two. Here are some principles to help you
 				evaluate entries:
@@ -46,7 +46,7 @@
 				If an entry is inappropriate or does not follow the <a href="/rules">rules</a> you can flag it
 			</p>
 		</section>
-		<div class="grid grid-cols-2 gap-40 max-w-full">
+		<div class="grid sm:grid-cols-2 gap-10 w-full">
 			{#if form?.flagSuccess}
 				<div>
 					<p class="text-success">Entry flagged. Thank you</p>
@@ -67,7 +67,7 @@
 						<form
 							method="post"
 							action="?/flag"
-							use:enhance={({ form }) => {
+							use:enhance={() => {
 								const buttons = document.querySelectorAll('button');
 								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
 								return ({ result }) => {
@@ -77,10 +77,21 @@
 							}}
 						>
 							<input type="hidden" name="flagged" value={entry.link} />
-							<button type="submit" class="btn btn-sm btn-outline btn-error"
+							<button type="submit" class="btn btn-xs btn-outline btn-error"
 								>Flag this entry
 							</button>
 						</form>
+						<label for="description-{entry.number}" class="label"
+							>Your feedback for this entry</label
+						>
+						<textarea
+							id="description-{entry.number}"
+							name="description-{entry.number}"
+							class="textarea textarea-bordered text-base w-full max-w-md"
+							maxlength="500"
+							rows="10"
+							required
+						/>
 					</div>
 				{/each}
 			{/if}
