@@ -8,5 +8,5 @@ body {
 }
 
 .layout-prose {
-	@apply max-w-prose mx-auto;
+	@apply max-w-prose mx-auto px-8;
 }
