@@ -55,7 +55,7 @@ export const load: PageServerLoad = async () => {
 			return tx.run(`
 				CALL apoc.periodic.repeat(
 				"remove-stale-assignements",
-					"MATCH ()-[r:ASSIGNED]->() WHERE r.timestamp >= timestamp() - 1000 * 60 * 30 DELETE r",
+					"MATCH ()-[r:ASSIGNED]->() WHERE r.timestamp < timestamp() - 1000 * 60 * 30 DELETE r",
 					60 * 5
 				);
       `);

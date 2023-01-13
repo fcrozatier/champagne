@@ -8,7 +8,7 @@
 	<title>Rules</title>
 </svelte:head>
 
-<article class="max-w-prose">
+<article class="layout-prose">
 	<h2>What are the constraints for entries?</h2>
 
 	<ol>

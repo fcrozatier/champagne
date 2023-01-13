@@ -2,7 +2,7 @@
 	import { dev } from '$app/environment';
 </script>
 
-<article class="max-w-prose">
+<article class="layout-prose">
 	<h2>Admin area</h2>
 	<ul>
 		<li><a href="/admin/testdb">Test db connection</a></li>

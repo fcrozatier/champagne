@@ -4,7 +4,7 @@
 	export let data: PageData;
 </script>
 
-<article class="max-w-prose">
+<article class="layout-prose">
 	{#if data.info}
 		<h2>DB is live</h2>
 

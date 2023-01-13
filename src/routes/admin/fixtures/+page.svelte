@@ -4,7 +4,7 @@
 	export let data: PageData;
 </script>
 
-<article>
+<article class="layout-prose">
 	<h2>Fixtures</h2>
 
 	{#if data.success}

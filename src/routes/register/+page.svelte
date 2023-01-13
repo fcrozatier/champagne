@@ -13,7 +13,7 @@
 	<title>Register</title>
 </svelte:head>
 
-<article class="max-w-prose">
+<article class="layout-prose">
 	{#if form?.success}
 		<h2>Thank you for participating!</h2>
 		<p>

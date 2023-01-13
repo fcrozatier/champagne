@@ -11,12 +11,12 @@
 
 <article>
 	{#if data.userNotFound}
-		<div class="max-w-prose">
+		<div class="layout-prose">
 			<h2>Invalid token</h2>
 			<p>You can use the link you received by email to vote</p>
 		</div>
 	{:else}
-		<section class="max-w-prose mx-auto">
+		<section class="layout-prose">
 			<h2>Vote</h2>
 			<h3>Guidelines</h3>
 			<p>

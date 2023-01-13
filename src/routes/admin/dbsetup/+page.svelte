@@ -4,7 +4,7 @@
 	export let data: PageData;
 </script>
 
-<article class="max-w-prose">
+<article class="layout-prose">
 	<h2>Database setup</h2>
 	{#if data.success}
 		<p>Database contraints added successfully</p>
