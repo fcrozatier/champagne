@@ -106,14 +106,17 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	return { token };
 };
 
+let id: 'FLAG' | 'VOTE';
+
 export const actions: Actions = {
 	flag: async ({ request, cookies }) => {
+		id = 'FLAG';
 		const token = cookies.get('token');
 		const data = await request.formData();
 		const flagged = data.get('flagged');
 
 		if (!flagged || typeof flagged !== 'string') {
-			return fail(400, { flagFail: true });
+			return fail(400, { id, flagFail: true });
 		}
 
 		const session = driver.session();
@@ -134,7 +137,7 @@ export const actions: Actions = {
 			});
 
 			if (user.records.length === 0) {
-				return { flagFail: true };
+				return { id, flagFail: true };
 			}
 
 			// Flag entry and remove assignment
@@ -152,9 +155,91 @@ export const actions: Actions = {
 					}
 				);
 			});
-			return { flagSuccess: true };
+			return { id, flagSuccess: true };
 		} catch (error) {
-			return fail(400, { flagFail: true });
+			return fail(400, { id, flagFail: true });
+		} finally {
+			session.close();
+		}
+	},
+	vote: async ({ request, cookies }) => {
+		id = 'VOTE';
+		const token = cookies.get('token');
+
+		const data = await request.formData();
+		const entryNumberA = data.get('entry-0');
+		const entryNumberB = data.get('entry-1');
+		const feedbackA = data.get('feedback-0');
+		const feedbackB = data.get('feedback-1');
+		const choice = data.get('choice');
+
+		if (
+			!entryNumberA ||
+			!entryNumberB ||
+			!feedbackA ||
+			!feedbackB ||
+			!choice ||
+			typeof entryNumberA !== 'string' ||
+			typeof entryNumberB !== 'string' ||
+			typeof feedbackA !== 'string' ||
+			typeof feedbackB !== 'string' ||
+			typeof choice !== 'string'
+		) {
+			return fail(400, { id, voteFail: true });
+		}
+
+		const session = driver.session();
+
+		try {
+			// Should the arrow go from A to B ?
+			const AToB = choice === entryNumberB;
+			const losingEntryNumber = AToB ? +entryNumberA : +entryNumberB;
+			const winningEntryNumber = AToB ? +entryNumberB : +entryNumberA;
+			const losingFeedback = AToB ? feedbackA : feedbackB;
+			const winningFeedback = AToB ? feedbackB : feedbackA;
+
+			// Find user
+			const user = await session.executeRead((tx) => {
+				return tx.run(
+					`
+				MATCH (u:User)
+				WHERE u.token = $token
+				RETURN u
+			`,
+					{
+						token
+					}
+				);
+			});
+
+			if (user.records.length === 0) {
+				return { id, voteFail: true };
+			}
+
+			// Make sure vote was assigned, take vote into account and remove assignment
+			await session.executeWrite((tx) => {
+				return tx.run(
+					`
+				MATCH (e1:Entry)-[a:ASSIGNED]-(e2:Entry)
+				WHERE e1.number = $losingEntryNumber AND a.userToken = $token AND e2.number = $winningEntryNumber
+				DELETE a
+				CREATE (f1:Feedback)<-[:FEEDBACK]-(e1)-[r:LOSES_TO]->(e2)-[:FEEDBACK]->(f2:Feedback)
+				SET f1.value = $losingFeedback, f2.value = $winningFeedback
+				RETURN f1, f2
+			`,
+					{
+						token,
+						losingEntryNumber,
+						winningEntryNumber,
+						losingFeedback,
+						winningFeedback
+					}
+				);
+			});
+			return { id, voteSuccess: true };
+		} catch (error) {
+			console.log(error);
+			return fail(400, { id, voteFail: true });
 		} finally {
 			session.close();
 		}

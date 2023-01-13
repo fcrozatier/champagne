@@ -46,55 +46,90 @@
 				If an entry is inappropriate or does not follow the <a href="/rules">rules</a> you can flag it
 			</p>
 		</section>
-		<div class="grid sm:grid-cols-2 gap-10 w-full">
-			{#if form?.flagSuccess}
-				<div>
-					<p class="text-success">Entry flagged. Thank you</p>
-					<!-- Force reload to grab a new pair of entries -->
-					<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+
+		{#if form?.id === 'FLAG' && form?.flagSuccess}
+			<div class="layout-prose">
+				<p class="text-success">Entry flagged. Thank you</p>
+				<!-- Force reload to grab a new pair of entries -->
+				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+			</div>
+		{:else if (form?.id === 'FLAG' && form?.flagFail) || (form?.id === 'VOTE' && form?.voteFail)}
+			<div class="layout-prose">
+				<p class="text-error">Something went wrong.</p>
+				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+			</div>
+		{:else if form?.id === 'VOTE' && form?.voteSuccess}
+			<div class="layout-prose">
+				<p class="text-success">Thank you !</p>
+				<!-- Force reload to grab a new pair of entries -->
+				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+			</div>
+		{:else}
+			<form
+				method="post"
+				action="?/vote"
+				use:enhance={() => {
+					const buttons = document.querySelectorAll('button');
+					buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+					return ({ result }) => {
+						applyAction(result);
+						buttons.forEach((b) => b.removeAttribute('disabled'));
+					};
+				}}
+			>
+				<div class="grid sm:grid-cols-2 justify-items-center gap-10 w-full">
+					{#each entries as entry, i}
+						<div class="w-3/4">
+							<h3 class="capitalize">{entry.title}</h3>
+							<p class="capitalize">{entry.description}</p>
+							<p>Link: <a href={entry.link}>{entry.link}</a></p>
+							<form
+								method="post"
+								action="?/flag"
+								use:enhance={() => {
+									const buttons = document.querySelectorAll('button');
+									buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+									return ({ result }) => {
+										applyAction(result);
+										buttons.forEach((b) => b.removeAttribute('disabled'));
+									};
+								}}
+							>
+								<input type="hidden" name="flagged" value={entry.link} />
+								<button type="submit" class="btn btn-xs btn-outline btn-error"
+									>Flag this entry
+								</button>
+							</form>
+							<input type="hidden" name="entry-{i}" value={entry.number} />
+							<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
+							<textarea
+								id="feedback-{i}"
+								name="feedback-{i}"
+								class="textarea textarea-bordered text-base w-full max-w-md"
+								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
+								maxlength="500"
+								rows="10"
+								required
+							/>
+						</div>
+					{/each}
 				</div>
-			{:else if form?.flagFail}
-				<div>
-					<p class="text-error">Something went wrong.</p>
-					<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
-				</div>
-			{:else}
-				{#each entries as entry}
-					<div>
-						<h3 class="capitalize">{entry.title}</h3>
-						<p class="capitalize">{entry.description}</p>
-						<p>Link: <a href={entry.link}>{entry.link}</a></p>
-						<form
-							method="post"
-							action="?/flag"
-							use:enhance={() => {
-								const buttons = document.querySelectorAll('button');
-								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-								return ({ result }) => {
-									applyAction(result);
-									buttons.forEach((b) => b.removeAttribute('disabled'));
-								};
-							}}
-						>
-							<input type="hidden" name="flagged" value={entry.link} />
-							<button type="submit" class="btn btn-xs btn-outline btn-error"
-								>Flag this entry
-							</button>
-						</form>
-						<label for="description-{entry.number}" class="label"
-							>Your feedback for this entry</label
-						>
-						<textarea
-							id="description-{entry.number}"
-							name="description-{entry.number}"
-							class="textarea textarea-bordered text-base w-full max-w-md"
-							maxlength="500"
-							rows="10"
-							required
-						/>
-					</div>
-				{/each}
-			{/if}
-		</div>
+				<section class="layout-prose mt-8 space-y-4 w-full">
+					<label for="choice" class="label">Wich entry is the best one?</label>
+					<select
+						id="choice"
+						name="choice"
+						class="select select-bordered w-full max-w-full capitalize"
+						required
+					>
+						<option disabled selected />
+						{#each entries as entry}
+							<option value={entry.number}>{entry.title}</option>
+						{/each}
+					</select>
+					<button type="submit" class="btn btn-md">Vote for this entry</button>
+				</section>
+			</form>
+		{/if}
 	{/if}
 </article>
