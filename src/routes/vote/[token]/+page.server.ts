@@ -1,8 +1,9 @@
-import { driver, type Entry } from '$lib/server/neo4j';
+import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
+import { PUBLIC_VOTES_DELTA } from '$env/static/public';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -67,7 +68,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			// Find two entries not created by user,
 			// not related yet
 			// not flagged
-			// who are a given number appart (depends on the step)
+			// who are a given number apart (depends on the step)
 			// limit to one such pair
 			// and assign the comparison to user
 			return tx.run<AssignedEntries>(
@@ -137,7 +138,7 @@ export const actions: Actions = {
 			});
 
 			if (user.records.length === 0) {
-				return { id, flagFail: true };
+				return fail(400, { id, flagFail: true });
 			}
 
 			// Flag entry and remove assignment
@@ -213,11 +214,24 @@ export const actions: Actions = {
 			});
 
 			if (user.records.length === 0) {
-				return { id, voteFail: true };
+				return fail(400, { id, voteFail: true });
+			} else {
+				// Rate limit : as least PUBLIC_VOTES_DELTA minutes between two votes
+				const row = user.records[0];
+				const u = toNativeTypes(row.get('u').properties) as UserProperties;
+
+				if (u.lastVote) {
+					const now = Date.now();
+					const lastVote = Date.parse(u.lastVote);
+
+					if (now - lastVote < 1000 * 60 * PUBLIC_VOTES_DELTA) {
+						return fail(422, { id, rateLimitError: true });
+					}
+				}
 			}
 
 			// Make sure vote was assigned, take vote into account and remove assignment
-			await session.executeWrite((tx) => {
+			const vote = await session.executeWrite((tx) => {
 				return tx.run(
 					`
 				MATCH (e1:Entry)-[a:ASSIGNED]-(e2:Entry)
@@ -225,7 +239,7 @@ export const actions: Actions = {
 				DELETE a
 				CREATE (f1:Feedback)<-[:FEEDBACK]-(e1)-[r:LOSES_TO]->(e2)-[:FEEDBACK]->(f2:Feedback)
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
-				RETURN f1, f2
+				RETURN r
 			`,
 					{
 						token,
@@ -236,6 +250,24 @@ export const actions: Actions = {
 					}
 				);
 			});
+
+			if (vote.records.length !== 0) {
+				// The vote was recorded so save lastVote time
+				await session.executeWrite((tx) => {
+					return tx.run(
+						`
+				MATCH (u:User)
+				WHERE u.token = $token
+				SET u.lastVote = datetime()
+				RETURN u
+			`,
+						{
+							token
+						}
+					);
+				});
+			}
+
 			return { id, voteSuccess: true };
 		} catch (error) {
 			console.log(error);

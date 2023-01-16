@@ -3,12 +3,13 @@ import { NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD } from '$env/static/private';
 
 export const driver = neo4j.driver(NEO4J_URI, neo4j.auth.basic(NEO4J_USERNAME, NEO4J_PASSWORD));
 
-interface CreatorProperties {
+export interface UserProperties {
 	email: string;
 	token: string;
+	lastVote?: string;
 }
 
-export type Creator = Node<Integer, CreatorProperties>;
+export type User = Node<Integer, UserProperties>;
 
 export interface EntryProperties extends Record<string, unknown> {
 	entry: 'video' | 'non-video';

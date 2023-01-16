@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import { PUBLIC_VOTES_DELTA } from '$env/static/public';
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import type { ActionData, PageData } from './$types';
 
@@ -83,6 +84,17 @@
 							<h3 class="capitalize">{entry.title}</h3>
 							<p class="capitalize">{entry.description}</p>
 							<p>Link: <a href={entry.link}>{entry.link}</a></p>
+							<input type="hidden" name="entry-{i}" value={entry.number} />
+							<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
+							<textarea
+								id="feedback-{i}"
+								name="feedback-{i}"
+								class="textarea textarea-bordered text-base w-full max-w-md"
+								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
+								maxlength="500"
+								rows="10"
+								required
+							/>
 							<form
 								method="post"
 								action="?/flag"
@@ -100,22 +112,11 @@
 									>Flag this entry
 								</button>
 							</form>
-							<input type="hidden" name="entry-{i}" value={entry.number} />
-							<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
-							<textarea
-								id="feedback-{i}"
-								name="feedback-{i}"
-								class="textarea textarea-bordered text-base w-full max-w-md"
-								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
-								maxlength="500"
-								rows="10"
-								required
-							/>
 						</div>
 					{/each}
 				</div>
 				<section class="layout-prose mt-8 space-y-4 w-full">
-					<label for="choice" class="label">Wich entry is the best one?</label>
+					<label for="choice" class="label">Which entry is the best one?</label>
 					<select
 						id="choice"
 						name="choice"
@@ -127,6 +128,11 @@
 							<option value={entry.number}>{entry.title}</option>
 						{/each}
 					</select>
+					{#if form?.id === 'VOTE' && form.rateLimitError}
+						<p class="text-error">
+							Please wait at least {PUBLIC_VOTES_DELTA} minutes between votes.
+						</p>
+					{/if}
 					<button type="submit" class="btn btn-md">Vote for this entry</button>
 				</section>
 			</form>
