@@ -7,8 +7,8 @@
 <article class="layout-prose">
 	<h2>Database setup</h2>
 	{#if data.success}
-		<p>Database contraints added successfully</p>
+		<p>Database constraints added successfully</p>
 	{:else}
-		<p>Something went wrong when creating db contraints</p>
+		<p>Something went wrong when creating db constraints</p>
 	{/if}
 </article>

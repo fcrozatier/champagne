@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { registrationOpen, resultsAvailabe, competitionStarted, voteOpen } from '$lib/utils';
+	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen } from '$lib/utils';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
@@ -8,7 +8,7 @@
 	import Time from '$lib/components/Time.svelte';
 	import type { PageData } from './$types';
 
-	const phases = [registrationOpen(), voteOpen(), resultsAvailabe()];
+	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
 
 	const descriptions = [
 		'Phase 1: Register as a creator or judge',

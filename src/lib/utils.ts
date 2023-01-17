@@ -40,7 +40,7 @@ export function voteOpen() {
 	return phaseOpen(PUBLIC_VOTE_START, PUBLIC_VOTE_END);
 }
 
-export function resultsAvailabe() {
+export function resultsAvailable() {
 	return !!parseInt(PUBLIC_RESULTS_AVAILABLE);
 }
 

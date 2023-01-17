@@ -54,7 +54,7 @@ export const load: PageServerLoad = async () => {
 		await session.executeWrite((tx) => {
 			return tx.run(`
 				CALL apoc.periodic.repeat(
-				"remove-stale-assignements",
+				"remove-stale-assignments",
 					"MATCH ()-[r:ASSIGNED]->() WHERE r.timestamp < timestamp() - 1000 * 60 * 30 DELETE r",
 					60 * 5
 				);
