@@ -4,6 +4,25 @@ import { driver } from '$lib/server/neo4j';
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
 	try {
+		// For NodeRank pairing graph: which nodes should be compared? Starts with i and i + 1
+		await session.executeWrite((tx) => {
+			return tx.run(`
+				MERGE (s:Step)
+				ON CREATE
+					SET s.value = 1
+      `);
+		});
+
+		// Uniqueness
+		await session.executeWrite((tx) => {
+			return tx.run(`
+				CREATE CONSTRAINT StepUnique
+				IF NOT EXISTS
+				FOR (s:Step)
+				REQUIRE s.value IS UNIQUE;
+      `);
+		});
+
 		await session.executeWrite((tx) => {
 			return tx.run(`
 				CREATE CONSTRAINT UserEmailUnique
@@ -41,7 +60,7 @@ export const load: PageServerLoad = async () => {
       `);
 		});
 
-		// Sequence for entries
+		// Sequence for counting entries and updating their number
 		await session.executeWrite((tx) => {
 			return tx.run(`
 				MERGE (s:Seq)

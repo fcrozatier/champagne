@@ -1,9 +1,11 @@
 import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Actions } from './$types';
 import { PUBLIC_VOTES_DELTA } from '$env/static/public';
+import { Neo4jError } from 'neo4j-driver';
+import { MAX_ROUNDS } from '$env/static/private';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -63,23 +65,27 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			};
 		}
 
-		// Assign entries
+		// Otherwise assign new entries
 		const assigned = await session.executeWrite((tx) => {
-			// Find two entries not created by user,
+			// Grab the last step number and graph size
+			// Then find two entries not created by user,
 			// not related yet
 			// not flagged
-			// who are a given number apart (depends on the step)
+			// who are a given number apart based on the step
 			// limit to one such pair
 			// and assign the comparison to user
 			return tx.run<AssignedEntries>(
 				`
+				MATCH (s:Step), (seq:Seq)
+				WHERE NOT (s)-->(:Step)
+				WITH s.value as step, seq.value as size
         MATCH (u1:Creator)-[:CREATED]->(n1:Entry), (n2:Entry)<-[:CREATED]-(u2:Creator)
 				WHERE NOT (n1)--(n2)
 				AND NOT u1.token = $token
 				AND NOT u2.token = $token
 				AND n1.flaggedBy IS NULL
 				AND n2.flaggedBy IS NULL
-				AND n1.number = n2.number + 1
+				AND n1.number = (n2.number + step) % size
 				WITH n1, n2
 				LIMIT 1
 				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
@@ -97,9 +103,50 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
 			};
+		} else {
+			// If we cannot find a pair of entries to compare, we've exhausted the pairings for the current step of the algorithm. Two possibilities :
+			// 1. stop the vote if there are enough steps
+			// 2. create a new step with value not already listed (by uniqueness constraint)
+
+			const steps = await session.executeRead((tx) => {
+				return tx.run(`
+				MATCH (s:Step)
+				RETURN count(s) as count
+				`);
+			});
+			// There is always at least one Step node by db-setup
+			const count = steps.records[0].get('count').toInt() as number;
+
+			if (count > parseInt(MAX_ROUNDS)) {
+				return { stopVote: true };
+			}
+
+			// Find the graph size and the last step in the sequence
+			// Create a new step with value given by the random strategy
+			await session.executeWrite((tx) => {
+				return tx.run(`
+				MATCH (s:Seq), (current:Step)
+				WHERE NOT (current)-->(:Step)
+				WITH s.value as size, current
+				CREATE (current)-[:NEXT]->(newStep:Step {value: toInteger(rand() * size)})
+				`);
+			});
+
+			// Now that there is a new step in the algorithm let's try again to find entries to compare
+			throw redirect(302, '/vote');
 		}
 	} catch (error) {
 		console.log(error);
+
+		if (
+			error instanceof Neo4jError &&
+			error.code === 'Neo.ClientError.Schema.ConstraintValidationFailed'
+		) {
+			// If we couldn't create a new step because the random value is already another Step value then reload the page to re-toss and try again
+			if (error.message.includes('Step') && error.message.includes('value')) {
+				throw redirect(302, '/vote');
+			}
+		}
 	} finally {
 		session.close();
 	}
@@ -224,7 +271,7 @@ export const actions: Actions = {
 					const now = Date.now();
 					const lastVote = Date.parse(u.lastVote);
 
-					if (now - lastVote < 1000 * 60 * PUBLIC_VOTES_DELTA) {
+					if (now - lastVote < 1000 * 60 * parseInt(PUBLIC_VOTES_DELTA)) {
 						return fail(422, { id, rateLimitError: true });
 					}
 				}

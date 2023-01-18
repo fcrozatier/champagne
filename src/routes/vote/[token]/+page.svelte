@@ -65,6 +65,8 @@
 				<!-- Force reload to grab a new pair of entries -->
 				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
 			</div>
+		{:else if data.stopVote}
+			<p>The vote is now closed. Thanks for participating!</p>
 		{:else}
 			<form
 				method="post"
