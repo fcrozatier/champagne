@@ -237,7 +237,7 @@ export const actions: Actions = {
 				MATCH (e1:Entry)-[a:ASSIGNED]-(e2:Entry)
 				WHERE e1.number = $losingEntryNumber AND a.userToken = $token AND e2.number = $winningEntryNumber
 				DELETE a
-				CREATE (f1:Feedback)<-[:FEEDBACK]-(e1)-[r:LOSES_TO]->(e2)-[:FEEDBACK]->(f2:Feedback)
+				CREATE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
 				RETURN r
 			`,
