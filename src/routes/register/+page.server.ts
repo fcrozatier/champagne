@@ -73,10 +73,10 @@ export const actions: Actions = {
 						return tx.run(
 							`
 					MATCH (s:Seq)
-					CALL apoc.atomic.add(s, 'value', 1, 10)
-					YIELD newValue as seq
+					WITH s.value as seq
 					CREATE (:User:Creator $userProps)-[:CREATED]->(e:Entry $entryProps)
 					SET e.number = seq, e.points = 1
+					CALL apoc.atomic.add(s, 'value', 1, 10)
 					`,
 							{
 								userProps: { email, token },
@@ -102,6 +102,10 @@ export const actions: Actions = {
 						);
 					});
 				}
+
+				// TODO send mail
+
+				return { success: true, email };
 			} catch (error) {
 				if (
 					error instanceof Neo4jError &&
@@ -115,13 +119,11 @@ export const actions: Actions = {
 						return fail(422, { linkExists: true });
 					}
 				}
+
+				return fail(500, { invalid: true });
 			} finally {
 				await session.close();
 			}
-
-			// TODO send mail
-
-			return { success: true, email };
 		} catch (error) {
 			console.log(error);
 			return fail(500, { invalid: true });
