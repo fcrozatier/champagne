@@ -11,8 +11,8 @@ Champagne is a voting platform for massive competitions. It implements the [Node
 - Register creators + entries and judges. Prevent duplicates (only one sign-up per email)
 - Vote. Signed up users can vote with their token/link.
 - Auto cleanup of stale comparisons : if a user is assigned a comparison between entries and does not vote after 24h this is reassigned to someone else.
-- Rate limit voting : a user must wait at least 3 minutes between votes
-- Manage deadlines. Sign-up/vote forms are disabled at set dates (see configuration below)
+- Rate limit voting : a user must wait at least 5 minutes between votes
+- Deadlines. Sign-up and vote forms are disabled at set dates (see configuration below)
 
 
 ## Stack
