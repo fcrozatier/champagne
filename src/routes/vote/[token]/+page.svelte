@@ -66,7 +66,9 @@
 				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
 			</div>
 		{:else if data.stopVote}
-			<p>The vote is now closed. Thanks for participating!</p>
+			<div class="layout-prose">
+				<p class="text-success">The vote is now closed. Thank you for participating!</p>
+			</div>
 		{:else}
 			<form
 				method="post"
