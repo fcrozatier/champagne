@@ -1,4 +1,4 @@
-# 🍾 Champagne ! 🍾
+# 🍾 Champagne! 🍾
 
 Bubble up the outstanding and celebrate the best!
 
@@ -11,11 +11,11 @@ Champagne is a voting platform for massive competitions. It implements the [Node
 See [configuration](#configuration) below for details.
 
 - Register creators + entries and judges. Prevent duplicates (only one sign-up per email)
-- Vote. Signed up users can vote with their token/link.
-- The pairings follow the NodeRank algorithm with the random strategy (the best one). The vote is closed after a certain number of rounds or if a deadline is met.
+- Vote. Signed-up users can vote with their token/link.
+- The pairings follow the [NodeRank algorithm](https://github.com/fcrozatier/NodeRank#conslusion) with the random strategy. The vote is closed after a deadline is met or if the graph is complete.
 - Auto cleanup of stale comparisons: if a user is assigned a comparison between entries and does not vote after 24h this is reassigned to someone else.
-- Rate limit voting : a user must wait at least 5 minutes between votes
-- Deadlines. Sign-up and vote forms are disabled at given dates
+- Rate limit voting: a user must wait at least 5 minutes between votes
+- Deadlines. Sign-up and vote forms are disabled on given dates
 
 
 ## Stack
@@ -34,7 +34,6 @@ You can use this project by setting a few environment variables in your local `.
 | `PUBLIC_VOTING_END`         | "yyyy-mm-ddThh:mm:ssZ"   | string for the voting phase end     |
 | `PUBLIC_VOTE_DELTA`         | number                   | Time delta between votes in minutes |
 | `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                   | 1 if results are available          |
-| `MAX_ROUNDS`                | number                   | Number of rounds to stop the vote   |
 | `NEO4J_URI`                 | "neo4j://localhost:7687" | neo4j connection string             |
 | `NEO4J_USERNAME`            | string                   | neo4j user                          |
 | `NEO4J_PASSWORD`            | string                   | neo4j password                      |
