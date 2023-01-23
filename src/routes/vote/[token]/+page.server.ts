@@ -1,21 +1,19 @@
 import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
-import { fail, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
-import type { Actions } from './$types';
+import { fail } from '@sveltejs/kit';
+import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_VOTES_DELTA } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
-import { MAX_ROUNDS } from '$env/static/private';
 
 interface AssignedEntries {
 	n1: Entry;
 	n2: Entry;
 }
 
-export const load: PageServerLoad = async ({ params, cookies }) => {
-	const { token } = params;
+export const load = (async (event) => {
+	const { token } = event.params;
 
-	cookies.set('token', token, {
+	event.cookies.set('token', token, {
 		path: '/',
 		maxAge: 1000 * 60 * 60 * 24 * 30 // 1 month
 	});
@@ -37,7 +35,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			);
 		});
 
-		if (user.records.length === 0) {
+		if (!user?.records?.length) {
 			return { userNotFound: true };
 		}
 
@@ -56,7 +54,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			);
 		});
 
-		if (prev.records.length !== 0 && prev.records[0].has('r')) {
+		if (prev?.records[0]?.has('r')) {
 			const row = prev.records[0];
 
 			// Return previously assigned entries
@@ -67,18 +65,19 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 
 		// Otherwise assign new entries
 		const assigned = await session.executeWrite((tx) => {
-			// Grab the last step number and graph size
-			// Then find two entries not created by user,
-			// not related yet
+			// Grab a step number and the graph size (not necessarily the latest step: this allows user1 to start step k while user2 can still rank entries at step k-1)
+			// But still try older steps first (by id) to ensure the graph is regular (no relations missing at step k-1).
+			// Then find two entries not created by this user,
+			// not related yet (assigned or ranked)
 			// not flagged
-			// who are a given number apart based on the step
+			// who are a given number apart based on the step (for NodeRank graph)
 			// limit to one such pair
 			// and assign the comparison to user
 			return tx.run<AssignedEntries>(
 				`
 				MATCH (s:Step), (seq:Seq)
-				WHERE NOT (s)-->(:Step)
 				WITH s.value as step, seq.value as size
+				ORDER BY id(s)
         MATCH (u1:Creator)-[:CREATED]->(n1:Entry), (n2:Entry)<-[:CREATED]-(u2:Creator)
 				WHERE NOT (n1)--(n2)
 				AND NOT u1.token = $token
@@ -98,7 +97,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 			);
 		});
 
-		if (assigned.records.length !== 0) {
+		if (assigned?.records?.length) {
 			const row = assigned.records[0];
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -106,34 +105,36 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 		} else {
 			// If we cannot find a pair of entries to compare, we've exhausted the pairings for the current step of the algorithm. Two possibilities :
 			// 1. stop the vote if there are enough steps
-			// 2. create a new step with value not already listed (by uniqueness constraint)
+			// 2. create a new step with value not already listed (see uniqueness constraints)
 
 			const steps = await session.executeRead((tx) => {
 				return tx.run(`
-				MATCH (s:Step)
-				RETURN count(s) as count
+				MATCH (s:Step), (seq:Seq)
+				RETURN count(s) as count, seq.value / 2 as max_rounds
 				`);
 			});
-			// There is always at least one Step node by db-setup
+			// There is always at least one Step node provided by /admin/db-setup
 			const count = steps.records[0].get('count').toInt() as number;
+			// There cannot be more than N/2 steps since at this stage we have a complete graph
+			const maxRounds = steps.records[0].get('max_rounds').toInt() as number;
 
-			if (count > parseInt(MAX_ROUNDS)) {
+			if (count >= maxRounds) {
 				return { stopVote: true };
 			}
 
 			// Find the graph size and the last step in the sequence
-			// Create a new step with value given by the random strategy
+			// Create a new step with value given by the random strategy (see https://github.com/fcrozatier/NodeRank#conclusion)
 			await session.executeWrite((tx) => {
 				return tx.run(`
 				MATCH (s:Seq), (current:Step)
 				WHERE NOT (current)-->(:Step)
 				WITH s.value as size, current
-				CREATE (current)-[:NEXT]->(newStep:Step {value: toInteger(rand() * size)})
+				CREATE (current)-[:NEXT]->(newStep:Step {value: 1 + toInteger(rand() * size / 2)})
 				`);
 			});
 
 			// Now that there is a new step in the algorithm let's try again to find entries to compare
-			throw redirect(302, '/vote');
+			await load(event);
 		}
 	} catch (error) {
 		console.log(error);
@@ -144,7 +145,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 		) {
 			// If we couldn't create a new step because the random value is already another Step value then reload the page to re-toss and try again
 			if (error.message.includes('Step') && error.message.includes('value')) {
-				throw redirect(302, '/vote');
+				await load(event);
 			}
 		}
 	} finally {
@@ -152,7 +153,7 @@ export const load: PageServerLoad = async ({ params, cookies }) => {
 	}
 
 	return { token };
-};
+}) satisfies PageServerLoad;
 
 let id: 'FLAG' | 'VOTE';
 
