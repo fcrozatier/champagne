@@ -67,7 +67,7 @@ export const actions: Actions = {
 
 			try {
 				const token = crypto.randomUUID();
-
+				// Increment the sequence by 1 after creating the entry.
 				if (user === 'creator') {
 					await session.executeWrite((tx) => {
 						return tx.run(
@@ -76,7 +76,15 @@ export const actions: Actions = {
 					WITH s.value as seq
 					CREATE (:User:Creator $userProps)-[:CREATED]->(e:Entry $entryProps)
 					SET e.number = seq, e.points = 1
-					CALL apoc.atomic.add(s, 'value', 1, 10)
+					WITH seq
+					CALL {
+							MATCH (s:Seq)
+							WITH s
+							CALL apoc.atomic.add(s, 'value', 1, 10)
+							YIELD newValue
+							RETURN newValue
+					}
+					RETURN newValue
 					`,
 							{
 								userProps: { email, token },

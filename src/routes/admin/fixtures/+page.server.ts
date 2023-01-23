@@ -11,13 +11,22 @@ export const load: PageServerLoad = async () => {
 		await session.executeWrite((tx) => {
 			return tx.run(
 				`
-	UNWIND $creatorsData as creatorData
+	UNWIND $creatorsData as data
 	MATCH (s:Seq)
-	CALL apoc.atomic.add(s, 'value', 1, 10)
-	YIELD newValue as seq
-  CREATE (u:User:Creator {email: creatorData.email})-[:CREATED]->(e:Entry {title: creatorData.title, description: creatorData.description, link: creatorData.link, entry: creatorData.entry})
-	SET e.number = seq, e.points = 1, u.token = randomUUID()
-	RETURN u, e
+	WITH data, s
+  CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry {title: data.title, description: data.description, link: data.link, entry: data.entry, number: toInteger(data.number)})
+	SET e.points = 1, u.token = randomUUID()
+  `,
+				{
+					creatorsData
+				}
+			);
+		});
+		await session.executeWrite((tx) => {
+			return tx.run(
+				`
+	MATCH (s:Seq)
+	SET s.value = size($creatorsData)
   `,
 				{
 					creatorsData
