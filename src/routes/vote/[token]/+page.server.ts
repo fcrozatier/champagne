@@ -10,7 +10,7 @@ interface AssignedEntries {
 	n2: Entry;
 }
 
-export const load = (async (event) => {
+export const load: PageServerLoad = async (event) => {
 	const { token } = event.params;
 
 	event.cookies.set('token', token, {
@@ -134,26 +134,25 @@ export const load = (async (event) => {
 			});
 
 			// Now that there is a new step in the algorithm let's try again to find entries to compare
-			await load(event);
+			return await load(event);
 		}
 	} catch (error) {
-		console.log(error);
-
 		if (
 			error instanceof Neo4jError &&
 			error.code === 'Neo.ClientError.Schema.ConstraintValidationFailed'
 		) {
 			// If we couldn't create a new step because the random value is already another Step value then reload the page to re-toss and try again
 			if (error.message.includes('Step') && error.message.includes('value')) {
-				await load(event);
+				console.log('Expected error: ' + error.message + '\nGenerating a new Step value...');
+				return await load(event);
 			}
 		}
+		console.log(error);
+		throw error;
 	} finally {
 		session.close();
 	}
-
-	return { token };
-}) satisfies PageServerLoad;
+};
 
 let id: 'FLAG' | 'VOTE';
 
@@ -185,7 +184,7 @@ export const actions: Actions = {
 				);
 			});
 
-			if (user.records.length === 0) {
+			if (!user?.records?.length) {
 				return fail(400, { id, flagFail: true });
 			}
 
@@ -261,7 +260,7 @@ export const actions: Actions = {
 				);
 			});
 
-			if (user.records.length === 0) {
+			if (!user?.records?.length) {
 				return fail(400, { id, voteFail: true });
 			} else {
 				// Rate limit : as least PUBLIC_VOTES_DELTA minutes between two votes
@@ -299,23 +298,25 @@ export const actions: Actions = {
 				);
 			});
 
-			if (vote.records.length !== 0) {
-				// The vote was recorded so save lastVote time
-				await session.executeWrite((tx) => {
-					return tx.run(
-						`
+			if (!vote?.records?.length) {
+				// Failed to record vote for some reason
+				return fail(400, { id, voteFail: true });
+			}
+
+			// The vote was recorded so save lastVote time
+			await session.executeWrite((tx) => {
+				return tx.run(
+					`
 				MATCH (u:User)
 				WHERE u.token = $token
 				SET u.lastVote = datetime()
 				RETURN u
 			`,
-						{
-							token
-						}
-					);
-				});
-			}
-
+					{
+						token
+					}
+				);
+			});
 			return { id, voteSuccess: true };
 		} catch (error) {
 			console.log(error);
