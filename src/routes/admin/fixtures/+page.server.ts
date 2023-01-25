@@ -1,11 +1,13 @@
 import type { PageServerLoad } from './$types';
 import { driver } from '$lib/server/neo4j';
-import { creatorsData } from '$lib/server/fixtures';
+import { makeCreators } from '$lib/server/fixtures';
 import { dev } from '$app/environment';
 
 export const load: PageServerLoad = async () => {
 	if (!dev) return;
+
 	const session = driver.session();
+	const creatorsData = makeCreators(5);
 
 	try {
 		await session.executeWrite((tx) => {
