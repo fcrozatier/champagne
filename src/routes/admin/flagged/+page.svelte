@@ -12,7 +12,7 @@
 	$: unflagError = form?.unflagError;
 </script>
 
-<article class="overflow-x-auto max-w-xl">
+<article class="overflow-x-auto max-w-xl mx-auto">
 	<h2>Flagged entries</h2>
 
 	<table class="table table-zebra w-full">
