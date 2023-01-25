@@ -114,11 +114,11 @@ export const load: PageServerLoad = async (event) => {
 				`);
 			});
 			// There is always at least one Step node provided by /admin/db-setup
-			const count = steps.records[0].get('count').toInt() as number;
+			const stepsCount = steps.records[0].get('count').toInt() as number;
 			// There cannot be more than N/2 steps since at this stage we have a complete graph
 			const maxRounds = steps.records[0].get('max_rounds').toInt() as number;
 
-			if (count >= maxRounds) {
+			if (stepsCount >= maxRounds) {
 				return { stopVote: true };
 			}
 
