@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
+	import { page } from '$app/stores';
 	import { PUBLIC_VOTES_DELTA } from '$env/static/public';
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import type { ActionData, PageData } from './$types';
@@ -52,18 +53,25 @@
 			<div class="layout-prose">
 				<p class="text-success">Entry flagged. Thank you</p>
 				<!-- Force reload to grab a new pair of entries -->
-				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+				<p>
+					<a class="btn" href={`/vote/${$page.params.token}`} data-sveltekit-reload>New vote</a>
+				</p>
 			</div>
 		{:else if (form?.id === 'FLAG' && form?.flagFail) || (form?.id === 'VOTE' && form?.voteFail)}
 			<div class="layout-prose">
 				<p class="text-error">Something went wrong.</p>
-				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+				<!-- Force reload to grab a new pair of entries -->
+				<p>
+					<a class="btn" href={`/vote/${$page.params.token}`} data-sveltekit-reload>New vote</a>
+				</p>
 			</div>
 		{:else if form?.id === 'VOTE' && form?.voteSuccess}
 			<div class="layout-prose">
 				<p class="text-success">Thank you !</p>
 				<!-- Force reload to grab a new pair of entries -->
-				<p><a class="btn" href="/vote" data-sveltekit-reload>New vote</a></p>
+				<p>
+					<a class="btn" href={`/vote/${$page.params.token}`} data-sveltekit-reload>New vote</a>
+				</p>
 			</div>
 		{:else if data.stopVote}
 			<div class="layout-prose">
@@ -77,6 +85,7 @@
 					const buttons = document.querySelectorAll('button');
 					buttons.forEach((b) => b.setAttribute('disabled', 'on'));
 					return ({ result }) => {
+						// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
 						applyAction(result);
 						buttons.forEach((b) => b.removeAttribute('disabled'));
 					};
@@ -106,6 +115,7 @@
 									const buttons = document.querySelectorAll('button');
 									buttons.forEach((b) => b.setAttribute('disabled', 'on'));
 									return ({ result }) => {
+										// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
 										applyAction(result);
 										buttons.forEach((b) => b.removeAttribute('disabled'));
 									};
