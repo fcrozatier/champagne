@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import { PUBLIC_VOTES_DELTA } from '$env/static/public';
+	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import type { ActionData, PageData } from './$types';
 
@@ -144,7 +144,7 @@
 					</select>
 					{#if form?.id === 'VOTE' && form.rateLimitError}
 						<p class="text-error">
-							Please wait at least {PUBLIC_VOTES_DELTA} minutes between votes.
+							Please wait at least {PUBLIC_RATE_LIMIT} minutes between votes.
 						</p>
 					{/if}
 					<button type="submit" class="btn btn-md">Vote for this entry</button>

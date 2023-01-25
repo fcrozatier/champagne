@@ -2,7 +2,7 @@ import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { PUBLIC_VOTES_DELTA } from '$env/static/public';
+import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
 
 interface AssignedEntries {
@@ -263,7 +263,7 @@ export const actions: Actions = {
 			if (!user?.records?.length) {
 				return fail(400, { id, voteFail: true });
 			} else {
-				// Rate limit : as least PUBLIC_VOTES_DELTA minutes between two votes
+				// Rate limit : as least PUBLIC_RATE_LIMIT minutes between two votes
 				const row = user.records[0];
 				const u = toNativeTypes(row.get('u').properties) as UserProperties;
 
@@ -271,7 +271,7 @@ export const actions: Actions = {
 					const now = Date.now();
 					const lastVote = Date.parse(u.lastVote);
 
-					if (now - lastVote < 1000 * 60 * parseInt(PUBLIC_VOTES_DELTA)) {
+					if (now - lastVote < 1000 * 60 * parseInt(PUBLIC_RATE_LIMIT)) {
 						return fail(422, { id, rateLimitError: true });
 					}
 				}
