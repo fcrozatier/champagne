@@ -6,10 +6,10 @@ export const actions: Actions = {
 		const session = driver.session();
 
 		try {
-			// Check if the subgraph projection already exists
+			// Checks whether the subgraph projection already exists
 			const projection = await session.executeRead((tx) => {
 				return tx.run(`
-          CALL gds.graph.exists('votesNetwork')
+          CALL gds.graph.exists('network')
 					YIELD graphName, exists
 					RETURN exists
         `);
@@ -27,7 +27,7 @@ export const actions: Actions = {
 			// Performs the PageRank
 			const res = await session.executeWrite((tx) => {
 				return tx.run(`
-          CALL gds.pageRank.stream('votesNetwork')
+          CALL gds.pageRank.stream('network')
 					YIELD nodeId, score
 					WITH gds.util.asNode(nodeId) as node, score
 					RETURN node.title AS title, node.link as link, score
