@@ -41,7 +41,7 @@ You can use this project by setting a few environment variables in your local `.
 ## How to run locally?
 
 1. Install [Neo4j Desktop](https://neo4j.com/developer/neo4j-desktop/?ref=product)
-1. Create your local db and install the [APOC procedures](https://neo4j.com/docs/apoc/5/installation/#apoc)
+1. Create your local db and install the [APOC procedures](https://neo4j.com/docs/apoc/5/installation/#apoc) and the [Graph Data Science Library](https://neo4j.com/docs/graph-data-science/current/installation/neo4j-desktop/)
 1. Set your environment variables in `.env`
 1. Install the packages `npm install`
 1. Run the dev server `npm run dev`
