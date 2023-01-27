@@ -11,5 +11,6 @@
 			<li><a href="/admin/fixtures">Add db fixtures (dev mode)</a></li>
 		{/if}
 		<li><a href="/admin/flagged">View flagged entries</a></li>
+		<li><a href="/admin/rank">Rank entries</a></li>
 	</ul>
 </article>
