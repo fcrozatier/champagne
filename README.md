@@ -8,15 +8,15 @@ Champagne is a voting platform for massive competitions. It implements the [Node
 
 ## Features
 
-See [configuration](#configuration) below for details.
-
 - Register creators + entries and judges. Prevent duplicates (only one sign-up per email)
-- Vote. Signed-up users can vote with their token/link.
-- The pairings follow the [NodeRank algorithm](https://github.com/fcrozatier/NodeRank#conslusion) with the random strategy. The vote is closed after a deadline is met or if the graph is complete.
-- Auto cleanup stale comparisons: if a user is assigned a comparison between entries and does not vote after 24h this is reassigned to someone else.
+- Vote. Signed-up users can vote with a token/link.
+- The pairing follows the [NodeRank algorithm](https://github.com/fcrozatier/NodeRank#conslusion) with the random strategy. The vote is closed after a deadline is met or if the graph becomes a complete graph.
+- Auto cleanup stale comparisons. Example: if a user is assigned a comparison between entries and does not vote after 24h this is reassigned to someone else.
 - Rate limit votes: a user must wait at least 5 minutes between votes
 - Deadlines: Sign-up and vote forms are disabled on given dates
+- Runs the [PageRank](https://en.wikipedia.org/wiki/PageRank) algorithm to rank the entries
 
+The numbers are configurable. See [configuration](#configuration) below for details.
 
 ## Stack
 
