@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--light-gold: #fffaf4;
+}
+
 html,
 body {
-	@apply h-full;
+	@apply min-h-full;
+	background-color: var(--light-gold);
 }
 
 .layout-prose {
