@@ -16,7 +16,7 @@ Champagne is a voting platform for massive competitions. It implements a peer ra
 - Leave feedbacks to help creators improve. Creators can access their feedbacks at the end
 - Flag inappropriate entries. Admins can review the flagged entries and unflag them
 - Deadlines: Sign-up and vote forms are disabled on given dates
-- Run a [PageRank](https://en.wikipedia.org/wiki/PageRank) algorithm to rank the entries
+- Runs a [PageRank](https://en.wikipedia.org/wiki/PageRank) algorithm to rank the entries
 
 The numbers are configurable. See [configuration](#configuration) below for details.
 
