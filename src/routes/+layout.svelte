@@ -16,7 +16,7 @@
 		<slot />
 	</main>
 
-	<footer class="mt-auto">
+	<footer class="mt-auto p-4">
 		<a href="https://github.com/fcrozatier/champagne"> Champagne </a>
 	</footer>
 </div>
