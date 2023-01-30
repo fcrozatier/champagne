@@ -78,4 +78,10 @@
 			<p class="">If you are registered you can vote with the link you received by email</p>
 		{/if}
 	{/if}
+
+	{#if resultsAvailable()}
+		<h2>Get your feedback</h2>
+		<p>Other people have reviewed your entry and left messages to help you improve.</p>
+		<p><a class="btn" href="/feedback/{data.token}">See feedbacks</a></p>
+	{/if}
 </article>
