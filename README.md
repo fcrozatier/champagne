@@ -4,7 +4,7 @@ Bubble up and celebrate the outstanding!
 
 ## What is champagne?
 
-Champagne is a voting platform for massive competitions. It implements the [NodeRank](https://github.com/fcrozatier/NodeRank) peer ranking algorithm where people vote by comparing pairs of entries to let the best ones bubble up the surface.
+Champagne is a voting platform for massive competitions. It implements a peer ranking algorithm where people vote by comparing pairs of entries to let the best ones bubble up the surface.
 
 ## Features
 
