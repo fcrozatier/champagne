@@ -28,17 +28,17 @@ This project is a [SvelteKit](https://kit.svelte.dev/) app running a [Neo4j](htt
 
 You can use this project by setting a few environment variables in your local `.env` file:
 
-| name                        | value                    | description                                 |
-| --------------------------- | ------------------------ | ------------------------------------------- |
-| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"   | Registration start date                     |
-| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"   | Registration deadline                       |
-| `PUBLIC_VOTE_START`         | "yyyy-mm-ddThh:mm:ssZ"   | Voting phase start date                     |
-| `PUBLIC_VOTING_END`         | "yyyy-mm-ddThh:mm:ssZ"   | Voting phase deadline                       |
-| `PUBLIC_RATE_LIMIT`         | number                   | Minimum time delta between votes in minutes |
-| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                   | 1 if results are available                  |
-| `NEO4J_URI`                 | "neo4j://localhost:7687" | neo4j connection string                     |
-| `NEO4J_USERNAME`            | string                   | neo4j user                                  |
-| `NEO4J_PASSWORD`            | string                   | neo4j password                              |
+| name                        | value                         | description                                 |
+| --------------------------- | ----------------------------- | ------------------------------------------- |
+| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"        | Registration start date                     |
+| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"        | Registration deadline                       |
+| `PUBLIC_VOTE_START`         | "yyyy-mm-ddThh:mm:ssZ"        | Voting phase start date                     |
+| `PUBLIC_VOTING_END`         | "yyyy-mm-ddThh:mm:ssZ"        | Voting phase deadline                       |
+| `PUBLIC_RATE_LIMIT`         | number                        | Minimum time delta between votes in minutes |
+| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                        | 1 if results are available                  |
+| `NEO4J_URI`                 | e.g. "neo4j://localhost:7687" | neo4j connection string                     |
+| `NEO4J_USERNAME`            | string                        | neo4j user                                  |
+| `NEO4J_PASSWORD`            | string                        | neo4j password                              |
 
 ## How to run locally?
 
