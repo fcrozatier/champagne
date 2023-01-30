@@ -112,7 +112,7 @@ export const actions: Actions = {
 				}
 
 				// TODO send mail
-
+				console.log(`Hello,... you're link is /vote/${token}`);
 				return { success: true, email };
 			} catch (error) {
 				if (
