@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>Champagne !</title>
+	<title>Champagne!</title>
 </svelte:head>
 
 <article class="layout-prose">
