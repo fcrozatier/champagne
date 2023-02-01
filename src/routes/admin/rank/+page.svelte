@@ -28,7 +28,7 @@
 		</form>
 	{/if}
 	{#if form?.ranking}
-		<table class="table table-zebra w-full">
+		<table class="table-zebra table w-full">
 			<thead>
 				<tr>
 					<th />

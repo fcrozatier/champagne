@@ -63,7 +63,7 @@
 					id="user"
 					name="user"
 					bind:value
-					class="select select-bordered w-full max-w-xs"
+					class="select-bordered select w-full max-w-xs"
 					required
 				>
 					<option disabled />
@@ -80,7 +80,7 @@
 					type="email"
 					name="email"
 					placeholder="john@gmail.com"
-					class="input input-bordered w-full max-w-xs"
+					class="input-bordered input w-full max-w-xs"
 					required
 				/>
 				{#if form?.emailInvalid}
@@ -91,7 +91,7 @@
 
 				{#if value === 'creator'}
 					<label for="entry" class="label">Type of entry </label>
-					<select id="entry" name="entry" class="select select-bordered w-full max-w-xs" required>
+					<select id="entry" name="entry" class="select-bordered select w-full max-w-xs" required>
 						<option value="video">Video</option>
 						<option value="non-video">Non video</option>
 					</select>
@@ -104,7 +104,7 @@
 						id="title"
 						type="text"
 						name="title"
-						class="input input-bordered w-full max-w-xs"
+						class="input-bordered input w-full max-w-xs"
 						required
 					/>
 					{#if form?.titleInvalid}
@@ -115,7 +115,7 @@
 					<textarea
 						id="description"
 						name="description"
-						class="textarea textarea-bordered text-base w-full max-w-xs"
+						class="textarea-bordered textarea w-full max-w-xs text-base"
 						maxlength="500"
 						required
 						bind:value={description}
@@ -135,7 +135,7 @@
 						type="url"
 						name="link"
 						placeholder="https://"
-						class="input input-bordered w-full max-w-xs"
+						class="input-bordered input w-full max-w-xs"
 						required
 					/>
 					{#if form?.linkInvalid}

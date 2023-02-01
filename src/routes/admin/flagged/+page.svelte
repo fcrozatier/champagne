@@ -12,10 +12,10 @@
 	$: unflagError = form?.unflagError;
 </script>
 
-<article class="overflow-x-auto max-w-xl mx-auto">
+<article class="mx-auto max-w-xl overflow-x-auto">
 	<h2>Flagged entries</h2>
 
-	<table class="table table-zebra w-full">
+	<table class="table-zebra table w-full">
 		<thead>
 			<tr>
 				<th />
@@ -47,7 +47,7 @@
 							}}
 						>
 							<input type="hidden" value={entry.link} name="link" />
-							<button type="submit" class="btn btn-sm">Unflag</button>
+							<button type="submit" class="btn-sm btn">Unflag</button>
 						</form>
 					</td>
 				</tr>
@@ -59,12 +59,12 @@
 </article>
 
 {#if unflag}
-	<div transition:fade class="toast toast-bottom toast-center">
+	<div transition:fade class="toast-center toast-bottom toast">
 		<span class="alert alert-success whitespace-nowrap"> Entry unflagged successfully. </span>
 	</div>
 {/if}
 {#if unflagError}
-	<div transition:fade class="toast toast-bottom toast-center">
+	<div transition:fade class="toast-center toast-bottom toast">
 		<span class="alert alert-error whitespace-nowrap"> Couldn't unflag entry. </span>
 	</div>
 {/if}

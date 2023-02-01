@@ -91,7 +91,7 @@
 					};
 				}}
 			>
-				<div class="grid sm:grid-cols-2 justify-items-center gap-10 w-full">
+				<div class="grid w-full justify-items-center gap-10 sm:grid-cols-2">
 					{#each entries as entry, i}
 						<div class="w-3/4">
 							<h3 class="capitalize">{entry.title}</h3>
@@ -102,7 +102,7 @@
 							<textarea
 								id="feedback-{i}"
 								name="feedback-{i}"
-								class="textarea textarea-bordered text-base w-full max-w-md"
+								class="textarea-bordered textarea w-full max-w-md text-base"
 								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
 								maxlength="500"
 								rows="10"
@@ -122,19 +122,19 @@
 								}}
 							>
 								<input type="hidden" name="flagged" value={entry.link} />
-								<button type="submit" class="btn btn-xs btn-outline btn-error"
+								<button type="submit" class="btn-outline btn-error btn-xs btn"
 									>Flag this entry
 								</button>
 							</form>
 						</div>
 					{/each}
 				</div>
-				<section class="layout-prose mt-8 space-y-4 w-full">
+				<section class="layout-prose mt-8 w-full space-y-4">
 					<label for="choice" class="label">Which entry is the best one?</label>
 					<select
 						id="choice"
 						name="choice"
-						class="select select-bordered w-full max-w-full capitalize"
+						class="select-bordered select w-full max-w-full capitalize"
 						required
 					>
 						<option disabled selected />
@@ -147,7 +147,7 @@
 							Please wait at least {PUBLIC_RATE_LIMIT} minutes between votes.
 						</p>
 					{/if}
-					<button type="submit" class="btn btn-md">Vote for this entry</button>
+					<button type="submit" class="btn-md btn">Vote for this entry</button>
 				</section>
 			</form>
 		{/if}
