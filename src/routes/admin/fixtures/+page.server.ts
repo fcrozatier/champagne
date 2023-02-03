@@ -38,7 +38,7 @@ export const load: PageServerLoad = async () => {
 
 		return { success: true };
 	} catch (error) {
-		console.log('could add fixtures', error);
+		console.log("couldn't add fixtures", error);
 		return { success: false };
 	} finally {
 		session.close();
