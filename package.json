@@ -15,6 +15,7 @@
 		"@sveltejs/adapter-node": "^1.0.0",
 		"@sveltejs/kit": "^1.0.1",
 		"@tailwindcss/typography": "^0.5.8",
+		"@types/bcrypt": "^5.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.47.1",
 		"@typescript-eslint/parser": "^5.47.1",
 		"autoprefixer": "^10.4.13",
@@ -35,6 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"bcrypt": "^5.1.0",
 		"neo4j-driver": "^5.3.0"
 	}
 }
