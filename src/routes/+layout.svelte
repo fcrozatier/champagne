@@ -2,7 +2,7 @@
 	import '../app.css';
 </script>
 
-<div class="flex flex-col">
+<div class="flex min-h-[100vh] flex-col">
 	<header class="navbar px-4">
 		<nav class="">
 			<a href="/">Home</a>
