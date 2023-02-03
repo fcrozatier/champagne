@@ -12,14 +12,11 @@ export const actions: Actions = {
 		if (!password || typeof password !== 'string') {
 			return fail(400, { invalid: true });
 		}
-		console.log('password', password);
+
 		const adminHash = await hash(ADMIN_PASSWORD, BCRYPT_ROUNDS);
-		console.log('ADMIN_PASSWORD', ADMIN_PASSWORD);
 		const passwordValid = await compare(password, adminHash);
-		console.log('adminHash', adminHash);
-		console.log('passwordValid', passwordValid);
+
 		if (!passwordValid) {
-			console.log('nope');
 			return fail(400, { invalid: true });
 		}
 
