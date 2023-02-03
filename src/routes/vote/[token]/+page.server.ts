@@ -4,6 +4,7 @@ import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
+import { MAX_AGE } from '$lib/server/config';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -15,7 +16,7 @@ export const load: PageServerLoad = async (event) => {
 
 	event.cookies.set('token', token, {
 		path: '/',
-		maxAge: 1000 * 60 * 60 * 24 * 30 // 1 month
+		maxAge: MAX_AGE
 	});
 
 	const session = driver.session();
