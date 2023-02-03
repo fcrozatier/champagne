@@ -1,5 +1,15 @@
 import { driver } from '$lib/server/neo4j';
+import { error } from '@sveltejs/kit';
 import type { Actions } from './$types';
+
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ parent }) => {
+	const { isAdmin } = await parent();
+	if (!isAdmin) {
+		throw error(401, 'Not authorized');
+	}
+};
 
 export const actions: Actions = {
 	rank: async () => {

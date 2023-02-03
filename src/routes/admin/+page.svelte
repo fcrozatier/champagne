@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
 <article class="layout-prose">
@@ -11,6 +14,8 @@
 			<li><a href="/admin/fixtures">Add db fixtures (dev mode)</a></li>
 		{/if}
 		<li><a href="/admin/flagged">View flagged entries</a></li>
-		<li><a href="/admin/rank">Rank entries</a></li>
+		{#if data.isAdmin}
+			<li><a href="/admin/rank">Rank entries</a></li>
+		{/if}
 	</ul>
 </article>
