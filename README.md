@@ -36,6 +36,7 @@ You can use this project by setting a few environment variables in your local `.
 | `PUBLIC_VOTE_END`           | "yyyy-mm-ddThh:mm:ssZ"        | Voting phase deadline                       |
 | `PUBLIC_RATE_LIMIT`         | number                        | Minimum time delta between votes in minutes |
 | `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                        | 1 if results are available                  |
+| `ADMIN_PASSWORD`            | string                        | Password for admin area                     |
 | `NEO4J_URI`                 | e.g. "neo4j://localhost:7687" | neo4j connection string                     |
 | `NEO4J_USERNAME`            | string                        | neo4j user                                  |
 | `NEO4J_PASSWORD`            | string                        | neo4j password                              |
