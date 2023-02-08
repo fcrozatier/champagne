@@ -3,10 +3,14 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 	import type { EntryProperties } from '$lib/server/neo4j';
+	import { clickOutside } from '$lib/actions/clickOutside';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
 	export let form: ActionData;
+
+	let flagDialog: HTMLDialogElement;
+	let flagEntry: EntryProperties | null = null;
 
 	$: entries = data.entries as EntryProperties[];
 </script>
@@ -57,7 +61,7 @@
 					<a class="btn" href={`/vote/${$page.params.token}`} data-sveltekit-reload>New vote</a>
 				</p>
 			</div>
-		{:else if (form?.id === 'FLAG' && form?.flagFail) || (form?.id === 'VOTE' && form?.voteFail)}
+		{:else if form?.id === 'VOTE' && form?.voteFail}
 			<div class="layout-prose">
 				<p class="text-error">Something went wrong.</p>
 				<!-- Force reload to grab a new pair of entries -->
@@ -108,24 +112,16 @@
 								rows="10"
 								required
 							/>
-							<form
-								method="post"
-								action="?/flag"
-								use:enhance={() => {
-									const buttons = document.querySelectorAll('button');
-									buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-									return ({ result }) => {
-										// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
-										applyAction(result);
-										buttons.forEach((b) => b.removeAttribute('disabled'));
-									};
+
+							<button
+								type="button"
+								class="btn-outline btn-error btn-xs btn"
+								on:click={() => {
+									flagEntry = entry;
+									flagDialog.showModal();
 								}}
-							>
-								<input type="hidden" name="flagged" value={entry.link} />
-								<button type="submit" class="btn-outline btn-error btn-xs btn"
-									>Flag this entry
-								</button>
-							</form>
+								>Flag this entry
+							</button>
 						</div>
 					{/each}
 				</div>
@@ -153,3 +149,42 @@
 		{/if}
 	{/if}
 </article>
+
+<dialog class="mb-auto" bind:this={flagDialog}>
+	<form
+		method="post"
+		action="?/flag"
+		use:clickOutside={() => flagDialog.close()}
+		use:enhance={() => {
+			const buttons = document.querySelectorAll('button');
+			buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+			return ({ result }) => {
+				// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
+				applyAction(result);
+				buttons.forEach((b) => b.removeAttribute('disabled'));
+				flagDialog.close();
+			};
+		}}
+	>
+		<h2 class="mt-0">You're about to flag an entry</h2>
+		<p class="text-gray-700">
+			Please provide a short reason why this entry is inappropriate and should be flagged. This will
+			be reviewed by admins.
+		</p>
+		<span class="capitalize">{flagEntry?.title}</span>
+		<label for="reason" class="label">Reason</label>
+		<input id="reason" type="text" name="reason" class="input-bordered input w-full" required />
+		<input type="hidden" name="flagLink" value={flagEntry?.link} />
+		<p class="mb-0 flex gap-2">
+			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
+				>Cancel</button
+			>
+			<button type="submit" class="btn-outline btn-error btn">Flag this entry </button>
+			{#if form?.id === 'FLAG' && form?.flagFail}
+				<span>
+					<p class="text-error">Something went wrong.</p>
+				</span>
+			{/if}
+		</p>
+	</form>
+</dialog>

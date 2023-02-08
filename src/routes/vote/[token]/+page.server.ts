@@ -83,8 +83,8 @@ export const load: PageServerLoad = async (event) => {
 				WHERE NOT (n1)--(n2)
 				AND NOT u1.token = $token
 				AND NOT u2.token = $token
-				AND n1.flaggedBy IS NULL
-				AND n2.flaggedBy IS NULL
+				AND n1.flagged IS NULL
+				AND n2.flagged IS NULL
 				AND n1.number = (n2.number + step) % size
 				WITH n1, n2
 				LIMIT 1
@@ -162,9 +162,10 @@ export const actions: Actions = {
 		id = 'FLAG';
 		const token = cookies.get('token');
 		const data = await request.formData();
-		const flagged = data.get('flagged');
+		const reason = data.get('reason');
+		const link = data.get('flagLink');
 
-		if (!flagged || typeof flagged !== 'string') {
+		if (!reason || !link || typeof reason !== 'string' || typeof link !== 'string') {
 			return fail(400, { id, flagFail: true });
 		}
 
@@ -195,12 +196,13 @@ export const actions: Actions = {
 					`
 				MATCH (e:Entry)-[r:ASSIGNED]-(:Entry)
 				WHERE e.link = $link AND r.userToken = $token
-				SET e.flaggedBy = $token
+				SET e.flaggedBy = $token, e.flagReason = $reason
 				DELETE r
 			`,
 					{
-						link: flagged,
-						token
+						link,
+						token,
+						reason
 					}
 				);
 			});
