@@ -13,7 +13,7 @@ export const load: PageServerLoad = async () => {
 			return tx.run<{ n: Entry }>(
 				`
 				MATCH (n:Entry)
-				WHERE n.flaggedBy IS NOT NULL
+				WHERE n.flaggedBy IS NOT NULL AND n.flagged IS NULL
 				RETURN n
       `
 			);
@@ -36,7 +36,7 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	unflag: async ({ request }) => {
 		const data = await request.formData();
 		const link = data.get('link');
 
@@ -52,7 +52,7 @@ export const actions: Actions = {
 					`
 				MATCH (n:Entry)
 				WHERE n.link = $link
-        REMOVE n.flaggedBy
+        REMOVE n.flaggedBy, n.flagReason
 				RETURN n
       `,
 					{ link }
@@ -61,6 +61,35 @@ export const actions: Actions = {
 			return { unflag: true };
 		} catch (error) {
 			return fail(400, { unflagError: true });
+		} finally {
+			session.close();
+		}
+	},
+	flag: async ({ request }) => {
+		const data = await request.formData();
+		const link = data.get('link');
+
+		if (!link || typeof link !== 'string') {
+			return fail(400, { flagError: true });
+		}
+
+		const session = driver.session();
+
+		try {
+			await session.executeWrite((tx) => {
+				return tx.run(
+					`
+				MATCH (n:Entry)
+				WHERE n.link = $link
+        SET n.flagged = True
+				RETURN n
+      `,
+					{ link }
+				);
+			});
+			return { flag: true };
+		} catch (error) {
+			return fail(400, { flagError: true });
 		} finally {
 			session.close();
 		}
