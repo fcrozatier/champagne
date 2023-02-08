@@ -11,6 +11,38 @@ body {
 	background-color: var(--light-gold);
 }
 
+dialog {
+	@apply max-w-2xl rounded-xl p-12 shadow-2xl;
+	max-height: 80vh;
+	visibility: hidden;
+}
+
+dialog:not([open]) {
+	@apply pointer-events-none;
+}
+
+dialog[open] {
+	--scale-from: 80%;
+	animation: scale-up 50ms ease-out, fade-in 100ms ease-out;
+	visibility: visible;
+}
+
+dialog::backdrop {
+	backdrop-filter: blur(3px);
+}
+
 .layout-prose {
 	@apply mx-auto max-w-prose px-8;
+}
+
+@keyframes scale-up {
+	from {
+		transform: scale(var(--scale-from, 0));
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: var(--fade-from, 0);
+	}
 }
