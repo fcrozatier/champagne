@@ -99,7 +99,7 @@
 						required
 					>
 						{#each categories as category}
-							<option value={category}>{category.replace('_', ' ')}</option>
+							<option value={category}>{category}</option>
 						{/each}
 					</select>
 					{#if form?.categoryInvalid}
