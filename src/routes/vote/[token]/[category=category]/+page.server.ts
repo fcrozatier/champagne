@@ -4,7 +4,6 @@ import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
-import { MAX_AGE } from '$lib/server/config';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -12,45 +11,24 @@ interface AssignedEntries {
 }
 
 export const load: PageServerLoad = async (event) => {
-	const { token } = event.params;
-
-	event.cookies.set('token', token, {
-		path: '/',
-		maxAge: MAX_AGE
-	});
+	const { token } = await event.parent();
+	const { category } = event.params;
 
 	const session = driver.session();
 
 	try {
-		// Find user
-		const user = await session.executeRead((tx) => {
-			return tx.run(
-				`
-				MATCH (u:User)
-				WHERE u.token = $token
-				RETURN u
-      `,
-				{
-					token
-				}
-			);
-		});
-
-		if (!user?.records?.length) {
-			return { userNotFound: true };
-		}
-
 		// Find already assigned entries (if any)
 		const prev = await session.executeRead((tx) => {
 			return tx.run(
 				`
 				MATCH (n1:Entry)-[r:ASSIGNED]-(n2:Entry)
-				WHERE r.userToken = $token
+				WHERE r.userToken = $token AND n1.category = $category AND n2.category = $category
 				RETURN r, n1, n2
 				LIMIT 1
       `,
 				{
-					token
+					token,
+					category
 				}
 			);
 		});
@@ -68,7 +46,7 @@ export const load: PageServerLoad = async (event) => {
 		const assigned = await session.executeWrite((tx) => {
 			// Grab a step number and the graph size (not necessarily the latest step: this allows user1 to start step k while user2 can still rank entries at step k-1)
 			// But still try older steps first (by id) to ensure the graph is regular (no relations missing at step k-1).
-			// Then find two entries not created by this user,
+			// Then find two entries of this category not created by this user,
 			// not related yet (assigned or ranked)
 			// not flagged
 			// who are a given number apart based on the step (for NodeRank graph)
@@ -77,10 +55,13 @@ export const load: PageServerLoad = async (event) => {
 			return tx.run<AssignedEntries>(
 				`
 				MATCH (s:Step), (seq:Seq)
+				WHERE s.category = $category AND seq.category = $category
 				WITH s.value as step, seq.value as size
 				ORDER BY id(s)
         MATCH (u1:Creator)-[:CREATED]->(n1:Entry), (n2:Entry)<-[:CREATED]-(u2:Creator)
 				WHERE NOT (n1)--(n2)
+				AND n1.category = $category
+				AND n2.category = $category
 				AND NOT u1.token = $token
 				AND NOT u2.token = $token
 				AND n1.flagged IS NULL
@@ -93,7 +74,8 @@ export const load: PageServerLoad = async (event) => {
 				LIMIT 1
 				`,
 				{
-					token
+					token,
+					category
 				}
 			);
 		});
@@ -109,10 +91,14 @@ export const load: PageServerLoad = async (event) => {
 			// 2. create a new step with value not already listed (see uniqueness constraints)
 
 			const steps = await session.executeRead((tx) => {
-				return tx.run(`
+				return tx.run(
+					`
 				MATCH (s:Step), (seq:Seq)
+				WHERE s.category = $category AND seq.category = $category
 				RETURN count(s) as count, seq.value / 2 as max_rounds
-				`);
+				`,
+					{ category }
+				);
 			});
 			// There is always at least one Step node provided by /admin/db-setup
 			const stepsCount = steps.records[0].get('count').toInt() as number;
@@ -126,12 +112,18 @@ export const load: PageServerLoad = async (event) => {
 			// Find the graph size and the last step in the sequence
 			// Create a new step with value given by the random strategy (see https://github.com/fcrozatier/NodeRank#conclusion)
 			await session.executeWrite((tx) => {
-				return tx.run(`
+				return tx.run(
+					`
 				MATCH (s:Seq), (current:Step)
-				WHERE NOT (current)-->(:Step)
+				WHERE s.category = $category AND current.category = $category
+				AND NOT (current)-->(:Step)
 				WITH s.value as size, current
 				CREATE (current)-[:NEXT]->(newStep:Step {value: 1 + toInteger(rand() * size / 2)})
-				`);
+				`,
+					{
+						category
+					}
+				);
 			});
 
 			// Now that there is a new step in the algorithm let's try again to find entries to compare
@@ -172,24 +164,6 @@ export const actions: Actions = {
 		const session = driver.session();
 
 		try {
-			// Find user
-			const user = await session.executeRead((tx) => {
-				return tx.run(
-					`
-				MATCH (u:User)
-				WHERE u.token = $token
-				RETURN u
-			`,
-					{
-						token
-					}
-				);
-			});
-
-			if (!user?.records?.length) {
-				return fail(400, { id, flagFail: true });
-			}
-
 			// Flag entry and remove assignment
 			await session.executeWrite((tx) => {
 				return tx.run(
@@ -213,9 +187,10 @@ export const actions: Actions = {
 			session.close();
 		}
 	},
-	vote: async ({ request, cookies }) => {
+	vote: async ({ request, cookies, params }) => {
 		id = 'VOTE';
 		const token = cookies.get('token');
+		const { category } = params;
 
 		const data = await request.formData();
 		const entryNumberA = data.get('entry-0');
@@ -285,13 +260,16 @@ export const actions: Actions = {
 				return tx.run(
 					`
 				MATCH (e1:Entry)-[a:ASSIGNED]-(e2:Entry)
-				WHERE e1.number = $losingEntryNumber AND a.userToken = $token AND e2.number = $winningEntryNumber
+				WHERE e1.number = $losingEntryNumber AND e1.category = $category
+				AND e2.number = $winningEntryNumber AND e2.category = $category
+				AND a.userToken = $token
 				DELETE a
 				CREATE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
 				RETURN r
 			`,
 					{
+						category,
 						token,
 						losingEntryNumber,
 						winningEntryNumber,
