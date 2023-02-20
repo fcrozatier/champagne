@@ -15,7 +15,7 @@ export const load: PageServerLoad = async () => {
 				`
 	UNWIND $creatorsData as data
 	WITH data
-  CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry:Video {title: data.title, description: data.description, link: data.link, number: toInteger(data.number)})
+  CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry:Video {title: data.title, description: data.description, category: data.category, link: data.link, number: toInteger(data.number)})
 	SET e.points = 1, u.token = randomUUID()
   `,
 				{
