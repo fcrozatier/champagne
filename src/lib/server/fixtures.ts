@@ -4,7 +4,6 @@ export function makeCreators(n: number) {
 	for (let i = 0; i < n; i++) {
 		creators.push({
 			email: `email${i}@gmail.com`,
-			entry: 'video',
 			title: `title${i}`,
 			description:
 				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem sequi ipsum ex dolores, placeat dolor blanditiis est voluptatibus similique ad nobis ab fugit explicabo tempore asperiores aliquid id itaque neque.',

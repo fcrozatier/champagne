@@ -14,9 +14,8 @@ export const load: PageServerLoad = async () => {
 			return tx.run(
 				`
 	UNWIND $creatorsData as data
-	MATCH (s:Seq)
-	WITH data, s
-  CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry {title: data.title, description: data.description, link: data.link, entry: data.entry, number: toInteger(data.number)})
+	WITH data
+  CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry:Video {title: data.title, description: data.description, link: data.link, number: toInteger(data.number)})
 	SET e.points = 1, u.token = randomUUID()
   `,
 				{
@@ -27,7 +26,7 @@ export const load: PageServerLoad = async () => {
 		await session.executeWrite((tx) => {
 			return tx.run(
 				`
-	MATCH (s:Seq)
+	MATCH (s:Seq) WHERE s.category = "Video"
 	SET s.value = size($creatorsData)
   `,
 				{
