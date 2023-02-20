@@ -1,5 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { driver } from '$lib/server/neo4j';
+import { categories } from '$lib/categories';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -61,13 +62,20 @@ export const load: PageServerLoad = async () => {
 		});
 
 		// Sequence for counting entries and updating their number
-		await session.executeWrite((tx) => {
-			return tx.run(`
-				MERGE (s:Seq)
-				ON CREATE
-					SET s.value = 0
-      `);
-		});
+		for (const category of categories) {
+			await session.executeWrite((tx) => {
+				return tx.run(
+					`
+					MERGE (s:Seq {category:$category})
+					ON CREATE
+						SET s.value = 0
+				`,
+					{
+						category
+					}
+				);
+			});
+		}
 
 		// Background job: periodically (hourly) remove stale assigned comparisons (more than 24h old)
 		await session.executeWrite((tx) => {
