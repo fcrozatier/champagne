@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { registrationOpen } from '$lib/utils';
+	import { categories } from '$lib/categories';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData;
@@ -90,16 +91,22 @@
 				{/if}
 
 				{#if value === 'creator'}
-					<label for="entry" class="label">Type of entry </label>
-					<select id="entry" name="entry" class="select-bordered select w-full max-w-xs" required>
-						<option value="video">Video</option>
-						<option value="non-video">Non video</option>
+					<label for="category" class="label">Category</label>
+					<select
+						id="category"
+						name="category"
+						class="select-bordered select w-full max-w-xs"
+						required
+					>
+						{#each categories as category}
+							<option value={category}>{category.replace('_', ' ')}</option>
+						{/each}
 					</select>
-					{#if form?.entryInvalid}
-						<span class="block text-error">entry is invalid</span>
+					{#if form?.categoryInvalid}
+						<span class="block text-error">invalid category</span>
 					{/if}
 
-					<label for="title" class="label">Title of your entry</label>
+					<label for="title" class="label">Title</label>
 					<input
 						id="title"
 						type="text"
@@ -111,7 +118,7 @@
 						<span class="block text-error">a title is required</span>
 					{/if}
 
-					<label for="description" class="label">Short description of your entry</label>
+					<label for="description" class="label">Short description</label>
 					<textarea
 						id="description"
 						name="description"

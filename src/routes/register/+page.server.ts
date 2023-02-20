@@ -3,8 +3,8 @@ import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
+import { categories } from '$lib/categories';
 
-const entries = ['video', 'non-video'];
 const users = ['creator', 'judge'];
 
 export const load: PageServerLoad = async () => {
@@ -23,7 +23,7 @@ export const actions: Actions = {
 			const values = await request.formData();
 			const user = values.get('user');
 			const email = values.get('email');
-			const entry = values.get('entry');
+			const category = values.get('category');
 			const title = values.get('title');
 			const description = values.get('description');
 			const link = values.get('link');
@@ -42,8 +42,8 @@ export const actions: Actions = {
 			}
 
 			if (user === 'creator') {
-				if (!entry || typeof entry !== 'string' || !entries.includes(entry)) {
-					return fail(400, { entryInvalid: true });
+				if (!category || typeof category !== 'string' || !categories.includes(category)) {
+					return fail(400, { categoryInvalid: true });
 				}
 
 				if (!title || typeof title !== 'string') {
@@ -72,13 +72,14 @@ export const actions: Actions = {
 					await session.executeWrite((tx) => {
 						return tx.run(
 							`
-					MATCH (s:Seq)
+					MATCH (s:Seq) WHERE s.category = $category
 					WITH s.value as seq
-					CREATE (:User:Creator $userProps)-[:CREATED]->(e:Entry $entryProps)
-					SET e.number = seq, e.points = 1
+					CALL apoc.merge.node($labels, $entryProps) YIELD node as entry
+					CREATE (:User:Creator $userProps)-[:CREATED]->(entry)
+					SET entry.number = seq, entry.points = 1
 					WITH seq
 					CALL {
-							MATCH (s:Seq)
+							MATCH (s:Seq) WHERE s.category = $category
 							WITH s
 							CALL apoc.atomic.add(s, 'value', 1, 10)
 							YIELD newValue
@@ -87,9 +88,10 @@ export const actions: Actions = {
 					RETURN newValue
 					`,
 							{
+								category,
 								userProps: { email, token },
+								labels: ['Entry', category],
 								entryProps: {
-									entry,
 									title,
 									description,
 									link
@@ -127,7 +129,7 @@ export const actions: Actions = {
 						return fail(422, { linkExists: true });
 					}
 				}
-
+				console.log(error);
 				return fail(500, { invalid: true });
 			} finally {
 				await session.close();
