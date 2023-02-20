@@ -5,6 +5,7 @@ export function makeCreators(n: number) {
 		creators.push({
 			email: `email${i}@gmail.com`,
 			title: `title${i}`,
+			category: 'Video',
 			description:
 				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem sequi ipsum ex dolores, placeat dolor blanditiis est voluptatibus similique ad nobis ab fugit explicabo tempore asperiores aliquid id itaque neque.',
 			link: `http://link${i}.com`,

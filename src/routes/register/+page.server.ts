@@ -42,7 +42,11 @@ export const actions: Actions = {
 			}
 
 			if (user === 'creator') {
-				if (!category || typeof category !== 'string' || !categories.includes(category)) {
+				if (
+					!category ||
+					typeof category !== 'string' ||
+					!(categories as unknown as string[]).includes(category)
+				) {
 					return fail(400, { categoryInvalid: true });
 				}
 
@@ -74,8 +78,7 @@ export const actions: Actions = {
 							`
 					MATCH (s:Seq) WHERE s.category = $category
 					WITH s.value as seq
-					CALL apoc.merge.node($labels, $entryProps) YIELD node as entry
-					CREATE (:User:Creator $userProps)-[:CREATED]->(entry)
+					CREATE (:User:Creator $userProps)-[:CREATED]->(entry:Entry $entryProps)
 					SET entry.number = seq, entry.points = 1
 					WITH seq
 					CALL {
@@ -90,8 +93,8 @@ export const actions: Actions = {
 							{
 								category,
 								userProps: { email, token },
-								labels: ['Entry', category],
 								entryProps: {
+									category,
 									title,
 									description,
 									link
