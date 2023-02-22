@@ -1,11 +1,11 @@
 <script>
-	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
+	import { PUBLIC_COMPETITION_NAME, PUBLIC_REGISTRATION_END } from '$env/static/public';
 	import { competitionStarted } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
 </script>
 
 <svelte:head>
-	<title>Rules</title>
+	<title>Rules &middot; {PUBLIC_COMPETITION_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">
@@ -50,7 +50,7 @@
 		<li>It has to be publicly visible and available for people to consume for free</li>
 	</ol>
 
-	<h2>When is the deadline?</h2>
+	<h2>When is the registration deadline?</h2>
 	{#if competitionStarted()}
 		<p>
 			You can register until

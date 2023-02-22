@@ -3,6 +3,7 @@
 	import { registrationOpen } from '$lib/utils';
 	import { categories } from '$lib/categories';
 	import type { ActionData } from './$types';
+	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 
 	export let form: ActionData;
 
@@ -11,7 +12,7 @@
 </script>
 
 <svelte:head>
-	<title>Register</title>
+	<title>Register &middot; {PUBLIC_COMPETITION_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">

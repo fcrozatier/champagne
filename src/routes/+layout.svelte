@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { voteOpen } from '$lib/utils';
 	import type { LayoutData } from './$types';
+	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 
 	export let data: LayoutData;
 </script>
@@ -19,7 +20,7 @@
 	</header>
 
 	<main class="prose mt-10 mb-40 max-w-full">
-		<h1 class="text-center">SOME 2.5</h1>
+		<h1 class="text-center">{PUBLIC_COMPETITION_NAME}</h1>
 		<slot />
 	</main>
 

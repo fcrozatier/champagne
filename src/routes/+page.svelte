@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen } from '$lib/utils';
 	import {
+		PUBLIC_COMPETITION_NAME,
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
 		PUBLIC_VOTE_END
@@ -20,7 +21,7 @@
 </script>
 
 <svelte:head>
-	<title>Champagne!</title>
+	<title>{PUBLIC_COMPETITION_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">

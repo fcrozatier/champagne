@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Admin &middot; {PUBLIC_COMPETITION_NAME}</title>
+	<title>Vote &middot; {PUBLIC_COMPETITION_NAME}</title>
 </svelte:head>
 
 <slot />

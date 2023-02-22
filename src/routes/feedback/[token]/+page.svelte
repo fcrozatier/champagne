@@ -1,8 +1,13 @@
 <script lang="ts">
+	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
+
+<svelte:head>
+	<title>Feedback &middot; {PUBLIC_COMPETITION_NAME}</title>
+</svelte:head>
 
 <article class="layout-prose">
 	{#if data.invalidToken}
