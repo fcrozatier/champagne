@@ -167,6 +167,9 @@
 					{/if}
 					<button class="btn block" disabled={!registrationOpen()}>Register</button>
 				</p>
+				<p class="text-sm">
+					<a href="/gdpr">Privacy policy</a>
+				</p>
 			</form>
 		{/if}
 	{/if}
