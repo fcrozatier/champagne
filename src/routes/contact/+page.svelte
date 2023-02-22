@@ -7,7 +7,7 @@
 </svelte:head>
 
 <article class="layout-prose">
-	<h2>Do you have a question?</h2>
+	<h2>Contact</h2>
 
 	<p>If you have any questions or suggestions, please contact us at:</p>
 	<address>
