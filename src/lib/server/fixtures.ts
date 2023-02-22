@@ -3,8 +3,8 @@ import { categories } from '../categories';
 export function makeCreators(n: number) {
 	const creators = [];
 
-	for (const category of categories) {
-		for (let i = 0; i < n; i++) {
+	for (const [c, category] of categories.entries()) {
+		for (let i = c * n; i < (c + 1) * n; i++) {
 			creators.push({
 				email: `email${i}@gmail.com`,
 				title: `title${i}`,
