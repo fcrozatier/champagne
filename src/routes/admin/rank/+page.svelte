@@ -24,7 +24,7 @@
 				};
 			}}
 		>
-			<button class="btn" type="submit">Rank</button>
+			<button class="btn" type="submit" disabled>Rank</button>
 		</form>
 	{/if}
 	{#if form?.ranking}
