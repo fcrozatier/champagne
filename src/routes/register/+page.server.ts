@@ -42,11 +42,7 @@ export const actions: Actions = {
 			}
 
 			if (user === 'creator') {
-				if (
-					!category ||
-					typeof category !== 'string' ||
-					!(categories as unknown as string[]).includes(category)
-				) {
+				if (!category || typeof category !== 'string' || !categories.includes(category)) {
 					return fail(400, { categoryInvalid: true });
 				}
 
