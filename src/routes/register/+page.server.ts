@@ -4,6 +4,7 @@ import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { categories } from '$lib/categories';
+import { isStringArray } from '$lib/types';
 
 const users = ['creator', 'judge'];
 
@@ -23,6 +24,8 @@ export const actions: Actions = {
 			const values = await request.formData();
 			const user = values.get('user');
 			const email = values.get('email');
+			const others = values.get('others');
+			console.log('others:', others);
 			const category = values.get('category');
 			const title = values.get('title');
 			const description = values.get('description');
@@ -35,6 +38,25 @@ export const actions: Actions = {
 
 			if (!email || typeof email !== 'string') {
 				return fail(400, { emailInvalid: true });
+			}
+
+			if (!others || typeof others !== 'string') {
+				return fail(400, { othersInvalid: true });
+			}
+
+			let otherContributors;
+			try {
+				otherContributors = JSON.parse(others);
+			} catch (error) {
+				return fail(400, { othersInvalid: true });
+			}
+
+			if (!isStringArray(otherContributors)) {
+				return fail(400, { othersInvalid: true });
+			}
+
+			if (new Set([...otherContributors, email]).size !== otherContributors.length + 1) {
+				return fail(400, { duplicateEmails: true });
 			}
 
 			if (!rules) {
