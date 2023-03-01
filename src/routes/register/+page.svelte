@@ -4,6 +4,7 @@
 	import { categories } from '$lib/categories';
 	import type { ActionData, Snapshot } from './$types';
 	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
+	import { tick } from 'svelte';
 
 	export let form: ActionData;
 
@@ -12,6 +13,7 @@
 			return {
 				value,
 				email,
+				otherContributors,
 				category,
 				title,
 				description,
@@ -21,6 +23,7 @@
 		restore: (v) => {
 			value = v.value;
 			email = v.email;
+			otherContributors = v.otherContributors;
 			category = v.category;
 			title = v.title;
 			description = v.description;
@@ -30,10 +33,22 @@
 
 	let value: 'creator' | 'judge';
 	let email: string;
+	let otherContributors: string[] = [];
 	let category: string;
 	let title: string;
 	let description = '';
 	let link: string;
+
+	async function addContributor() {
+		otherContributors = [...otherContributors, ''];
+		await tick();
+		const email = document.querySelector('input[type="email"]:last-of-type');
+		if (email) {
+			(email as HTMLInputElement).focus();
+		}
+	}
+
+	$: console.log(otherContributors);
 </script>
 
 <svelte:head>
@@ -75,7 +90,9 @@
 		{:else}
 			<form
 				method="post"
-				use:enhance={({ form }) => {
+				use:enhance={({ form, data }) => {
+					data.append('others', JSON.stringify(otherContributors));
+
 					const button = form.querySelector('button');
 					button?.setAttribute('disabled', 'on');
 
@@ -101,7 +118,9 @@
 					<span class="block text-error">invalid value</span>
 				{/if}
 
-				<label for="email" class="label">Email</label>
+				<label for="email" class="label"
+					>{otherContributors.length === 0 ? 'Email' : 'Emails'}</label
+				>
 				<input
 					id="email"
 					type="email"
@@ -115,6 +134,43 @@
 					<span class="block text-error">email is required</span>
 				{:else if form?.emailExists}
 					<span class="block text-error">email already registered</span>
+				{/if}
+				{#if value === 'creator'}
+					{#each otherContributors as _, i}
+						<p class="flex items-center gap-2">
+							<input
+								id="email_{i}"
+								type="email"
+								name="email_{i}"
+								class="input-bordered input w-full max-w-xs"
+								bind:value={otherContributors[i]}
+								required
+							/>
+							<button
+								type="button"
+								class="btn-outline btn-xs btn-circle btn opacity-80"
+								on:click={() => {
+									otherContributors.splice(i, 1);
+									otherContributors = otherContributors;
+								}}>&cross;</button
+							>
+						</p>
+					{/each}
+					{#if form?.othersInvalid}
+						<span class="block text-error">something is wrong with the emails</span>
+					{:else if form?.duplicateEmails}
+						<span class="block text-error">emails should be unique</span>
+					{/if}
+					<p class="text-sm text-gray-500">
+						Add contributor
+						<button
+							type="button"
+							class="btn-outline btn-sm btn-circle btn opacity-80"
+							on:click={addContributor}
+						>
+							+</button
+						>
+					</p>
 				{/if}
 
 				{#if value === 'creator'}
