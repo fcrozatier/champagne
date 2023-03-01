@@ -2,13 +2,38 @@
 	import { enhance } from '$app/forms';
 	import { registrationOpen } from '$lib/utils';
 	import { categories } from '$lib/categories';
-	import type { ActionData } from './$types';
+	import type { ActionData, Snapshot } from './$types';
 	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 
 	export let form: ActionData;
 
+	export const snapshot: Snapshot = {
+		capture: () => {
+			return {
+				value,
+				email,
+				category,
+				title,
+				description,
+				link
+			};
+		},
+		restore: (v) => {
+			value = v.value;
+			email = v.email;
+			category = v.category;
+			title = v.title;
+			description = v.description;
+			link = v.link;
+		}
+	};
+
 	let value: 'creator' | 'judge';
+	let email: string;
+	let category: string;
+	let title: string;
 	let description = '';
+	let link: string;
 </script>
 
 <svelte:head>
@@ -64,8 +89,8 @@
 				<select
 					id="user"
 					name="user"
-					bind:value
 					class="select-bordered select w-full max-w-xs"
+					bind:value
 					required
 				>
 					<option disabled />
@@ -83,6 +108,7 @@
 					name="email"
 					placeholder="john@gmail.com"
 					class="input-bordered input w-full max-w-xs"
+					bind:value={email}
 					required
 				/>
 				{#if form?.emailInvalid}
@@ -97,6 +123,7 @@
 						id="category"
 						name="category"
 						class="select-bordered select w-full max-w-xs"
+						bind:value={category}
 						required
 					>
 						{#each categories as category}
@@ -113,6 +140,7 @@
 						type="text"
 						name="title"
 						class="input-bordered input w-full max-w-xs"
+						bind:value={title}
 						required
 					/>
 					{#if form?.titleInvalid}
@@ -125,8 +153,8 @@
 						name="description"
 						class="textarea-bordered textarea w-full max-w-xs text-base"
 						maxlength="500"
-						required
 						bind:value={description}
+						required
 					/>
 					<div class="w-full max-w-xs text-right leading-none">
 						<span class="label-text-alt">{description.length}/500</span>
@@ -144,6 +172,7 @@
 						name="link"
 						placeholder="https://"
 						class="input-bordered input w-full max-w-xs"
+						bind:value={link}
 						required
 					/>
 					{#if form?.linkInvalid}
