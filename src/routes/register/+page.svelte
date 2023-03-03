@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { registrationOpen } from '$lib/utils';
 	import { categories } from '$lib/categories';
@@ -132,8 +133,6 @@
 				/>
 				{#if form?.emailInvalid}
 					<span class="block text-error">email is required</span>
-				{:else if form?.emailExists}
-					<span class="block text-error">email already registered</span>
 				{/if}
 				{#if value === 'creator'}
 					{#each otherContributors as _, i}
@@ -142,6 +141,7 @@
 								id="email_{i}"
 								type="email"
 								name="email_{i}"
+								placeholder={i === 0 ? 'john@gmail.com' : ''}
 								class="input-bordered input w-full max-w-xs"
 								bind:value={otherContributors[i]}
 								required
@@ -161,7 +161,7 @@
 					{:else if form?.duplicateEmails}
 						<span class="block text-error">emails should be unique</span>
 					{/if}
-					<p class="text-sm text-gray-500">
+					<p class="flex items-center gap-2 text-sm text-gray-500">
 						Add contributor
 						<button
 							type="button"
@@ -172,7 +172,9 @@
 						>
 					</p>
 				{/if}
-
+				{#if form?.emailExists}
+					<span class="block text-error">email already registered : {form.emailExists}</span>
+				{/if}
 				{#if value === 'creator'}
 					<label for="category" class="label">Category</label>
 					<select
@@ -246,10 +248,10 @@
 					<span class="block text-error">you need to read the rules first </span>
 				{/if}
 
+				{#if form?.invalid || $page.status !== 200}
+					<p class="block text-error">something went wrong. Please try again</p>
+				{/if}
 				<p>
-					{#if form?.invalid}
-						<span class="block text-error">something went wrong. Please try again </span>
-					{/if}
 					<button class="btn block" disabled={!registrationOpen()}>Register</button>
 				</p>
 				<p class="text-sm">
