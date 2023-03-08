@@ -1,6 +1,6 @@
 import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
-import { toNativeTypes } from '$lib/utils';
-import { fail } from '@sveltejs/kit';
+import { toNativeTypes, voteOpen } from '$lib/utils';
+import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
@@ -12,6 +12,9 @@ interface AssignedEntries {
 
 export const load: PageServerLoad = async (event) => {
 	const { token } = await event.parent();
+	if (!voteOpen()) {
+		throw redirect(302, `/vote/${token}`);
+	}
 	const { category } = event.params;
 
 	const session = driver.session();
