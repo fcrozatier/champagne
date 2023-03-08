@@ -12,7 +12,7 @@ body {
 }
 
 dialog {
-	@apply max-w-2xl rounded-xl p-12 shadow-2xl;
+	@apply max-w-2xl rounded-xl p-12 pb-10 shadow-2xl;
 	max-height: 80vh;
 	visibility: hidden;
 }
