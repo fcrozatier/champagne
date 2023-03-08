@@ -16,11 +16,19 @@
 
 	<h3>Collected Data</h3>
 
-	<p>We collect email information when you register as a creator or judge.</p>
 	<p>
-		This information is used for the voting system and to send your vote link. It is stored on our
-		database for the duration of the competition. Once the competition is over we will delete your
-		data.
+		We collect personal data (email) when you register as a creator or judge as well as data about
+		your entry (title, link, description etc.) when you register as a creator.
+	</p>
+	<p>
+		Your personal data is only used in order to send and retrieve your vote link. Data about your
+		entry is used on the voting platform and can be used elsewhere on <a
+			href="https://3blue1brown.com">3blue1brown.com</a
+		>
+	</p>
+	<p>
+		All data is stored on our database for the duration of the competition. Once the competition is
+		over we will delete your personal data.
 	</p>
 	<p>We do not sell any of your data nor use it for marketing campaigns.</p>
 	<p>
@@ -32,10 +40,10 @@
 	</p>
 	<h3>Cookies</h3>
 	<p>
-		We use a cookie to keep you logged in, so that the voting system recognizes you. This is the
-		only cookie we use and is required for the vote functionality.
+		We use a cookie to keep you logged in. This is the only cookie we use and is required for the
+		vote functionality.
 	</p>
 	<p>We do not use nor install third party cookies (e.g advertisement, tracking etc.).</p>
 
-	<p class="text-right text-sm italic">Last update <Time datetime="2023-02-22" time={false} /></p>
+	<p class="text-right text-sm italic">Last update <Time datetime="2023-03-08" time={false} /></p>
 </article>
