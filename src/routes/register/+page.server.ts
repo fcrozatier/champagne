@@ -6,7 +6,7 @@ import { Neo4jError } from 'neo4j-driver';
 import { categories } from '$lib/categories';
 import { isStringArray } from '$lib/types';
 
-const users = ['creator', 'judge'];
+const userType = ['creator', 'judge'];
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -31,7 +31,7 @@ export const actions: Actions = {
 			const link = values.get('link');
 			const rules = values.get('rules');
 
-			if (!user || typeof user !== 'string' || !users.includes(user)) {
+			if (!user || typeof user !== 'string' || !userType.includes(user)) {
 				return fail(400, { userInvalid: true });
 			}
 
@@ -42,13 +42,13 @@ export const actions: Actions = {
 				return fail(400, { rulesInvalid: true });
 			}
 
-			const creators: { email: string; token: string }[] = [];
+			let otherContributors = [];
+			const users = [{ email, token: crypto.randomUUID() }];
 			if (user === 'creator') {
 				if (!others || typeof others !== 'string') {
 					return fail(400, { othersInvalid: true });
 				}
 
-				let otherContributors: string[];
 				try {
 					otherContributors = JSON.parse(others);
 				} catch (error) {
@@ -62,9 +62,7 @@ export const actions: Actions = {
 				if (new Set([...otherContributors, email]).size !== otherContributors.length + 1) {
 					return fail(400, { duplicateEmails: true });
 				}
-				[email, ...otherContributors].forEach((x) =>
-					creators.push({ email: x, token: crypto.randomUUID() })
-				);
+				[...otherContributors].forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
 				if (!category || typeof category !== 'string' || !categories.includes(category)) {
 					return fail(400, { categoryInvalid: true });
 				}
@@ -89,8 +87,6 @@ export const actions: Actions = {
 			const session = driver.session();
 
 			try {
-				const token = crypto.randomUUID();
-
 				if (user === 'creator') {
 					await session.executeWrite((tx) => {
 						tx.run(
@@ -100,13 +96,13 @@ export const actions: Actions = {
 					CREATE (entry:Entry $entryProps)
 					SET entry.number = seq, entry.points = 1
 					WITH *
-					UNWIND $creators AS creator
+					UNWIND $users AS creator
 					MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
 					RETURN seq
 					`,
 							{
 								category,
-								creators,
+								users,
 								entryProps: {
 									category,
 									title,
@@ -133,19 +129,23 @@ export const actions: Actions = {
 					await session.executeWrite((tx) => {
 						return tx.run(
 							`
-					CREATE (:User:Judge {email: $email, token: $token})
+							UNWIND $users AS judge
+							CREATE (:User:Judge {email: judge.email, token: judge.token})
 					`,
 							{
-								email,
-								token
+								users
 							}
 						);
 					});
 				}
 
 				// TODO send mail
-				console.log(`Hello,... you're link is /vote/${token}`);
-				return { success: true, email };
+				console.log(`Hello,... you're link is /vote/`);
+				return {
+					success: true,
+					contributors: users.length,
+					contributor: users.length === 1 ? users[0] : { email: '', token: '' }
+				};
 			} catch (error) {
 				if (
 					error instanceof Neo4jError &&

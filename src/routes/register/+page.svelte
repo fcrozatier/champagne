@@ -48,8 +48,6 @@
 			(email as HTMLInputElement).focus();
 		}
 	}
-
-	$: console.log(otherContributors);
 </script>
 
 <svelte:head>
@@ -59,12 +57,21 @@
 <article class="layout-prose">
 	{#if form?.success}
 		<h2>Thank you for participating!</h2>
-		<p>
-			A confirmation email has been sent to <em>{form.email}</em> with your link for the voting phase.
-		</p>
-		<p>
-			<strong>Do not delete this email.</strong>
-		</p>
+		{#if form.contributors === 1}
+			<p>
+				A confirmation email has been sent to <em>{form.contributor.email}</em> with your link for
+				the voting phase. <strong>Please do not delete this email.</strong>
+			</p>
+			<p>The vote is not open yet but you can bookmark your link now:</p>
+			<p>
+				<a href="/vote/{form.contributor.token}">your personal link</a>
+			</p>
+		{:else}
+			<p>
+				Every member of the team will receive shortly a confirmation email with his link for the
+				voting phase. <strong>Please do not delete this email.</strong>
+			</p>
+		{/if}
 		<p>See you in the voting phase.</p>
 	{:else}
 		<h2>Register for the competition</h2>
