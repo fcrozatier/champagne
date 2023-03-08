@@ -41,7 +41,7 @@
 			We hope you make more, but we only have the capacity to judge participants based on a single
 			entry.
 		</p>
-		<li>It has to be available in English</li>
+		<li>It has to be available in English: subtitles or translation are needed</li>
 		<p>
 			If you want to put out an explainer in another language, wonderful! Please do! But the judges
 			here will be english speakers, so to be considered for the contest the lesson has to be
@@ -49,6 +49,23 @@
 		</p>
 		<li>It has to be publicly visible and available for people to consume for free</li>
 	</ol>
+
+	<h2>Copyright</h2>
+	<p>By registering as a creator to the contest you agree to the following copyright notice:</p>
+	<p class="px-12">
+		<q class="italic">
+			I have permission to use all material (music, video clips, images, software, etc.) within this
+			work for commercial purposes. I have not used any Creative Commons Non-Commercial or
+			copyrighted work unless I have explicit permission from the copyright holder to use their
+			material. If I have used Creative Commons BY work, I have provided appropriate attribution. If
+			I have used Creative Commons Share-Alike, I have made sure my entry is also licensed under a
+			Creative Commons license.
+		</q>
+	</p>
+	<p>
+		Exception: We have a standing agreement with Desmos that you may use this software in the
+		competition.
+	</p>
 
 	<h2>When is the registration deadline?</h2>
 	{#if competitionStarted()}
@@ -85,14 +102,13 @@
 		</li>
 	</ul>
 	<p>
-		To select the final winners, judges will look through the entries with the criteria above in
-		mind. Depending on the number of entries, we may have a step to pre-filter entries before these
-		final judgments. In all likelihood, to be considered for the competition, we may ask you to peer
-		review some of the other participants' submissions. This would involve looking at five other
-		entries and ranking them 1-5 based on how well they fit the criteria above, at which point we'll
-		use the cumulative scoring which comes from those rankings to determine a final set of a few
-		hundred which is manageable for our judges.
+		A peer review process will help filter the better entries. Then the admins will manually select
+		the best entries.
 	</p>
+	<strong>
+		If your entry does not respect the rules or copyright notice you will not be eligible to accept
+		any prize money.
+	</strong>
 	<p>
 		For longer works, judges might not be able to consume the full video/post. Again, what's hard
 		about this is that sometimes great explainers are longer, such as a full lecture and we don't
