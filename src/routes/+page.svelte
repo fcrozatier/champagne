@@ -7,7 +7,9 @@
 		PUBLIC_VOTE_END
 	} from '$env/static/public';
 	import Time from '$lib/components/Time.svelte';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
+	import { clickOutside } from '../lib/actions/clickOutside';
+	import { enhance } from '$app/forms';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
 
@@ -18,6 +20,19 @@
 	];
 
 	export let data: PageData;
+	export let form: ActionData;
+
+	let personalLinkDialog: HTMLDialogElement;
+	let email: string;
+
+	function closeDialog() {
+		personalLinkDialog.close();
+		if (form) {
+			form.emailInvalid = undefined;
+			form.invalid = undefined;
+			form.success = undefined;
+		}
+	}
 </script>
 
 <svelte:head>
@@ -38,7 +53,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge-success badge">current</span>
+						<span class="badge badge-success">current</span>
 					{/if}
 				</p>
 			</li>
@@ -76,7 +91,21 @@
 		{#if data.token}
 			<p><a class="btn" href="/vote/{data.token}">Vote</a></p>
 		{:else}
-			<p class="">If you are registered you can vote with the link you received by email</p>
+			<p>
+				If you are registered you can vote with your personal link you received by email or have
+				bookmarked after the registration.
+			</p>
+			<p>In case you can't find your personal link we can resend it to you.</p>
+			<p>
+				<button
+					type="button"
+					class="btn-outline  btn"
+					on:click={() => {
+						personalLinkDialog.showModal();
+					}}
+					>Email me my personal link
+				</button>
+			</p>
 		{/if}
 	{/if}
 
@@ -86,3 +115,45 @@
 		<p><a class="btn" href="/feedback/{data.token}">See feedbacks</a></p>
 	{/if}
 </article>
+
+<dialog class="mb-auto" bind:this={personalLinkDialog}>
+	<form
+		class=""
+		method="post"
+		action="?/resend_link"
+		use:clickOutside={closeDialog}
+		use:enhance={({ form }) => {
+			const buttons = form.querySelectorAll('button');
+			buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+			return async ({ update }) => {
+				await update();
+				buttons.forEach((b) => b.removeAttribute('disabled'));
+			};
+		}}
+	>
+		<h2 class="mt-0">Personal link</h2>
+		<p>You will receive an email with your personal link.</p>
+		<label for="email" class="label inline-flex gap-4"
+			>Email <small class="font-light text-gray-700">(the one you registered with)</small></label
+		>
+		<input
+			id="email"
+			type="email"
+			name="email"
+			placeholder="john@gmail.com"
+			class="input-bordered input w-full max-w-xs"
+			bind:value={email}
+			required
+		/>
+
+		<p class="flex gap-4">
+			<button type="button" class="btn-outline btn" on:click={closeDialog}>Close</button>
+			<button type="submit" class="btn">Send email</button>
+		</p>
+		{#if form?.invalid || form?.emailInvalid}
+			<span class="text-error">Something went wrong.</span>
+		{:else if form?.success}
+			<span class="text-success">Email sent!</span>
+		{/if}
+	</form>
+</dialog>
