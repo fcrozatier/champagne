@@ -10,25 +10,20 @@
 <article class="mx-auto w-4/5 max-w-5xl">
 	<h2>Feedbacks to review</h2>
 
-	<table class="table-zebra table w-full">
+	<table class="w-full ">
 		<thead>
-			<tr class="flex">
-				<th />
-				<th class="flex-1">Feedback</th>
+			<tr class="px-6">
+				<th>Feedback</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each feedbacks as feedback, i}
-				<tr class="flex">
-					<th>{i + 1}</th>
-					<td class="flex flex-1 capitalize"
-						><textarea class="flex-1 overflow-auto" rows="5" readonly>{feedback.value}</textarea
-						></td
-					>
-					<td>
+				<tr>
+					<td class="pl-8 capitalize"><p>{feedback.value}</p></td>
+					<td class="pr-4">
 						<form
-							class="flex items-center gap-2"
+							class="grid items-center gap-2 py-2"
 							method="post"
 							use:enhance={({ form }) => {
 								const buttons = form.querySelectorAll('button');
@@ -48,8 +43,19 @@
 					</td>
 				</tr>
 			{:else}
-				<p>No feedback to review</p>
+				<p class="px-6">No feedback to review</p>
 			{/each}
 		</tbody>
 	</table>
 </article>
+
+<style>
+	tr {
+		display: grid;
+		grid-template-columns: 1fr auto;
+		align-items: center;
+	}
+	tr:nth-child(even) {
+		background-color: rgb(242, 242, 242);
+	}
+</style>
