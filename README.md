@@ -13,7 +13,7 @@ Champagne is a voting platform for massive competitions. It implements a peer ra
 - The pairing creates a [graph](https://github.com/fcrozatier/NodeRank#principles). The vote is closed after a deadline is met.
 - Auto cleanup stale comparisons: if a user is assigned a comparison between entries and does not vote after X hours this is reassigned to someone else.
 - Rate limit votes: a user must wait at least X minutes between votes
-- Leave feedbacks. Creators can access their feedbacks at the end
+- Leave feedbacks. Creators can access their feedbacks at the end. Admins can review and validate feedbacks.
 - Flag inappropriate entries. Admins can review the flagged entries and confirm or unflag them
 - Deadlines: Sign-up and vote forms are disabled on given dates
 - Runs a [PageRank](https://en.wikipedia.org/wiki/PageRank) algorithm to rank the entries
