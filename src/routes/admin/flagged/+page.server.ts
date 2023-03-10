@@ -14,7 +14,7 @@ export const load: PageServerLoad = async () => {
 				`
 				MATCH (n:Entry)
 				WHERE n.flaggedBy IS NOT NULL AND n.flagged IS NULL
-				RETURN n
+				RETURN n LIMIT 25
       `
 			);
 		});
