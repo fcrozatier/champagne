@@ -51,11 +51,11 @@
 	</ol>
 
 	<h2>Copyright</h2>
-	<p>By registering as a creator to the contest you agree to the following copyright notice:</p>
+	<p>By registering as a creator you agree to the following copyright notice:</p>
 	<p class="px-12">
 		<q class="italic">
-			I have permission to use all material (music, video clips, images, software, etc.) within this
-			work for commercial purposes. I have not used any Creative Commons Non-Commercial or
+			I have permission to use all material (music, video clips, images, software, etc.) within my
+			entry for commercial purposes. I have not used any Creative Commons Non-Commercial or
 			copyrighted work unless I have explicit permission from the copyright holder to use their
 			material. If I have used Creative Commons BY work, I have provided appropriate attribution. If
 			I have used Creative Commons Share-Alike, I have made sure my entry is also licensed under a
