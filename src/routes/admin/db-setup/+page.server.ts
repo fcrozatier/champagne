@@ -58,21 +58,6 @@ export const load: PageServerLoad = async () => {
 			});
 		}
 
-		for (const category of categories) {
-			await session.executeWrite((tx) => {
-				return tx.run(
-					`
-					MERGE (s:Seq {category:$category})
-					ON CREATE
-						SET s.value = 0
-				`,
-					{
-						category
-					}
-				);
-			});
-		}
-
 		// Background job: periodically (hourly) remove stale assigned comparisons (more than 24h old)
 		await session.executeWrite((tx) => {
 			return tx.run(`

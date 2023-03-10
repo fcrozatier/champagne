@@ -91,14 +91,14 @@ export const actions: Actions = {
 					await session.executeWrite((tx) => {
 						tx.run(
 							`
-					MATCH (s:Seq) WHERE s.category = $category
-					WITH s.value as seq
+					MATCH (n:Entry)
+					WHERE n.category = $category
+					WITH count(n) as number
 					CREATE (entry:Entry $entryProps)
-					SET entry.number = seq, entry.points = 1
+					SET entry.number = number
 					WITH *
 					UNWIND $users AS creator
 					MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
-					RETURN seq
 					`,
 							{
 								category,
@@ -109,19 +109,6 @@ export const actions: Actions = {
 									description,
 									link
 								}
-							}
-						);
-						// Increment the sequence by 1 after creating the entry.
-						tx.run(
-							`
-							MATCH (s:Seq) WHERE s.category = $category
-							WITH s
-							CALL apoc.atomic.add(s, 'value', 1, 10)
-							YIELD newValue
-							RETURN newValue
-							`,
-							{
-								category
 							}
 						);
 					});

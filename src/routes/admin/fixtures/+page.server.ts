@@ -24,17 +24,6 @@ export const load: PageServerLoad = async () => {
 				}
 			);
 		});
-		await session.executeWrite((tx) => {
-			return tx.run(
-				`
-	MATCH (s:Seq)
-	SET s.value = toInteger($N)
-  `,
-				{
-					N
-				}
-			);
-		});
 
 		return { success: true };
 	} catch (error) {
