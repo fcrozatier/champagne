@@ -5,6 +5,7 @@ import { categories } from '$lib/categories';
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
 	try {
+		// Unique constraint
 		await session.executeWrite((tx) => {
 			return tx.run(`
 				CREATE CONSTRAINT UserEmailUnique
@@ -41,6 +42,8 @@ export const load: PageServerLoad = async () => {
 				ON entry.number;
       `);
 		});
+
+		// TODO add relationship index on user token and feedback index ?
 
 		// Sequences
 		for (const category of categories) {
