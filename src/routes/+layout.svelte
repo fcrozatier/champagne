@@ -4,6 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 	import Icon from '$lib/components/Icon.svelte';
+	import { page } from '$app/stores';
 
 	export let data: LayoutData;
 </script>
@@ -15,6 +16,9 @@
 			{#if voteOpen() && data.token}
 				<a href="/vote">Vote</a>
 			{/if}
+			{#if $page.data.isAdmin}
+				<a href="/admin">Admin</a>
+			{/if}
 		</nav>
 
 		<div class="flex-1 " />
@@ -25,8 +29,8 @@
 		<slot />
 	</main>
 
-	<footer class="mt-auto flex flex-wrap justify-center gap-8 p-4">
-		<a href="https://github.com/fcrozatier/champagne" class="inline-flex items-center gap-2"
+	<footer class="mt-auto flex flex-wrap justify-center gap-20 p-4">
+		<a href="https://github.com/fcrozatier/champagne" class="inline-flex items-center gap-3"
 			><Icon name="github" /> Champagne
 		</a>
 		<a href="/gdpr"> GDPR </a>
