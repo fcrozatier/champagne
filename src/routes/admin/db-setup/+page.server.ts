@@ -43,7 +43,16 @@ export const load: PageServerLoad = async () => {
       `);
 		});
 
-		// TODO add relationship index on user token and feedback index ?
+		await session.executeWrite((tx) => {
+			return tx.run(`
+				CREATE INDEX FeedbackIndex
+				IF NOT EXISTS
+				FOR (f:Feedback)
+				ON f.token;
+      `);
+		});
+
+		// TODO add relationship index on user token ?
 
 		// Sequences
 		for (const category of categories) {

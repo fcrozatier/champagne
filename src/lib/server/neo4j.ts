@@ -25,3 +25,11 @@ export interface EntryProperties extends Record<string, unknown> {
 }
 
 export type Entry = Node<Integer, EntryProperties>;
+
+export interface FeedbackProperties extends Record<string, unknown> {
+	token: string;
+	value: string;
+	validated: boolean;
+}
+
+export type Feedback = Node<Integer, FeedbackProperties>;
