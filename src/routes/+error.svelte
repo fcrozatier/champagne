@@ -7,4 +7,7 @@
 	<p>
 		{$page.error?.message}
 	</p>
+	<p>
+		<a href="/">Back</a>
+	</p>
 </article>
