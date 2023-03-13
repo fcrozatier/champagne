@@ -4,9 +4,7 @@ import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { categories } from '$lib/categories';
-import { isStringArray } from '$lib/types';
-
-const userType = ['creator', 'judge'];
+import { z } from 'zod';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -14,102 +12,99 @@ export const load: PageServerLoad = async () => {
 	}
 };
 
+const CheckboxSchema = z.literal('on', {
+	errorMap: () => {
+		return { message: 'Must be checked' };
+	}
+});
+
+const JudgeSchema = z.object({
+	userType: z.literal('judge'),
+	email: z.string().email(),
+	rules: CheckboxSchema
+});
+
+const CreatorSchema = z.object({
+	userType: z.literal('creator'),
+	email: z.string().email(),
+	others: z.string().transform((val, ctx) => {
+		const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
+
+		if (!parsed.success) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Invalid email'
+			});
+			return z.NEVER;
+		}
+		return parsed.data;
+	}),
+	category: z.enum(categories),
+	title: z.string().nonempty({ message: 'Title cannot be empty' }),
+	description: z
+		.string()
+		.min(10, { message: 'Description too short' })
+		.max(500, { message: 'Description too long' }),
+	link: z.string().url(),
+	rules: CheckboxSchema
+});
+
+const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
+
 export const actions: Actions = {
 	default: async ({ request }) => {
 		try {
 			if (!registrationOpen()) {
 				return fail(422, { invalid: true });
 			}
+			const formData = await request.formData();
 
-			const values = await request.formData();
-			const user = values.get('user');
-			const email = values.get('email');
-			const others = values.get('others');
-			const category = values.get('category');
-			const title = values.get('title');
-			const description = values.get('description');
-			const link = values.get('link');
-			const rules = values.get('rules');
+			const form = {
+				userType: formData.get('user'),
+				email: formData.get('email'),
+				others: formData.get('others'),
+				category: formData.get('category'),
+				title: formData.get('title'),
+				description: formData.get('description'),
+				link: formData.get('link'),
+				rules: formData.get('rules')
+			};
 
-			if (!user || typeof user !== 'string' || !userType.includes(user)) {
-				return fail(400, { userInvalid: true });
+			const validation = RegistrationSchema.safeParse(form);
+
+			if (!validation.success) {
+				return fail(400, validation.error.format());
 			}
 
-			if (!email || typeof email !== 'string') {
-				return fail(400, { emailInvalid: true });
-			}
-			if (!rules) {
-				return fail(400, { rulesInvalid: true });
-			}
-
-			let otherContributors = [];
-			const users = [{ email, token: crypto.randomUUID() }];
-			if (user === 'creator') {
-				if (!others || typeof others !== 'string') {
-					return fail(400, { othersInvalid: true });
-				}
-
-				try {
-					otherContributors = JSON.parse(others);
-				} catch (error) {
-					return fail(400, { othersInvalid: true });
-				}
-
-				if (!isStringArray(otherContributors)) {
-					return fail(400, { othersInvalid: true });
-				}
-
-				if (new Set([...otherContributors, email]).size !== otherContributors.length + 1) {
-					return fail(400, { duplicateEmails: true });
-				}
-				[...otherContributors].forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
-				if (!category || typeof category !== 'string' || !categories.includes(category)) {
-					return fail(400, { categoryInvalid: true });
-				}
-
-				if (!title || typeof title !== 'string') {
-					return fail(400, { titleInvalid: true });
-				}
-
-				if (!description || typeof description !== 'string') {
-					return fail(400, { descriptionInvalid: true });
-				}
-				if (description.length > 500) {
-					return fail(400, { descriptionTooLong: true });
-				}
-
-				if (!link || typeof link !== 'string') {
-					return fail(400, { linkInvalid: true });
-				}
-			}
+			const users = [{ email: validation.data.email, token: crypto.randomUUID() }];
 
 			// Save data
 			const session = driver.session();
 
 			try {
-				if (user === 'creator') {
+				if (validation.data.userType === 'creator') {
+					validation.data.others.forEach((x) =>
+						users.push({ email: x, token: crypto.randomUUID() })
+					);
+
+					const params = {
+						users,
+						...validation.data
+					};
+
 					await session.executeWrite((tx) => {
 						tx.run(
 							`
 					MATCH (n:Entry)
 					WHERE n.category = $category
 					WITH count(n) as number
-					CREATE (entry:Entry $entryProps)
+					CREATE (entry:Entry {title: $title, description: $description, category: $category, link: $link})
 					SET entry.number = number
 					WITH *
 					UNWIND $users AS creator
 					MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
 					`,
-							{
-								category,
-								users,
-								entryProps: {
-									category,
-									title,
-									description,
-									link
-								}
-							}
+							params
 						);
 					});
 				} else {
@@ -130,8 +125,7 @@ export const actions: Actions = {
 				console.log(`Hello,... you're link is /vote/`);
 				return {
 					success: true,
-					contributors: users.length,
-					contributor: users.length === 1 ? users[0] : { email: '', token: '' }
+					user: users.length === 1 ? users[0] : { email: '', token: '' }
 				};
 			} catch (error) {
 				if (

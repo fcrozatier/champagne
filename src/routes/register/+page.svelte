@@ -3,11 +3,11 @@
 	import { enhance } from '$app/forms';
 	import { registrationOpen } from '$lib/utils';
 	import { categories } from '$lib/categories';
-	import type { ActionData, Snapshot } from './$types';
+	import type { Snapshot } from './$types';
 	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 	import { tick } from 'svelte';
 
-	export let form: ActionData;
+	export let form;
 
 	export const snapshot: Snapshot = {
 		capture: () => {
@@ -57,14 +57,14 @@
 <article class="layout-prose">
 	{#if form?.success}
 		<h2>Thank you for participating!</h2>
-		{#if form.contributors === 1}
+		{#if otherContributors.length === 0}
 			<p>
-				A confirmation email has been sent to <em>{form.contributor.email}</em> with your link for
-				the voting phase. <strong>Please do not delete this email.</strong>
+				A confirmation email has been sent to <em>{form.user.email}</em> with your link for the
+				voting phase. <strong>Please do not delete this email.</strong>
 			</p>
 			<p>The vote is not open yet but you can bookmark your link now:</p>
 			<p>
-				<a href="/vote/{form.contributor.token}">your personal link</a>
+				<a href="/vote/{form.user.token}">your personal link</a>
 			</p>
 		{:else}
 			<p>
@@ -122,8 +122,8 @@
 					<option value="creator">Creator</option>
 					<option value="judge">Judge</option>
 				</select>
-				{#if form?.userInvalid}
-					<span class="block text-error">invalid value</span>
+				{#if form?.userType?._errors}
+					<span class="block text-error">{form.userType._errors.join(', ')}</span>
 				{/if}
 
 				<label for="email" class="label"
@@ -138,8 +138,8 @@
 					bind:value={email}
 					required
 				/>
-				{#if form?.emailInvalid}
-					<span class="block text-error">email is required</span>
+				{#if form?.email?._errors}
+					<span class="block text-error">{form.email._errors.join(', ')}</span>
 				{/if}
 				{#if value === 'creator'}
 					{#each otherContributors as _, i}
@@ -163,10 +163,8 @@
 							>
 						</p>
 					{/each}
-					{#if form?.othersInvalid}
-						<span class="block text-error">something is wrong with the emails</span>
-					{:else if form?.duplicateEmails}
-						<span class="block text-error">emails should be unique</span>
+					{#if form?.others?._errors}
+						<span class="block text-error">{form.others._errors.join(', ')}</span>
 					{/if}
 					<p class="flex items-center gap-2 text-sm text-gray-500">
 						Add contributor
@@ -195,8 +193,8 @@
 							<option value={category}>{category}</option>
 						{/each}
 					</select>
-					{#if form?.categoryInvalid}
-						<span class="block text-error">invalid category</span>
+					{#if form?.category?._errors}
+						<span class="block text-error">{form.category._errors.join(', ')}</span>
 					{/if}
 
 					<label for="title" class="label">Title</label>
@@ -208,8 +206,8 @@
 						bind:value={title}
 						required
 					/>
-					{#if form?.titleInvalid}
-						<span class="block text-error">a title is required</span>
+					{#if form?.title?._errors}
+						<span class="block text-error">{form.title._errors.join(', ')}</span>
 					{/if}
 
 					<label for="description" class="label">Short description</label>
@@ -224,10 +222,8 @@
 					<div class="w-full max-w-xs text-right leading-none">
 						<span class="label-text-alt">{description.length}/500</span>
 					</div>
-					{#if form?.descriptionInvalid}
-						<span class="block text-error">a description is required</span>
-					{:else if form?.descriptionTooLong}
-						<span class="block text-error">500 characters max</span>
+					{#if form?.description?._errors}
+						<span class="block text-error">{form.description._errors.join(', ')}</span>
 					{/if}
 
 					<label for="link" class="label">Link to your entry</label>
@@ -240,8 +236,8 @@
 						bind:value={link}
 						required
 					/>
-					{#if form?.linkInvalid}
-						<span class="block text-error">a link to your entry is required </span>
+					{#if form?.link?._errors}
+						<span class="block text-error">{form.link._errors.join(', ')} </span>
 					{:else if form?.linkExists}
 						<span class="block text-error">entry already registered</span>
 					{/if}
@@ -251,12 +247,12 @@
 					<input id="rules" type="checkbox" name="rules" class="checkbox" required />
 					<span class="flex-1"> I've read the <a href="/rules">rules</a> of the competition </span>
 				</label>
-				{#if form?.rulesInvalid}
-					<span class="block text-error">you need to read the rules first </span>
+				{#if form?.rules?._errors}
+					<span class="block text-error">{form.rules._errors.join(', ')} </span>
 				{/if}
 
-				{#if form?.invalid || $page.status !== 200}
-					<p class="block text-error">something went wrong. Please try again</p>
+				{#if form?._errors || $page.status !== 200}
+					<p class="block text-error">Something went wrong. Please try again</p>
 				{/if}
 				<p>
 					<button class="btn block" disabled={!registrationOpen()}>Register</button>
