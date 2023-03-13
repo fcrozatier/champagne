@@ -1,3 +1,4 @@
 {
-	"cSpell.words": ["blowingness", "unflag", "unflagged"]
+	"cSpell.words": ["unflag", "unflagged"],
+	"vitest.commandLine": "npx vitest"
 }
