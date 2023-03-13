@@ -1,4 +1,4 @@
 {
 	"cSpell.words": ["unflag", "unflagged"],
-	"vitest.commandLine": "npx vitest"
+	"vitest.commandLine": "npm run test:unit"
 }
