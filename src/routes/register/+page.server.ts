@@ -40,9 +40,10 @@ const CreatorSchema = z.object({
 		return parsed.data;
 	}),
 	category: z.enum(categories),
-	title: z.string().nonempty({ message: 'Title cannot be empty' }),
+	title: z.string().trim().nonempty({ message: 'Title cannot be empty' }),
 	description: z
 		.string()
+		.trim()
 		.min(10, { message: 'Description too short' })
 		.max(500, { message: 'Description too long' }),
 	link: z.string().url(),
