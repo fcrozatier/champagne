@@ -2,9 +2,16 @@ import { MAX_AGE } from '$lib/server/config';
 import { driver } from '$lib/server/neo4j';
 import { error } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
+import { z } from 'zod';
+
+const tokenSchema = z.string().uuid();
 
 export const load: LayoutServerLoad = async (event) => {
 	const { token } = event.params;
+
+	if (!tokenSchema.safeParse(token).success) {
+		throw error(400, 'Bad request');
+	}
 
 	event.cookies.set('token', token, {
 		path: '/',
