@@ -154,9 +154,9 @@ export const load: PageServerLoad = async (event) => {
 let id: 'FLAG' | 'VOTE';
 
 export const actions: Actions = {
-	flag: async ({ request, cookies }) => {
+	flag: async ({ request, locals }) => {
 		id = 'FLAG';
-		const token = cookies.get('token');
+
 		const formData = await request.formData();
 		const form = {
 			reason: formData.get('reason'),
@@ -183,7 +183,7 @@ export const actions: Actions = {
 					{
 						link: validation.data.link,
 						reason: validation.data.reason,
-						token
+						token: locals.token
 					}
 				);
 			});
@@ -194,9 +194,9 @@ export const actions: Actions = {
 			session.close();
 		}
 	},
-	vote: async ({ request, cookies, params }) => {
+	vote: async ({ request, locals, params }) => {
 		id = 'VOTE';
-		const token = cookies.get('token');
+		const token = locals.token;
 		const { category } = params;
 
 		const data = await request.formData();
