@@ -1,4 +1,3 @@
-import { fail } from '@sveltejs/kit';
 import { z } from 'zod';
 import { categories } from '$lib/categories';
 
@@ -24,23 +23,7 @@ const JudgeSchema = z.object({
 const CreatorSchema = z.object({
 	userType: z.literal('creator'),
 	email: EmailSchema,
-	others: z.string().transform((val, ctx) => {
-		try {
-			const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
-
-			if (!parsed.success) {
-				ctx.addIssue({
-					code: z.ZodIssueCode.custom,
-					message: 'Invalid email'
-				});
-				return z.NEVER;
-			}
-
-			return parsed.data;
-		} catch {
-			return z.NEVER;
-		}
-	}),
+	others: z.string(),
 	category: z.enum(categories),
 	title: z.string().trim().nonempty({ message: 'Title cannot be empty' }),
 	description: z
@@ -52,6 +35,24 @@ const CreatorSchema = z.object({
 	rules: CheckboxSchema
 });
 
+export const OtherCreatorsRefinement = z.string().transform((val, ctx) => {
+	try {
+		const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
+
+		if (!parsed.success) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Invalid email'
+			});
+			return z.NEVER;
+		}
+
+		return parsed.data;
+	} catch {
+		return z.NEVER;
+	}
+});
+
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
 
 // Vote phase validation
@@ -61,16 +62,16 @@ export const FlagSchema = z.object({
 	link: UrlSchema
 });
 
-// Generic
+/**
+ * Generic schema validation function to be used in actions
+ * @param request A request with formData
+ * @param schema The schema to validate the form against
+ * @returns typed validated data or throws
+ */
+export async function validateSchema<T>(request: Request, schema: z.Schema<T>) {
+	const formData = await request.formData();
+	const form = Object.fromEntries(formData);
+	const validation = schema.safeParse(form);
 
-// export async function tokenValidation(request: any, schema: any, callback: any) {
-// 	const formData = await request.formData();
-// 	const token = formData.get('token');
-// 	const validation = TokenSchema.safeParse(token);
-
-// 	if (!validation.success) {
-// 		return fail(400, { error: true });
-// 	}
-
-// 	return validation.data;
-// }
+	return validation;
+}
