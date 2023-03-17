@@ -37,18 +37,13 @@ const CreatorSchema = z.object({
 
 export const OtherCreatorsRefinement = z.string().transform((val, ctx) => {
 	try {
-		const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
-
-		if (!parsed.success) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Invalid email'
-			});
-			return z.NEVER;
-		}
-
-		return parsed.data;
+		return z.array(z.string().email()).parse(JSON.parse(val));
 	} catch {
+		ctx.addIssue({
+			code: z.ZodIssueCode.custom,
+			message: 'Invalid email'
+		});
+
 		return z.NEVER;
 	}
 });
