@@ -4,7 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
-import { FlagSchema } from '$lib/server/validation';
+import { FlagSchema, validateSchema } from '$lib/server/validation';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -157,13 +157,7 @@ export const actions: Actions = {
 	flag: async ({ request, locals }) => {
 		id = 'FLAG';
 
-		const formData = await request.formData();
-		const form = {
-			reason: formData.get('reason'),
-			link: formData.get('flagLink')
-		};
-		const validation = FlagSchema.safeParse(form);
-
+		const validation = await validateSchema(request, FlagSchema);
 		if (!validation.success) {
 			return fail(400, { id, flagFail: true });
 		}
