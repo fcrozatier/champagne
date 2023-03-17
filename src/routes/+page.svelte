@@ -8,7 +8,7 @@
 	} from '$env/static/public';
 	import Time from '$lib/components/Time.svelte';
 	import type { ActionData, PageData } from './$types';
-	import { clickOutside } from '../lib/actions/clickOutside';
+	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
