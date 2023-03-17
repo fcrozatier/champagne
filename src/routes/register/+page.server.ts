@@ -3,55 +3,13 @@ import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
-import { categories } from '$lib/categories';
-import { z } from 'zod';
-import { EmailSchema, UrlSchema } from '$lib/server/validation';
+import { RegistrationSchema } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
 		throw error(403, 'The registration phase is not open');
 	}
 };
-
-const CheckboxSchema = z.literal('on', {
-	errorMap: () => {
-		return { message: 'Must be checked' };
-	}
-});
-
-const JudgeSchema = z.object({
-	userType: z.literal('judge'),
-	email: EmailSchema,
-	rules: CheckboxSchema
-});
-
-const CreatorSchema = z.object({
-	userType: z.literal('creator'),
-	email: EmailSchema,
-	others: z.string().transform((val, ctx) => {
-		const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
-
-		if (!parsed.success) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Invalid email'
-			});
-			return z.NEVER;
-		}
-		return parsed.data;
-	}),
-	category: z.enum(categories),
-	title: z.string().trim().nonempty({ message: 'Title cannot be empty' }),
-	description: z
-		.string()
-		.trim()
-		.min(10, { message: 'Description too short' })
-		.max(500, { message: 'Description too long' }),
-	link: UrlSchema,
-	rules: CheckboxSchema
-});
-
-const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
 
 export const actions: Actions = {
 	default: async ({ request }) => {
