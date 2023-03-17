@@ -3,6 +3,7 @@ import { driver, type Entry } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { UrlSchema } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -37,10 +38,11 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	unflag: async ({ request }) => {
-		const data = await request.formData();
-		const link = data.get('link');
+		const formData = await request.formData();
+		const link = formData.get('link');
+		const validation = UrlSchema.safeParse(link);
 
-		if (!link || typeof link !== 'string') {
+		if (!validation.success) {
 			return fail(400, { unflagError: true });
 		}
 
@@ -55,7 +57,7 @@ export const actions: Actions = {
         REMOVE n.flaggedBy, n.flagReason
 				RETURN n
       `,
-					{ link }
+					{ link: validation.data }
 				);
 			});
 			return { unflag: true };
@@ -66,11 +68,12 @@ export const actions: Actions = {
 		}
 	},
 	flag: async ({ request }) => {
-		const data = await request.formData();
-		const link = data.get('link');
+		const formData = await request.formData();
+		const link = formData.get('link');
+		const validation = UrlSchema.safeParse(link);
 
-		if (!link || typeof link !== 'string') {
-			return fail(400, { flagError: true });
+		if (!validation.success) {
+			return fail(400, { unflagError: true });
 		}
 
 		const session = driver.session();
@@ -84,7 +87,7 @@ export const actions: Actions = {
         SET n.flagged = True
 				RETURN n
       `,
-					{ link }
+					{ link: validation.data }
 				);
 			});
 			return { flag: true };
