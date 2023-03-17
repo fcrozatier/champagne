@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 export const EmailSchema = z.string().email();
 export const TokenSchema = z.string().uuid();
+export const UrlSchema = z.string().url();
 
 export async function tokenValidation(request: Request) {
 	const formData = await request.formData();
