@@ -5,6 +5,7 @@ import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { categories } from '$lib/categories';
 import { z } from 'zod';
+import { EmailSchema, UrlSchema } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -20,13 +21,13 @@ const CheckboxSchema = z.literal('on', {
 
 const JudgeSchema = z.object({
 	userType: z.literal('judge'),
-	email: z.string().email(),
+	email: EmailSchema,
 	rules: CheckboxSchema
 });
 
 const CreatorSchema = z.object({
 	userType: z.literal('creator'),
-	email: z.string().email(),
+	email: EmailSchema,
 	others: z.string().transform((val, ctx) => {
 		const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
 
@@ -46,7 +47,7 @@ const CreatorSchema = z.object({
 		.trim()
 		.min(10, { message: 'Description too short' })
 		.max(500, { message: 'Description too long' }),
-	link: z.string().url(),
+	link: UrlSchema,
 	rules: CheckboxSchema
 });
 
