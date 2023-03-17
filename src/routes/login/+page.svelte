@@ -9,12 +9,10 @@
 	<form
 		method="post"
 		action="?/login"
-		use:enhance={() => {
-			const button = document.querySelector('button');
-			button?.setAttribute('disabled', 'on');
-			return async ({ update }) => {
-				button?.removeAttribute('disabled');
-				await update();
+		use:enhance={({ submitter }) => {
+			submitter?.setAttribute('disabled', 'on');
+			return ({ update }) => {
+				update().then(() => submitter?.removeAttribute('disabled'));
 			};
 		}}
 	>
