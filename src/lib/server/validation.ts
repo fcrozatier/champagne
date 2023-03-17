@@ -25,16 +25,21 @@ const CreatorSchema = z.object({
 	userType: z.literal('creator'),
 	email: EmailSchema,
 	others: z.string().transform((val, ctx) => {
-		const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
+		try {
+			const parsed = z.array(z.string().email()).safeParse(JSON.parse(val));
 
-		if (!parsed.success) {
-			ctx.addIssue({
-				code: z.ZodIssueCode.custom,
-				message: 'Invalid email'
-			});
+			if (!parsed.success) {
+				ctx.addIssue({
+					code: z.ZodIssueCode.custom,
+					message: 'Invalid email'
+				});
+				return z.NEVER;
+			}
+
+			return parsed.data;
+		} catch {
 			return z.NEVER;
 		}
-		return parsed.data;
 	}),
 	category: z.enum(categories),
 	title: z.string().trim().nonempty({ message: 'Title cannot be empty' }),
@@ -52,18 +57,20 @@ export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema,
 // Vote phase validation
 
 export const FlagSchema = z.object({
-	reason: z.string(),
+	reason: z.string().max(140),
 	link: UrlSchema
 });
 
-export async function tokenValidation(request: Request) {
-	const formData = await request.formData();
-	const token = formData.get('token');
-	const validation = TokenSchema.safeParse(token);
+// Generic
 
-	if (!validation.success) {
-		return fail(400, { error: true });
-	}
+// export async function tokenValidation(request: any, schema: any, callback: any) {
+// 	const formData = await request.formData();
+// 	const token = formData.get('token');
+// 	const validation = TokenSchema.safeParse(token);
 
-	return validation.data;
-}
+// 	if (!validation.success) {
+// 		return fail(400, { error: true });
+// 	}
+
+// 	return validation.data;
+// }

@@ -185,7 +185,14 @@
 		</p>
 		<span class="capitalize">{flagEntry?.title}</span>
 		<label for="reason" class="label">Reason</label>
-		<input id="reason" type="text" name="reason" class="input-bordered input w-full" required />
+		<input
+			id="reason"
+			type="text"
+			name="reason"
+			maxlength="140"
+			class="input-bordered input w-full"
+			required
+		/>
 		<input type="hidden" name="flagLink" value={flagEntry?.link} />
 		<p class="mb-0 flex gap-2">
 			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
