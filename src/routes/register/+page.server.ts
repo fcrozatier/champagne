@@ -3,7 +3,11 @@ import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
-import { RegistrationSchema } from '$lib/server/validation';
+import {
+	OtherCreatorsRefinement,
+	RegistrationSchema,
+	validateSchema
+} from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -17,23 +21,11 @@ export const actions: Actions = {
 			if (!registrationOpen()) {
 				return fail(422, { invalid: true });
 			}
-			const formData = await request.formData();
 
-			const form = {
-				userType: formData.get('user'),
-				email: formData.get('email'),
-				others: formData.get('others'),
-				category: formData.get('category'),
-				title: formData.get('title'),
-				description: formData.get('description'),
-				link: formData.get('link'),
-				rules: formData.get('rules')
-			};
-
-			const validation = RegistrationSchema.safeParse(form);
+			const validation = await validateSchema(request, RegistrationSchema);
 
 			if (!validation.success) {
-				return fail(400, validation.error.format());
+				return fail(400, validation.error.flatten());
 			}
 
 			const users = [{ email: validation.data.email, token: crypto.randomUUID() }];
@@ -43,13 +35,17 @@ export const actions: Actions = {
 
 			try {
 				if (validation.data.userType === 'creator') {
-					validation.data.others.forEach((x) =>
-						users.push({ email: x, token: crypto.randomUUID() })
-					);
+					const others = OtherCreatorsRefinement.safeParse(validation.data.others);
+
+					if (!others.success) {
+						return fail(400, { othersError: others.error.format() });
+					}
+
+					others.data.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
 
 					const params = {
 						users,
-						...validation.data
+						...validation
 					};
 
 					await session.executeWrite((tx) => {

@@ -43,10 +43,8 @@
 	async function addContributor() {
 		otherContributors = [...otherContributors, ''];
 		await tick();
-		const email = document.querySelector('input[type="email"]:last-of-type');
-		if (email) {
-			(email as HTMLInputElement).focus();
-		}
+		const lastEmail = document.querySelector('input[type="email"]:last-of-type');
+		(lastEmail as HTMLInputElement)?.focus();
 	}
 </script>
 
@@ -107,20 +105,20 @@
 					};
 				}}
 			>
-				<label for="user" class="label">I want to register as a</label>
+				<label for="user-type" class="label">I want to register as a</label>
 				<select
-					id="user"
-					name="user"
+					id="user-type"
+					name="userType"
 					class="select-bordered select w-full max-w-xs"
 					bind:value
 					required
 				>
-					<option disabled />
+					<option disabled selected />
 					<option value="creator">Creator</option>
 					<option value="judge">Judge</option>
 				</select>
-				{#if form?.userType?._errors}
-					<span class="block text-error">{form.userType._errors.join(', ')}</span>
+				{#if form?.fieldErrors?.userType}
+					<span class="block text-error">{form.fieldErrors.userType.join(', ')}</span>
 				{/if}
 
 				<label for="email" class="label"
@@ -135,8 +133,8 @@
 					bind:value={email}
 					required
 				/>
-				{#if form?.email?._errors}
-					<span class="block text-error">{form.email._errors.join(', ')}</span>
+				{#if form?.fieldErrors?.email}
+					<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
 				{/if}
 				{#if value === 'creator'}
 					{#each otherContributors as _, i}
@@ -160,8 +158,8 @@
 							>
 						</p>
 					{/each}
-					{#if form?.others?._errors}
-						<span class="block text-error">{form.others._errors.join(', ')}</span>
+					{#if form?.othersError}
+						<span class="block text-error">{form.othersError._errors.join(', ')}</span>
 					{/if}
 					<p class="flex items-center gap-2 text-sm text-gray-500">
 						Add contributor
@@ -190,8 +188,8 @@
 							<option value={category}>{category}</option>
 						{/each}
 					</select>
-					{#if form?.category?._errors}
-						<span class="block text-error">{form.category._errors.join(', ')}</span>
+					{#if form?.fieldErrors?.category}
+						<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
 					{/if}
 
 					<label for="title" class="label">Title</label>
@@ -203,8 +201,8 @@
 						bind:value={title}
 						required
 					/>
-					{#if form?.title?._errors}
-						<span class="block text-error">{form.title._errors.join(', ')}</span>
+					{#if form?.fieldErrors?.title}
+						<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
 					{/if}
 
 					<label for="description" class="label">Short description</label>
@@ -219,8 +217,8 @@
 					<div class="w-full max-w-xs text-right leading-none">
 						<span class="label-text-alt">{description.length}/500</span>
 					</div>
-					{#if form?.description?._errors}
-						<span class="block text-error">{form.description._errors.join(', ')}</span>
+					{#if form?.fieldErrors?.description}
+						<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
 					{/if}
 
 					<label for="link" class="label">Link to your entry</label>
@@ -233,8 +231,8 @@
 						bind:value={link}
 						required
 					/>
-					{#if form?.link?._errors}
-						<span class="block text-error">{form.link._errors.join(', ')} </span>
+					{#if form?.fieldErrors?.link}
+						<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
 					{:else if form?.linkExists}
 						<span class="block text-error">entry already registered</span>
 					{/if}
@@ -244,11 +242,11 @@
 					<input id="rules" type="checkbox" name="rules" class="checkbox" required />
 					<span class="flex-1"> I've read the <a href="/rules">rules</a> of the competition </span>
 				</label>
-				{#if form?.rules?._errors}
-					<span class="block text-error">{form.rules._errors.join(', ')} </span>
+				{#if form?.fieldErrors?.rules}
+					<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
 				{/if}
 
-				{#if form?._errors || $page.status !== 200}
+				{#if form?.fieldErrors || $page.status !== 200}
 					<p class="block text-error">Something went wrong. Please try again</p>
 				{/if}
 				<p>
