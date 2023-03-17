@@ -98,15 +98,12 @@
 		{:else}
 			<form
 				method="post"
-				use:enhance={({ form, data }) => {
+				use:enhance={({ submitter, data }) => {
 					data.append('others', JSON.stringify(otherContributors));
+					submitter?.setAttribute('disabled', 'on');
 
-					const button = form.querySelector('button');
-					button?.setAttribute('disabled', 'on');
-
-					return async ({ update }) => {
-						await update();
-						button?.removeAttribute('disabled');
+					return ({ update }) => {
+						update().then(() => submitter?.removeAttribute('disabled'));
 					};
 				}}
 			>
