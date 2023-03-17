@@ -4,6 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 import { Neo4jError } from 'neo4j-driver';
+import { FlagSchema } from '$lib/server/validation';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -156,11 +157,14 @@ export const actions: Actions = {
 	flag: async ({ request, cookies }) => {
 		id = 'FLAG';
 		const token = cookies.get('token');
-		const data = await request.formData();
-		const reason = data.get('reason');
-		const link = data.get('flagLink');
+		const formData = await request.formData();
+		const form = {
+			reason: formData.get('reason'),
+			link: formData.get('flagLink')
+		};
+		const validation = FlagSchema.safeParse(form);
 
-		if (!reason || !link || typeof reason !== 'string' || typeof link !== 'string') {
+		if (!validation.success) {
 			return fail(400, { id, flagFail: true });
 		}
 
@@ -177,9 +181,9 @@ export const actions: Actions = {
 				DELETE r
 			`,
 					{
-						link,
-						token,
-						reason
+						link: validation.data.link,
+						reason: validation.data.reason,
+						token
 					}
 				);
 			});
