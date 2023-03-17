@@ -1,12 +1,14 @@
 import { driver } from '$lib/server/neo4j';
 import { fail, type Actions } from '@sveltejs/kit';
+import { EmailSchema } from '$lib/server/validation';
 
 export const actions: Actions = {
 	resend_link: async ({ request }) => {
-		const data = await request.formData();
-		const email = data.get('email');
+		const formData = await request.formData();
+		const email = formData.get('email');
+		const validation = EmailSchema.safeParse(email);
 
-		if (!email || typeof email !== 'string') {
+		if (!validation.success) {
 			return fail(400, { emailInvalid: true });
 		}
 
@@ -22,7 +24,7 @@ export const actions: Actions = {
 				RETURN u.token AS token
 			`,
 					{
-						email
+						email: validation.data
 					}
 				);
 			});
@@ -37,7 +39,7 @@ export const actions: Actions = {
 			}
 		} catch (error) {
 			console.log(error);
-			return fail(400, { invalid: true });
+			return fail(400, { error: true });
 		} finally {
 			session.close();
 		}

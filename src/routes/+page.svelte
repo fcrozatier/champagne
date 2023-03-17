@@ -29,7 +29,7 @@
 		personalLinkDialog.close();
 		if (form) {
 			form.emailInvalid = undefined;
-			form.invalid = undefined;
+			form.error = undefined;
 			form.success = undefined;
 		}
 	}
@@ -122,12 +122,10 @@
 		method="post"
 		action="?/resend_link"
 		use:clickOutside={closeDialog}
-		use:enhance={({ form }) => {
-			const buttons = form.querySelectorAll('button');
-			buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-			return async ({ update }) => {
-				await update();
-				buttons.forEach((b) => b.removeAttribute('disabled'));
+		use:enhance={({ submitter }) => {
+			submitter?.setAttribute('disabled', 'on');
+			return ({ update }) => {
+				update().then(() => submitter?.removeAttribute('disabled'));
 			};
 		}}
 	>
@@ -150,7 +148,7 @@
 			<button type="button" class="btn-outline btn" on:click={closeDialog}>Close</button>
 			<button type="submit" class="btn">Send email</button>
 		</p>
-		{#if form?.invalid || form?.emailInvalid}
+		{#if form?.error || form?.emailInvalid}
 			<span class="text-error">Something went wrong.</span>
 		{:else if form?.success}
 			<span class="text-success">Email sent!</span>
