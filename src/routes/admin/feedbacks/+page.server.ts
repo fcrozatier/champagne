@@ -3,6 +3,7 @@ import { driver, type Feedback } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { TokenSchema } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -37,10 +38,11 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	validate: async ({ request }) => {
-		const data = await request.formData();
-		const token = data.get('token');
+		const formData = await request.formData();
+		const token = formData.get('token');
+		const validation = TokenSchema.safeParse(token);
 
-		if (!token || typeof token !== 'string') {
+		if (!validation.success) {
 			return fail(400, { error: true });
 		}
 
@@ -54,7 +56,7 @@ export const actions: Actions = {
 				WHERE f.token = $token
 				SET f.validated = True
       `,
-					{ token }
+					{ token: validation.data }
 				);
 			});
 			return { success: true };
@@ -65,10 +67,11 @@ export const actions: Actions = {
 		}
 	},
 	delete: async ({ request }) => {
-		const data = await request.formData();
-		const token = data.get('token');
+		const formData = await request.formData();
+		const token = formData.get('token');
+		const validation = TokenSchema.safeParse(token);
 
-		if (!token || typeof token !== 'string') {
+		if (!validation.success) {
 			return fail(400, { error: true });
 		}
 
@@ -82,7 +85,7 @@ export const actions: Actions = {
 				WHERE f.token = $token
 				DETACH DELETE f
       `,
-					{ token }
+					{ token: validation.data }
 				);
 			});
 			return { success: true };

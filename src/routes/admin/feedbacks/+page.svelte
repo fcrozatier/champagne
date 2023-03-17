@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each feedbacks as feedback, i}
+			{#each feedbacks as feedback, _}
 				<tr>
 					<td class="pl-8 capitalize"><p>{feedback.value}</p></td>
 					<td class="pr-4">
@@ -28,9 +28,8 @@
 							use:enhance={({ form }) => {
 								const buttons = form.querySelectorAll('button');
 								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-								return async ({ update }) => {
-									buttons.forEach((b) => b.removeAttribute('disabled'));
-									await update();
+								return ({ update }) => {
+									update();
 								};
 							}}
 						>
