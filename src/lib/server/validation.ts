@@ -7,6 +7,8 @@ export const TokenSchema = z.string().uuid();
 export const UrlSchema = z.string().url();
 export const PwdSchema = z.string();
 
+// Registration phase validations
+
 const CheckboxSchema = z.literal('on', {
 	errorMap: () => {
 		return { message: 'Must be checked' };
@@ -46,6 +48,13 @@ const CreatorSchema = z.object({
 });
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
+
+// Vote phase validation
+
+export const FlagSchema = z.object({
+	reason: z.string(),
+	link: UrlSchema
+});
 
 export async function tokenValidation(request: Request) {
 	const formData = await request.formData();
