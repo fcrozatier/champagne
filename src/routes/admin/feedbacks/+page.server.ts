@@ -3,7 +3,7 @@ import { driver, type Feedback } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { TokenSchema, validateSchema } from '$lib/server/validation';
+import { TokenSchema, validateForm } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -38,7 +38,7 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	validate: async ({ request }) => {
-		const validation = await validateSchema(request, TokenSchema);
+		const validation = await validateForm(request, TokenSchema);
 		if (!validation.success) {
 			return fail(400, { error: true });
 		}
@@ -64,7 +64,7 @@ export const actions: Actions = {
 		}
 	},
 	delete: async ({ request }) => {
-		const validation = await validateSchema(request, TokenSchema);
+		const validation = await validateForm(request, TokenSchema);
 		if (!validation.success) {
 			return fail(400, { error: true });
 		}

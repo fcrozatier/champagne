@@ -3,11 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
-import {
-	OtherCreatorsRefinement,
-	RegistrationSchema,
-	validateSchema
-} from '$lib/server/validation';
+import { OtherCreatorsRefinement, RegistrationSchema, validateForm } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -22,7 +18,7 @@ export const actions: Actions = {
 				return fail(422, { invalid: true });
 			}
 
-			const validation = await validateSchema(request, RegistrationSchema);
+			const validation = await validateForm(request, RegistrationSchema);
 
 			if (!validation.success) {
 				return fail(400, validation.error.flatten());

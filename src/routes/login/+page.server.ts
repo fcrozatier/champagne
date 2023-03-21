@@ -3,11 +3,11 @@ import type { Actions } from './$types';
 import { hash, compare } from 'bcrypt';
 import { ADMIN_PASSWORD } from '$env/static/private';
 import { BCRYPT_ROUNDS, MAX_AGE } from '$lib/server/config';
-import { PwdSchema, validateSchema } from '$lib/server/validation';
+import { PwdSchema, validateForm } from '$lib/server/validation';
 
 export const actions: Actions = {
 	login: async ({ request, cookies }) => {
-		const validation = await validateSchema(request, PwdSchema);
+		const validation = await validateForm(request, PwdSchema);
 
 		if (!validation.success) {
 			return fail(400, { invalid: true });

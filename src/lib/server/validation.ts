@@ -60,10 +60,13 @@ export const FlagSchema = z.object({
 /**
  * Generic schema validation function to be used in actions
  * @param request A request with formData
- * @param schema The schema to validate the form against
+ * @param schema The schema to validate the form against. Must be a z.object
  * @returns typed validated data or throws
  */
-export async function validateSchema<T>(request: Request, schema: z.Schema<T>) {
+export async function validateForm<T extends Record<string, unknown>, S>(
+	request: Request,
+	schema: S extends z.ZodType ? z.ZodType<T> : any
+) {
 	const formData = await request.formData();
 	const form = Object.fromEntries(formData);
 	const validation = schema.safeParse(form);
