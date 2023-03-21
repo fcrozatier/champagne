@@ -80,3 +80,21 @@ function valueToNativeType(value: any) {
 
 	return value;
 }
+
+export function shuffle(arr: unknown[]) {
+	let n = arr.length;
+	const copy = [...arr];
+
+	while (n > 1) {
+		// Pick a random integer between 0 and n-1 inclusive
+		const i = Math.floor(Math.random() * n);
+
+		// Swap arr[i] and arr[n-1]
+		const temp = copy[i];
+		copy[i] = copy[n - 1];
+		copy[n - 1] = temp;
+
+		n -= 1;
+	}
+	return copy;
+}
