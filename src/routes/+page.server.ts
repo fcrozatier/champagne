@@ -1,10 +1,10 @@
 import { driver } from '$lib/server/neo4j';
 import { fail, type Actions } from '@sveltejs/kit';
-import { EmailSchema, validateForm } from '$lib/server/validation';
+import { EmailForm, validateForm } from '$lib/server/validation';
 
 export const actions: Actions = {
 	resend_link: async ({ request }) => {
-		const validation = await validateForm(request, EmailSchema);
+		const validation = await validateForm(request, EmailForm);
 
 		if (!validation.success) {
 			return fail(400, { emailInvalid: true });
@@ -22,7 +22,7 @@ export const actions: Actions = {
 				RETURN u.token AS token
 			`,
 					{
-						email: validation.data
+						email: validation.data.email
 					}
 				);
 			});

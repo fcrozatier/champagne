@@ -1,10 +1,23 @@
 import { z } from 'zod';
 import { categories } from '$lib/categories';
 
-export const EmailSchema = z.string().email();
+const EmailSchema = z.string().email();
+export const EmailForm = z.object({
+	email: EmailSchema
+});
+
 export const TokenSchema = z.string().uuid();
-export const UrlSchema = z.string().url();
-export const PwdSchema = z.string();
+export const TokenForm = z.object({
+	token: TokenSchema
+});
+
+const UrlSchema = z.string().url();
+export const LinkForm = z.object({
+	link: UrlSchema
+});
+export const PasswordForm = z.object({
+	password: z.string()
+});
 
 // Registration phase validations
 

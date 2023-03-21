@@ -3,7 +3,7 @@ import { driver, type Entry } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { UrlSchema, validateForm } from '$lib/server/validation';
+import { LinkForm, validateForm } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -38,7 +38,7 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	unflag: async ({ request }) => {
-		const validation = await validateForm(request, UrlSchema);
+		const validation = await validateForm(request, LinkForm);
 		if (!validation.success) {
 			return fail(400, { unflagError: true });
 		}
@@ -54,7 +54,7 @@ export const actions: Actions = {
         REMOVE n.flaggedBy, n.flagReason
 				RETURN n
       `,
-					{ link: validation.data }
+					{ link: validation.data.link }
 				);
 			});
 			return { unflag: true };
@@ -65,7 +65,7 @@ export const actions: Actions = {
 		}
 	},
 	flag: async ({ request }) => {
-		const validation = await validateForm(request, UrlSchema);
+		const validation = await validateForm(request, LinkForm);
 		if (!validation.success) {
 			return fail(400, { unflagError: true });
 		}
@@ -81,7 +81,7 @@ export const actions: Actions = {
         SET n.flagged = True
 				RETURN n
       `,
-					{ link: validation.data }
+					{ link: validation.data.link }
 				);
 			});
 			return { flag: true };
