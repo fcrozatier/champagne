@@ -13,7 +13,7 @@
 		"test:unit": "vitest"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "^1.2.3",
+		"@sveltejs/adapter-vercel": "^2.4.0",
 		"@sveltejs/kit": "^1.12.0",
 		"@tailwindcss/typography": "^0.5.9",
 		"@types/bcrypt": "^5.0.0",
