@@ -76,7 +76,7 @@ export const actions: Actions = {
 							from: 'SoME3 <fred@samples.mailgun.org>',
 							to: user.email,
 							subject: 'SoME3 ',
-							text: 'hello'
+							text: 'Hey, so email is working, now we need to verify ownership of a custom domain to avoid ending in spam.'
 						});
 					}
 				} catch (error) {
