@@ -143,7 +143,6 @@
 								id="email_{i}"
 								type="email"
 								name="email_{i}"
-								placeholder={i === 0 ? 'john@gmail.com' : ''}
 								class="input-bordered input w-full max-w-xs"
 								bind:value={otherContributors[i]}
 								required
