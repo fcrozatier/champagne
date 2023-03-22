@@ -36,22 +36,22 @@ export const actions: Actions = {
 
 					const params = {
 						users,
-						...validation
+						...validation.data
 					};
 
 					await session.executeWrite((tx) => {
 						tx.run(
 							`
 					MATCH (n:Entry)
-					WHERE n.category = $category
+					WHERE n.category = $params.category
 					WITH count(n) as number
-					CREATE (entry:Entry {title: $title, description: $description, category: $category, link: $link})
+					CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link})
 					SET entry.number = number
 					WITH *
-					UNWIND $users AS creator
+					UNWIND $params.users AS creator
 					MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
 					`,
-							params
+							{ params }
 						);
 					});
 				} else {
