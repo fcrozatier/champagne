@@ -1,4 +1,5 @@
 {
 	"cSpell.words": ["unflag", "unflagged"],
-	"vitest.commandLine": "npm run test:unit"
+	"vitest.commandLine": "npm run test:unit",
+	"testing.automaticallyOpenPeekView": "never"
 }
