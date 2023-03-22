@@ -4,6 +4,8 @@ import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
+import { mg } from '$lib/server/email';
+import { DOMAIN } from '$env/static/private';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -68,7 +70,18 @@ export const actions: Actions = {
 					});
 				}
 
-				// TODO send mail
+				try {
+					for (const user of users) {
+						await mg.messages.create(DOMAIN, {
+							from: 'SoME3 <fred@samples.mailgun.org>',
+							to: user.email,
+							subject: 'SoME3 ',
+							text: 'hello'
+						});
+					}
+				} catch (error) {
+					console.error('Cannot send email');
+				}
 				console.log(`Hello,... you're link is /vote/`);
 				return {
 					success: true,
