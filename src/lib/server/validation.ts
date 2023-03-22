@@ -49,7 +49,11 @@ const CreatorSchema = z.object({
 		}
 	}),
 	category: z.enum(categories),
-	title: z.string().trim().nonempty({ message: 'Title cannot be empty' }),
+	title: z
+		.string()
+		.trim()
+		.min(1, { message: 'Title cannot be empty' })
+		.max(64, { message: 'Title too long' }),
 	description: z
 		.string()
 		.trim()
@@ -64,7 +68,7 @@ export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema,
 // Vote phase validation
 
 export const FlagSchema = z.object({
-	reason: z.string().max(140),
+	reason: z.string().min(1).max(140),
 	link: UrlSchema
 });
 
