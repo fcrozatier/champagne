@@ -1,4 +1,4 @@
-import neo4j, { Integer, Node } from 'neo4j-driver';
+import neo4j, { type Integer, type Node } from 'neo4j-driver';
 import { NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD } from '$env/static/private';
 import type { Category } from '$lib/categories';
 
