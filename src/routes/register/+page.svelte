@@ -43,7 +43,7 @@
 	async function addContributor() {
 		otherContributors = [...otherContributors, ''];
 		await tick();
-		const lastEmail = document.querySelector('input[type="email"]:last-of-type');
+		const lastEmail = document.getElementById(`email_${otherContributors.length - 1}`);
 		(lastEmail as HTMLInputElement)?.focus();
 	}
 </script>
@@ -158,9 +158,6 @@
 							>
 						</p>
 					{/each}
-					{#if form?.othersError}
-						<span class="block text-error">{form.othersError._errors.join(', ')}</span>
-					{/if}
 					<p class="flex items-center gap-2 text-sm text-gray-500">
 						Add contributor
 						<button
