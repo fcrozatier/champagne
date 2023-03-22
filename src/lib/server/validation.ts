@@ -36,7 +36,18 @@ const JudgeSchema = z.object({
 const CreatorSchema = z.object({
 	userType: z.literal('creator'),
 	email: EmailSchema,
-	others: z.string(),
+	others: z.string().transform((val, ctx) => {
+		try {
+			return z.array(z.string().email()).parse(JSON.parse(val));
+		} catch {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Invalid email'
+			});
+
+			return z.NEVER;
+		}
+	}),
 	category: z.enum(categories),
 	title: z.string().trim().nonempty({ message: 'Title cannot be empty' }),
 	description: z
@@ -46,19 +57,6 @@ const CreatorSchema = z.object({
 		.max(500, { message: 'Description too long' }),
 	link: UrlSchema,
 	rules: CheckboxSchema
-});
-
-export const OtherCreatorsRefinement = z.string().transform((val, ctx) => {
-	try {
-		return z.array(z.string().email()).parse(JSON.parse(val));
-	} catch {
-		ctx.addIssue({
-			code: z.ZodIssueCode.custom,
-			message: 'Invalid email'
-		});
-
-		return z.NEVER;
-	}
 });
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);

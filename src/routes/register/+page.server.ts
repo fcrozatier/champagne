@@ -3,7 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { registrationOpen } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
-import { OtherCreatorsRefinement, RegistrationSchema, validateForm } from '$lib/server/validation';
+import { RegistrationSchema, validateForm } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -31,13 +31,8 @@ export const actions: Actions = {
 
 			try {
 				if (validation.data.userType === 'creator') {
-					const others = OtherCreatorsRefinement.safeParse(validation.data.others);
-
-					if (!others.success) {
-						return fail(400, { othersError: others.error.format() });
-					}
-
-					others.data.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
+					const others = validation.data.others;
+					others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
 
 					const params = {
 						users,
