@@ -54,6 +54,18 @@ You can use this project by setting a few environment variables in your local `.
 
 > Note: if you want the background auto cleanup of old assigned comparisons in dev mode then you need to visit `localhost:5173/admin/db-setup` each time you launch neo4j Desktop since the background job is cleared when you close the db
 
+
+## Python tests
+
+To run the graph utilities tests `cd graph/` then:
+
+```py
+python3 -m venv ./.venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pytest
+```
+
 ## License
 
 [MIT](/LICENSE)
