@@ -225,7 +225,6 @@
 						placeholder="https://"
 						class="input-bordered input w-full max-w-xs"
 						bind:value={link}
-						required
 					/>
 					{#if form?.fieldErrors?.link}
 						<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>

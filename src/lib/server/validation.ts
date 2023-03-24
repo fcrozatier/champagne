@@ -11,7 +11,9 @@ export const TokenForm = z.object({
 	token: TokenSchema
 });
 
-const UrlSchema = z.string().url();
+const UrlSchema = z
+	.string()
+	.url({ message: 'Invalid url, please provide the full url with the https:// prefix' });
 export const LinkForm = z.object({
 	link: UrlSchema
 });
