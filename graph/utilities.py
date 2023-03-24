@@ -1,5 +1,4 @@
 from itertools import pairwise
-from random import randint
 
 import numpy as np
 
@@ -7,15 +6,16 @@ import numpy as np
 def random_cycle(size):
     """
     Returns a random cycle of given size using Durstenfeld algorithm
-
     https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+
+    Note: this is faster than np.random.permutation since there are only (n-1)! cycles against n! permutations of size n
     """
 
     items = list(range(size))
 
     i = len(items) - 1
     while i > 1:
-        k = randint(1, i)
+        k = np.random.randint(1, i + 1)
         items[k], items[i] = items[i], items[k]
         i -= 1
 
