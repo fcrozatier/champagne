@@ -21,8 +21,6 @@ export const PasswordForm = z.object({
 	password: z.string()
 });
 
-// Registration phase validations
-
 const CheckboxSchema = z.literal('on', {
 	errorMap: () => {
 		return { message: 'Must be checked' };
@@ -67,12 +65,17 @@ const CreatorSchema = z.object({
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
 
-// Vote phase validation
-
 export const FlagSchema = z.object({
 	reason: z.string().min(1).max(140),
 	link: UrlSchema
 });
+
+export const EdgesSchema = z.array(
+	z.object({
+		category: z.enum(categories),
+		edges: z.array(z.array(z.number()))
+	})
+);
 
 /**
  * Generic schema validation function to be used in actions
