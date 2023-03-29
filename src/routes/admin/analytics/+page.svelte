@@ -1,0 +1,84 @@
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	import type { ActionData, PageData } from './$types';
+	import { loadPyodide } from 'pyodide';
+	import { page } from '$app/stores';
+
+	export let data: PageData;
+	export let form: ActionData;
+
+	let computing = false;
+	let message = 'Computing... this can take a moment';
+
+	async function createGraph() {
+		message = 'Loading Pyodide, Numpy and utilities...';
+		const pyodide = await loadPyodide({
+			indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.22.1/full'
+		});
+		await pyodide.loadPackage('numpy');
+		const utilities = import.meta.glob('/graph/utilities.py', { eager: true, as: 'raw' });
+		pyodide.runPython(utilities['/graph/utilities.py']);
+
+		message = 'Computing graph edges...';
+		const edges = [];
+		for (const item of data.analytics) {
+			const N = item.count;
+			const k = Math.ceil(Math.log(N));
+			const pairs = await pyodide.runPythonAsync(`expander_from_cycles(${k},${N})`);
+			edges.push({ category: item.category, edges: pairs.toJs() });
+		}
+		console.log(edges);
+
+		return edges;
+	}
+
+	$: console.log(form);
+</script>
+
+<article class="layout-prose">
+	<h2>Graph analytics</h2>
+	<table class="w-full">
+		<thead>
+			<tr class="px-6">
+				<th>Category</th>
+				<th>Entries</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each data.analytics as item, _}
+				<tr>
+					<td class="pl-8">{item.category}</td>
+					<td class="pr-4">{item.count} </td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+
+	<p>Create the comparison graphs</p>
+	{#if computing}
+		<p>{message}</p>
+	{:else}
+		<form
+			method="post"
+			action="?/pairing"
+			use:enhance={async ({ data }) => {
+				computing = true;
+				const edges = await createGraph();
+				data.append('edges', JSON.stringify(edges));
+				message = 'Creating relations in database...';
+
+				return async ({ update }) => {
+					computing = false;
+					await update();
+				};
+			}}
+		>
+			<button class="btn" disabled={computing}>Create pairings</button>
+			{#if $page.status !== 200}
+				<p class="text-error">Something went wrong</p>
+			{:else if form?.success}
+				<p class="text-success">Successfully created graphs!</p>
+			{/if}
+		</form>
+	{/if}
+</article>

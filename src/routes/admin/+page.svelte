@@ -16,6 +16,7 @@
 		<li><a href="/admin/flagged">View flagged entries</a></li>
 		<li><a href="/admin/feedbacks">Review feedbacks</a></li>
 		{#if data.isAdmin}
+			<li><a href="/admin/analytics">Graph analytics</a></li>
 			<li><a href="/admin/rank">Rank entries</a></li>
 		{/if}
 	</ul>
