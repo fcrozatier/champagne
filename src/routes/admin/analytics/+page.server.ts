@@ -29,12 +29,21 @@ export const load: PageServerLoad = async ({ parent }) => {
 			);
 		});
 
+		const pairings = await session.executeRead((tx) => {
+			return tx.run<{ graph: Integer }>(
+				`
+				MATCH (n:Graph)
+				RETURN n
+			`
+			);
+		});
+
 		const analytics = [];
 		for (const row of data.records) {
 			analytics.push({ category: row.get('category'), count: row.get('count').toNumber() });
 		}
 
-		return { analytics };
+		return { analytics, pairings: pairings.records.length > 0 };
 	} finally {
 		session.close();
 	}
@@ -45,19 +54,14 @@ export const actions: Actions = {
 		const data = await request.formData();
 
 		const edges = data.get('edges');
-		console.log('received data', edges);
-
 		if (!edges || typeof edges !== 'string') {
 			return fail(400);
 		}
 
 		const validation = EdgesSchema.safeParse(JSON.parse(edges));
-
 		if (!validation.success) {
 			return fail(400, validation.error.flatten());
 		}
-
-		console.log(validation.data);
 
 		const session = driver.session();
 
@@ -74,6 +78,16 @@ export const actions: Actions = {
 					AND n.number = edge[0]
 					AND m.number = edge[1]
 					MERGE (n)-[:NOT_ASSIGNED]->(m)
+		    `,
+					{
+						data: validation.data
+					}
+				);
+			});
+			await session.executeWrite((tx) => {
+				return tx.run(
+					`
+					MERGE (n:Graph)
 		    `,
 					{
 						data: validation.data

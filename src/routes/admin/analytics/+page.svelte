@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 	import { loadPyodide } from 'pyodide';
 	import { page } from '$app/stores';
+	import { registrationOpen } from '$lib/utils';
 
 	export let data: PageData;
-	export let form: ActionData;
 
 	let computing = false;
 	let message = 'Computing... this can take a moment';
@@ -27,20 +27,17 @@
 			const pairs = await pyodide.runPythonAsync(`expander_from_cycles(${k},${N})`);
 			edges.push({ category: item.category, edges: pairs.toJs() });
 		}
-		console.log(edges);
 
 		return edges;
 	}
-
-	$: console.log(form);
 </script>
 
 <article class="layout-prose">
 	<h2>Graph analytics</h2>
 	<table class="w-full">
 		<thead>
-			<tr class="px-6">
-				<th>Category</th>
+			<tr>
+				<th class="pl-8">Category</th>
 				<th>Entries</th>
 			</tr>
 		</thead>
@@ -54,31 +51,34 @@
 		</tbody>
 	</table>
 
-	<p>Create the comparison graphs</p>
-	{#if computing}
-		<p>{message}</p>
-	{:else}
-		<form
-			method="post"
-			action="?/pairing"
-			use:enhance={async ({ data }) => {
-				computing = true;
-				const edges = await createGraph();
-				data.append('edges', JSON.stringify(edges));
-				message = 'Creating relations in database...';
+	{#if !data.pairings && registrationOpen()}
+		<p>To create the comparison graphs you need to close the registration first</p>
+	{/if}
+	{#if !data.pairings && !registrationOpen()}
+		<p>Create the comparison graphs</p>
+		{#if computing}
+			<p>{message}</p>
+		{:else}
+			<form
+				method="post"
+				action="?/pairing"
+				use:enhance={async ({ data }) => {
+					computing = true;
+					const edges = await createGraph();
+					data.append('edges', JSON.stringify(edges));
+					message = 'Creating relations in database...';
 
-				return async ({ update }) => {
-					computing = false;
-					await update();
-				};
-			}}
-		>
-			<button class="btn" disabled={computing}>Create pairings</button>
-			{#if $page.status !== 200}
-				<p class="text-error">Something went wrong</p>
-			{:else if form?.success}
-				<p class="text-success">Successfully created graphs!</p>
-			{/if}
-		</form>
+					return async ({ update }) => {
+						await update();
+						computing = false;
+					};
+				}}
+			>
+				<button class="btn" disabled={computing}>Create pairings</button>
+				{#if $page.status !== 200}
+					<p class="text-error">Something went wrong</p>
+				{/if}
+			</form>
+		{/if}
 	{/if}
 </article>
