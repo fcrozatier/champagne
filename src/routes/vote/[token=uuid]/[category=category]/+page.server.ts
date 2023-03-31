@@ -1,8 +1,9 @@
 import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
+import type { Integer } from 'neo4j-driver';
 import { toNativeTypes, voteOpen } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { PUBLIC_RATE_LIMIT } from '$env/static/public';
+import { PUBLIC_RATE_LIMIT, PUBLIC_VOTE_LIMIT } from '$env/static/public';
 import { FlagSchema, validateForm } from '$lib/server/validation';
 
 interface AssignedEntries {
@@ -11,7 +12,7 @@ interface AssignedEntries {
 }
 
 export const load: PageServerLoad = async (event) => {
-	const { token } = await event.parent();
+	const token = event.locals.token;
 	if (!voteOpen()) {
 		throw redirect(302, `/vote/${token}`);
 	}
@@ -20,6 +21,37 @@ export const load: PageServerLoad = async (event) => {
 	const session = driver.session();
 
 	try {
+		// Rate limit number of votes
+		const votes = await session.executeRead((tx) => {
+			return tx.run<{ votes: Integer; entries: Integer }>(
+				`
+				MATCH (n:Entry)
+				WHERE n.category = $category
+				WITH count(*) as entries
+				MATCH (n1:Entry)-[r:LOSES_TO]->(n2:Entry)
+				WHERE r.userToken = $token
+				AND n1.category = $category
+				AND n2.category = $category
+				RETURN count(r) AS votes, entries
+      `,
+				{
+					token,
+					category
+				}
+			);
+		});
+
+		if (votes?.records[0]?.length) {
+			const rate =
+				votes.records[0].get('votes').toNumber() / votes.records[0].get('entries').toNumber();
+			console.log('VOTE rate', rate);
+			if (rate >= parseFloat(PUBLIC_VOTE_LIMIT)) {
+				console.log('stop vote');
+
+				return { stopVote: true };
+			}
+		}
+
 		// Find already assigned entries
 		// in the current category (if any)
 		const prev = await session.executeRead((tx) => {
@@ -27,7 +59,7 @@ export const load: PageServerLoad = async (event) => {
 				`
 				MATCH (n1:Entry)-[r:ASSIGNED]-(n2:Entry)
 				WHERE r.userToken = $token AND n1.category = $category AND n2.category = $category
-				RETURN r, n1, n2
+				RETURN n1, n2
 				LIMIT 1
       `,
 				{
@@ -37,9 +69,9 @@ export const load: PageServerLoad = async (event) => {
 			);
 		});
 
-		if (prev?.records[0]?.has('r')) {
+		if (prev?.records[0]?.length) {
 			const row = prev.records[0];
-
+			console.log('previous entries');
 			// Return previously assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -62,8 +94,8 @@ export const load: PageServerLoad = async (event) => {
 				AND n2.category = $category
 				AND NOT u1.token = $token
 				AND NOT u2.token = $token
-				AND (n IS NULL OR NOT n1 = n)
-				AND (n IS NULL OR NOT n2 = n)
+				AND (n IS NULL OR NOT n1.number = n.number)
+				AND (n IS NULL OR NOT n2.number = n.number)
 				WITH r, n1, n2
 				LIMIT 1
 				DELETE r
@@ -77,9 +109,9 @@ export const load: PageServerLoad = async (event) => {
 			);
 		});
 
-		if (notAssigned?.records[0]?.has('r')) {
+		if (notAssigned?.records[0]?.length) {
 			const row = notAssigned.records[0];
-
+			console.log('assigned new from not assigned ');
 			// Return new assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -103,18 +135,19 @@ export const load: PageServerLoad = async (event) => {
 				WHERE u.token = $token
 				OPTIONAL MATCH (u:User)-[:FLAG]->(n:Entry)
 				WITH u, n, step
-				MATCH (u1:Creator)-[:CREATED]->(n1:Entry)-[r]-(n2:Entry)<-[:CREATED]-(u2:Creator)
+				MATCH (u1:Creator)-[:CREATED]->(n1:Entry)-[r:LOSES_TO]-(n2:Entry)<-[:CREATED]-(u2:Creator)
 				WHERE n1.category = $category
 				AND n2.category = $category
 				AND NOT u1.token = u.token
 				AND NOT u2.token = u.token
-				AND (n IS NULL OR NOT n1 = n)
-				AND (n IS NULL OR NOT n2 = n)
+				AND (n IS NULL OR NOT n1.number = n.number)
+				AND (n IS NULL OR NOT n2.number = n.number)
 				AND n1.flagged IS NULL
 				AND n2.flagged IS NULL
-				AND NOT r.userToken = $token
-				WITH n1, n2, count(r) AS rel, step
-				WHERE rel = step
+				WITH n1, n2, count(r) AS relations, u, step
+				WHERE relations = step
+				MATCH p = (n1)-[r]-(n2)
+				WHERE none(r IN relationships(p) WHERE r.userToken = u.token)
 				WITH n1, n2
 				LIMIT 1
 				MERGE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
@@ -127,9 +160,9 @@ export const load: PageServerLoad = async (event) => {
 			);
 		});
 
-		if (duplicate?.records[0]?.has('r')) {
+		if (duplicate?.records[0]?.length) {
 			const row = duplicate.records[0];
-
+			console.log('assigned new DUPLICATES');
 			// Return new assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -226,6 +259,7 @@ export const actions: Actions = {
 			typeof feedbackB !== 'string' ||
 			typeof choice !== 'string'
 		) {
+			console.log('vote fail');
 			return fail(400, { id, voteFail: true });
 		}
 
@@ -254,6 +288,7 @@ export const actions: Actions = {
 			});
 
 			if (!user?.records?.length) {
+				console.log('vote fail');
 				return fail(400, { id, voteFail: true });
 			} else {
 				const row = user.records[0];
@@ -264,6 +299,7 @@ export const actions: Actions = {
 					const lastVote = Date.parse(u.lastVote);
 
 					if (now - lastVote < 1000 * 60 * parseInt(PUBLIC_RATE_LIMIT)) {
+						console.log('rate limit fail');
 						return fail(422, { id, rateLimitError: true });
 					}
 				}
@@ -280,7 +316,11 @@ export const actions: Actions = {
 				DELETE a
 				CREATE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
-				RETURN r
+				WITH e1, e2
+				MATCH (u:User)
+				WHERE u.token = $token
+				CREATE (u)-[vote:VOTE]->(v:Vote)-[:LOSES]->(e1)
+				CREATE (v)-[:WINS]->(e2)
 			`,
 					{
 						category,
@@ -291,7 +331,9 @@ export const actions: Actions = {
 						winningFeedback
 					}
 				);
+			});
 
+			await session.executeWrite((tx) => {
 				// The vote was recorded so save lastVote time
 				return tx.run(
 					`
@@ -305,7 +347,7 @@ export const actions: Actions = {
 					}
 				);
 			});
-
+			console.log('success');
 			return { id, voteSuccess: true };
 		} catch (error) {
 			console.log(error);

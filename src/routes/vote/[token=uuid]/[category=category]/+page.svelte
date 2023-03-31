@@ -91,7 +91,7 @@
 			</div>
 		{:else if data.stopVote}
 			<div class="layout-prose">
-				<p class="text-success">The vote is now closed. Thank you for participating!</p>
+				<p class="text-success">Thank you for participating!</p>
 			</div>
 		{:else}
 			<form
