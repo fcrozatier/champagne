@@ -193,16 +193,14 @@
 			class="input-bordered input w-full"
 			required
 		/>
-		<input type="hidden" name="flagLink" value={flagEntry?.link} />
-		<p class="mb-0 flex gap-2">
+		<input type="hidden" name="link" value={flagEntry?.link} />
+		<p class="mb-0 flex items-center gap-2">
 			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
 				>Cancel</button
 			>
 			<button type="submit" class="btn-outline btn-error btn">Flag this entry </button>
 			{#if form?.id === 'FLAG' && form?.flagFail}
-				<span>
-					<p class="text-error">Something went wrong.</p>
-				</span>
+				<p class="text-error">Something went wrong.</p>
 			{/if}
 		</p>
 	</form>
