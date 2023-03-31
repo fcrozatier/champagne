@@ -14,11 +14,11 @@ export const load: PageServerLoad = async () => {
 		await session.executeWrite((tx) => {
 			return tx.run(
 				`
-	UNWIND $creatorsData as data
-	WITH data
-  CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry {title: data.title, description: data.description, category: data.category, link: data.link, number: toInteger(data.number)})
-	SET e.points = 1, u.token = randomUUID()
-  `,
+					UNWIND $creatorsData as data
+					WITH data
+					CREATE (u:User:Creator {email: data.email})-[:CREATED]->(e:Entry {title: data.title, description: data.description, category: data.category, link: data.link, number: toInteger(data.number)})
+					SET u.token = randomUUID()
+				`,
 				{
 					creatorsData
 				}
