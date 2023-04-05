@@ -11,6 +11,9 @@ def random_cycle(size):
     Note: this is faster than np.random.permutation since there are only (n-1)! cycles against n! permutations of size n
     """
 
+    if size == 0 or size == 1:
+        return []
+
     items = list(range(size))
 
     i = len(items) - 1
@@ -37,6 +40,11 @@ def expander_from_cycles(k, N):
 
     Returns the list of edges
     """
+    if N < 2:
+        return []
+    elif N < 5:
+        cycle = random_cycle(N)
+        return [*list(pairwise(cycle)), (cycle[-1], cycle[0])]
 
     assert k > 1, "You need at least 2 cycles"
     assert N * (N - 1) > 2 * k, f"There is not enough room for {k} cycles in a graph of size {N}"

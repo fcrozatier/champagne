@@ -11,6 +11,14 @@ def factorial(n):
         return 1
     return n * factorial(n - 1)
 
+def test_edge_cases():
+    assert random_cycle(0) == [], "Should return empty array"
+    assert random_cycle(1) == [], "Should return empty array"
+
+    assert len(expander_from_cycles(0,0)) == 0, "No expander with 0 vertices"
+    assert len(expander_from_cycles(0,1)) == 0, "No expander with 1 vertex"
+    assert len(expander_from_cycles(0,2)) == 2, "2-cycle"
+    assert len(expander_from_cycles(0,3)) == 3, "3-cycle"
 
 @pytest.mark.parametrize("N", [2, 3, 4])
 def test_random_cycle(N):
