@@ -1,4 +1,4 @@
-import neo4j, { type Integer, type Node } from 'neo4j-driver';
+import neo4j, { type Integer, type Node, type Relationship } from 'neo4j-driver';
 import { NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD } from '$env/static/private';
 import type { Category } from '$lib/categories';
 
@@ -18,8 +18,6 @@ export interface EntryProperties extends Record<string, unknown> {
 	description: string;
 	link: string;
 	flagged?: boolean;
-	flaggedBy?: string;
-	flagReason?: string;
 	number: number;
 	points: number;
 }
@@ -34,3 +32,9 @@ export interface FeedbackProperties extends Record<string, unknown> {
 }
 
 export type Feedback = Node<Integer, FeedbackProperties>;
+
+export interface FlagProperties extends Record<string, unknown> {
+	reason: string;
+}
+
+export type Flag = Relationship<Integer, FlagProperties>;
