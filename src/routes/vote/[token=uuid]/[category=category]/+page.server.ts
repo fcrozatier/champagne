@@ -186,7 +186,7 @@ export const load: PageServerLoad = async (event) => {
 				{ category }
 			);
 		});
-
+		console.log('increment step');
 		return await load(event);
 	} catch (error) {
 		console.log(error);
