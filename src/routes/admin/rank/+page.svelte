@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { categories } from '$lib/categories';
 	import type { ActionData, PageData } from './$types';
 
 	export let form: ActionData;
@@ -16,15 +17,26 @@
 		<form
 			method="post"
 			action="?/rank"
-			use:enhance={() => {
+			use:enhance={({ submitter }) => {
+				submitter?.setAttribute('disabled', 'on');
 				computing = true;
 				return async ({ update }) => {
-					computing = false;
 					await update();
+					submitter?.removeAttribute('disabled');
+					computing = false;
 				};
 			}}
 		>
-			<button class="btn" type="submit" disabled>Rank</button>
+			<div class="flex gap-4">
+				{#each categories as category}
+					<button class="btn" type="submit" name="category" value={category}
+						>Rank {category}s</button
+					>
+				{/each}
+			</div>
+			{#if form?.noNodes}
+				<p class="text-error">This graph contains no nodes</p>
+			{/if}
 		</form>
 	{/if}
 	{#if form?.ranking}
