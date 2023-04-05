@@ -1,4 +1,4 @@
-import { driver, type Entry, type UserProperties } from '$lib/server/neo4j';
+import { driver, type Entry, type User, type UserProperties } from '$lib/server/neo4j';
 import type { Integer } from 'neo4j-driver';
 import { toNativeTypes, voteOpen } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
@@ -277,7 +277,7 @@ export const actions: Actions = {
 
 			// Rate limit : as least PUBLIC_RATE_LIMIT minutes between two votes
 			const user = await session.executeRead((tx) => {
-				return tx.run(
+				return tx.run<{ u: User }>(
 					`
 				MATCH (u:User)
 				WHERE u.token = $token
