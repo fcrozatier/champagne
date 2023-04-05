@@ -1,7 +1,7 @@
 import { redirect, type Handle } from '@sveltejs/kit';
 import { TokenSchema } from '$lib/server/validation';
 
-export const handle = (async ({ event, resolve }) => {
+export const handle = async function ({ event, resolve }) {
 	const token = event.cookies.get('token');
 
 	if (token) {
@@ -16,4 +16,4 @@ export const handle = (async ({ event, resolve }) => {
 
 	const response = await resolve(event);
 	return response;
-}) satisfies Handle;
+} satisfies Handle;
