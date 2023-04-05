@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { EntryProperties } from '$lib/server/neo4j';
 	import { fade } from 'svelte/transition';
 	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
-	$: flagged = data.flagged as EntryProperties[];
+	$: flagged = data.flagged as {
+		link: string;
+		title: string;
+		reason: string;
+		token: string;
+	}[];
 
 	export let form: ActionData;
 	$: flag = form?.flag;
@@ -32,8 +36,8 @@
 				<tr>
 					<th>{i + 1}</th>
 					<td><a class="capitalize" href={entry.link}>{entry.title}</a></td>
-					<td><span class="capitalize">{entry.flaggedBy}</span></td>
-					<td><span class="capitalize">{entry.flagReason}</span></td>
+					<td><span class="capitalize">{entry.token}</span></td>
+					<td><span class="capitalize">{entry.reason}</span></td>
 					<td>
 						<form
 							class="flex gap-2"
@@ -57,6 +61,7 @@
 							}}
 						>
 							<input type="hidden" value={entry.link} name="link" />
+							<input type="hidden" value={entry.token} name="userToken" />
 							<button type="submit" formaction="?/unflag" class="btn-sm btn">Unflag</button>
 							<button type="submit" formaction="?/flag" class="btn-error btn-sm btn">Flag</button>
 						</form>

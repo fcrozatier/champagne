@@ -1,9 +1,8 @@
 import type { Actions } from './$types';
 import { driver, type Entry } from '$lib/server/neo4j';
-import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { LinkForm, validateForm } from '$lib/server/validation';
+import { FlagForm, validateForm } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -11,11 +10,11 @@ export const load: PageServerLoad = async () => {
 	try {
 		// Get flagged entries
 		const res = await session.executeRead((tx) => {
-			return tx.run<{ n: Entry }>(
+			return tx.run<{ n: Entry; reason: string; token: string }>(
 				`
-				MATCH (n:Entry)
-				WHERE n.flaggedBy IS NOT NULL AND n.flagged IS NULL
-				RETURN n LIMIT 25
+				MATCH (n:Entry)<-[f:FLAG]-(u:User)
+				WHERE n.flagged IS NULL
+				RETURN n, f.reason as reason, u.token as token  LIMIT 25
       `
 			);
 		});
@@ -23,14 +22,16 @@ export const load: PageServerLoad = async () => {
 		const flagged = [];
 		for (const row of res.records) {
 			const entry = row.get('n');
-			flagged.push(toNativeTypes(entry.properties));
+			const reason = row.get('reason');
+			const token = row.get('token');
+			flagged.push({ link: entry.properties.link, title: entry.properties.title, reason, token });
 		}
 
 		return {
 			flagged
 		};
 	} catch (error) {
-		return { success: false };
+		return { error: true };
 	} finally {
 		session.close();
 	}
@@ -38,7 +39,7 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	unflag: async ({ request }) => {
-		const validation = await validateForm(request, LinkForm);
+		const validation = await validateForm(request, FlagForm);
 		if (!validation.success) {
 			return fail(400, { unflagError: true });
 		}
@@ -49,12 +50,11 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-				MATCH (n:Entry)
-				WHERE n.link = $link
-        REMOVE n.flaggedBy, n.flagReason
-				RETURN n
+				MATCH (n:Entry)<-[f:FLAG]-(u:User)
+				WHERE n.link = $link AND u.token = $userToken
+        DELETE f
       `,
-					{ link: validation.data.link }
+					{ link: validation.data.link, userToken: validation.data.userToken }
 				);
 			});
 			return { unflag: true };
@@ -65,7 +65,7 @@ export const actions: Actions = {
 		}
 	},
 	flag: async ({ request }) => {
-		const validation = await validateForm(request, LinkForm);
+		const validation = await validateForm(request, FlagForm);
 		if (!validation.success) {
 			return fail(400, { unflagError: true });
 		}

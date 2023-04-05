@@ -220,9 +220,8 @@ export const actions: Actions = {
 				WITH u
 				MATCH (n1:Entry)-[r:ASSIGNED]-(n2:Entry)
 				WHERE n1.link = $link AND r.userToken = $token
-				SET n1.flaggedBy = $token, n1.flagReason = $reason
 				DELETE r
-				CREATE (u)-[:FLAG]->(n1)-[:NOT_ASSIGNED]->(n2)
+				CREATE (u)-[:FLAG {reason: $reason}]->(n1)-[:NOT_ASSIGNED]->(n2)
 			`,
 					{
 						link: validation.data.link,

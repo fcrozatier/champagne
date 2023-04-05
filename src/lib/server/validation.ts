@@ -14,8 +14,10 @@ export const TokenForm = z.object({
 const UrlSchema = z
 	.string()
 	.url({ message: 'Invalid url, please provide the full url with the https:// prefix' });
-export const LinkForm = z.object({
-	link: UrlSchema
+
+export const FlagForm = z.object({
+	link: UrlSchema,
+	userToken: TokenSchema
 });
 export const PasswordForm = z.object({
 	password: z.string()
