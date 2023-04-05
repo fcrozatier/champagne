@@ -52,8 +52,6 @@ export const load: PageServerLoad = async () => {
       `);
 		});
 
-		// TODO add relationship index on user token ?
-
 		// Sequences
 		for (const category of categories) {
 			await session.executeWrite((tx) => {

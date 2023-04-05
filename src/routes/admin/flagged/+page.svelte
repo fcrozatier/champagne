@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { fade } from 'svelte/transition';
-	import type { ActionData, PageData } from './$types';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 	$: flagged = data.flagged as {
@@ -10,12 +9,6 @@
 		reason: string;
 		token: string;
 	}[];
-
-	export let form: ActionData;
-	$: flag = form?.flag;
-	$: flagError = form?.flagError;
-	$: unflag = form?.unflag;
-	$: unflagError = form?.unflagError;
 </script>
 
 <article class="mx-auto w-4/5 max-w-5xl overflow-x-auto">
@@ -42,21 +35,12 @@
 						<form
 							class="flex gap-2"
 							method="post"
-							use:enhance={({ action }) => {
+							use:enhance={() => {
 								const buttons = document.querySelectorAll('button');
 								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
 								return async ({ update }) => {
 									buttons.forEach((b) => b.removeAttribute('disabled'));
 									await update();
-									setTimeout(() => {
-										if (action.pathname.includes('unflag')) {
-											unflag = false;
-											unflagError = false;
-										} else {
-											flag = false;
-											flagError = false;
-										}
-									}, 3000);
 								};
 							}}
 						>
@@ -73,18 +57,3 @@
 		</tbody>
 	</table>
 </article>
-
-{#if flag || unflag}
-	<div transition:fade class="toast-center toast-bottom toast">
-		<span class="alert alert-success whitespace-nowrap">
-			Entry {form?.unflag ? 'un' : ''}flagged successfully.
-		</span>
-	</div>
-{/if}
-{#if unflagError || flagError}
-	<div transition:fade class="toast-center toast-bottom toast">
-		<span class="alert alert-error whitespace-nowrap">
-			Couldn't {form?.unflag ? 'un' : ''}flag entry.
-		</span>
-	</div>
-{/if}
