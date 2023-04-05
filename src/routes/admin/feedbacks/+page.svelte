@@ -28,9 +28,9 @@
 							use:enhance={({ form }) => {
 								const buttons = form.querySelectorAll('button');
 								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-								return ({ update }) => {
+								return async ({ update }) => {
+									await update();
 									buttons.forEach((b) => b.removeAttribute('disabled'));
-									update();
 								};
 							}}
 						>
