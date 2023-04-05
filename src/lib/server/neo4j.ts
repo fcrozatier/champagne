@@ -28,6 +28,7 @@ export type Entry = Node<Integer, EntryProperties>;
 
 export interface FeedbackProperties extends Record<string, unknown> {
 	token: string;
+	userToken: string;
 	value: string;
 	validated: boolean;
 }
