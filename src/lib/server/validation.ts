@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { categories } from '$lib/categories';
 
+export const CategorySchema = z.enum(categories);
+
 const EmailSchema = z.string().email();
 export const EmailForm = z.object({
 	email: EmailSchema
@@ -50,7 +52,7 @@ const CreatorSchema = z.object({
 			return z.NEVER;
 		}
 	}),
-	category: z.enum(categories),
+	category: CategorySchema,
 	title: z
 		.string()
 		.trim()
@@ -74,7 +76,7 @@ export const FlagSchema = z.object({
 
 export const EdgesSchema = z.array(
 	z.object({
-		category: z.enum(categories),
+		category: CategorySchema,
 		edges: z.array(z.array(z.number()))
 	})
 );
