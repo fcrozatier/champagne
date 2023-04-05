@@ -19,7 +19,6 @@ export interface EntryProperties extends Record<string, unknown> {
 	link: string;
 	flagged?: boolean;
 	number: number;
-	points: number;
 }
 
 export type Entry = Node<Integer, EntryProperties>;
