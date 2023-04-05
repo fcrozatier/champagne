@@ -102,7 +102,7 @@ export const load: PageServerLoad = async (event) => {
 				WITH r, n1, n2
 				LIMIT 1
 				DELETE r
-				MERGE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
+				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
         RETURN n1, n2
       `,
 				{
@@ -153,7 +153,7 @@ export const load: PageServerLoad = async (event) => {
 				WHERE none(r IN relationships(p) WHERE r.userToken = u.token)
 				WITH n1, n2
 				LIMIT 1
-				MERGE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
+				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
         RETURN n1, n2
       `,
 				{
@@ -222,7 +222,7 @@ export const actions: Actions = {
 				WHERE n1.link = $link AND r.userToken = $token
 				SET n1.flaggedBy = $token, n1.flagReason = $reason
 				DELETE r
-				MERGE (u)-[:FLAG]->(n1)-[:NOT_ASSIGNED]->(n2)
+				CREATE (u)-[:FLAG]->(n1)-[:NOT_ASSIGNED]->(n2)
 			`,
 					{
 						link: validation.data.link,
