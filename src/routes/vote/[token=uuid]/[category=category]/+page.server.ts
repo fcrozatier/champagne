@@ -316,11 +316,7 @@ export const actions: Actions = {
 				DELETE a
 				CREATE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
-				WITH e1, e2
-				MATCH (u:User)
-				WHERE u.token = $token
-				CREATE (u)-[vote:VOTE]->(v:Vote)-[:LOSES]->(e1)
-				CREATE (v)-[:WINS]->(e2)
+				RETURN e1, e2
 			`,
 					{
 						category,
