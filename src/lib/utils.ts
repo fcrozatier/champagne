@@ -44,10 +44,14 @@ export function resultsAvailable() {
 	return !!parseInt(PUBLIC_RESULTS_AVAILABLE);
 }
 
+interface Properties {
+	[key: string]: any;
+}
+
 /**
  * Convert Neo4j Properties back into JavaScript types
  */
-export function toNativeTypes(properties: Record<string, unknown>) {
+export function toNativeTypes<T extends Properties>(properties: T) {
 	return Object.fromEntries(
 		Object.keys(properties).map((key) => {
 			const value = valueToNativeType(properties[key]);
