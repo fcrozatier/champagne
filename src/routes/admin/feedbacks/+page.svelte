@@ -10,7 +10,7 @@
 <article class="mx-auto w-4/5 max-w-5xl">
 	<h2>Feedbacks to review</h2>
 
-	<table class="w-full ">
+	<table class="w-full">
 		<thead>
 			<tr class="px-6">
 				<th>Feedback</th>
@@ -29,6 +29,7 @@
 								const buttons = form.querySelectorAll('button');
 								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
 								return ({ update }) => {
+									buttons.forEach((b) => b.removeAttribute('disabled'));
 									update();
 								};
 							}}
