@@ -1,4 +1,4 @@
-import { categories } from '../categories';
+import { categories } from '../config';
 
 export function makeCreators(n: number) {
 	const creators = [];

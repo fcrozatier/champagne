@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { categories } from '$lib/categories';
+	import { categories } from '$lib/config';
 	import { page } from '$app/stores';
 	import { voteOpen } from '$lib/utils';
 </script>

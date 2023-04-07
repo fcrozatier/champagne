@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { categories } from '$lib/categories';
+import { categories } from '$lib/config';
 
 export const CategorySchema = z.enum(categories);
 

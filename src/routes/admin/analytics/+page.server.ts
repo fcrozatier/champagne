@@ -1,6 +1,6 @@
 import { driver } from '$lib/server/neo4j';
 import { error, fail } from '@sveltejs/kit';
-import { categories } from '$lib/categories';
+import { categories } from '$lib/config';
 import type { Actions } from './$types';
 import type { PageServerLoad } from './$types';
 import type { Integer } from 'neo4j-driver';

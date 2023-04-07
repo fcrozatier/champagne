@@ -1,5 +1,5 @@
 import type { ParamMatcher } from '@sveltejs/kit';
-import { categories } from '$lib/categories';
+import { categories } from '$lib/config';
 import { z } from 'zod';
 
 export const match = ((param) => {

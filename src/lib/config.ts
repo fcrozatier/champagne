@@ -1,6 +1,5 @@
 // No space as the strings are used in vote url
 export const categories = ['video', 'non-video'] as const;
-
 export type Category = (typeof categories)[number];
 
 const capitalize = (str: string) => {

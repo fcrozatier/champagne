@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { registrationOpen } from '$lib/utils';
-	import { categories } from '$lib/categories';
+	import { categories } from '$lib/config';
 	import type { Snapshot } from './$types';
 	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 	import { tick } from 'svelte';
