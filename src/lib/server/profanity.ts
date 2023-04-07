@@ -1,3 +1,5 @@
+// https://github.com/coffee-and-fun/google-profanity-words
+
 export const profanity = [
 	'2 girls 1 cup',
 	'2g1c',
