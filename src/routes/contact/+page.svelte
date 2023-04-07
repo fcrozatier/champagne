@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
+	import { COMPETITION } from '$lib/config';
 </script>
 
 <svelte:head>
-	<title>Contact &middot; {PUBLIC_COMPETITION_NAME}</title>
+	<title>Contact &middot; {COMPETITION}</title>
 </svelte:head>
 
 <article class="layout-prose">

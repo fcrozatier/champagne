@@ -2,9 +2,9 @@
 	import '../app.css';
 	import { voteOpen } from '$lib/utils';
 	import type { LayoutData } from './$types';
-	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 	import Icon from '$lib/components/Icon.svelte';
 	import { page } from '$app/stores';
+	import { COMPETITION } from '$lib/config';
 
 	export let data: LayoutData;
 </script>
@@ -21,11 +21,11 @@
 			{/if}
 		</nav>
 
-		<div class="flex-1 " />
+		<div class="flex-1" />
 	</header>
 
-	<main class="prose mt-10 mb-40 max-w-full">
-		<h1 class="text-center">{PUBLIC_COMPETITION_NAME}</h1>
+	<main class="prose mb-40 mt-10 max-w-full">
+		<h1 class="text-center">{COMPETITION}</h1>
 		<slot />
 	</main>
 

@@ -2,9 +2,8 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { registrationOpen } from '$lib/utils';
-	import { categories } from '$lib/config';
+	import { COMPETITION, categories } from '$lib/config';
 	import type { Snapshot } from './$types';
-	import { PUBLIC_COMPETITION_NAME } from '$env/static/public';
 	import { tick } from 'svelte';
 
 	export let form;
@@ -49,7 +48,7 @@
 </script>
 
 <svelte:head>
-	<title>Register &middot; {PUBLIC_COMPETITION_NAME}</title>
+	<title>Register &middot; {COMPETITION}</title>
 </svelte:head>
 
 <article class="layout-prose">

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen } from '$lib/utils';
 	import {
-		PUBLIC_COMPETITION_NAME,
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
 		PUBLIC_VOTE_END
@@ -10,6 +9,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
+	import { COMPETITION } from '$lib/config';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
 
@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<title>{PUBLIC_COMPETITION_NAME}</title>
+	<title>{COMPETITION}</title>
 </svelte:head>
 
 <article class="layout-prose">
@@ -53,7 +53,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge badge-success">current</span>
+						<span class="badge-success badge">current</span>
 					{/if}
 				</p>
 			</li>
@@ -99,7 +99,7 @@
 			<p>
 				<button
 					type="button"
-					class="btn-outline  btn"
+					class="btn-outline btn"
 					on:click={() => {
 						personalLinkDialog.showModal();
 					}}
