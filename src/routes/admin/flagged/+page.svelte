@@ -29,8 +29,8 @@
 				<tr>
 					<th>{i + 1}</th>
 					<td><a class="capitalize" href={entry.link}>{entry.title}</a></td>
-					<td><span class="capitalize">{entry.token}</span></td>
-					<td><span class="capitalize">{entry.reason}</span></td>
+					<td><span class="">{entry.token}</span></td>
+					<td><span class="">{entry.reason}</span></td>
 					<td>
 						<form
 							class="flex gap-2"

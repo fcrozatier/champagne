@@ -111,7 +111,7 @@
 					{#each entries as entry, i}
 						<div class="w-3/4">
 							<h3 class="capitalize">{entry.title}</h3>
-							<p class="capitalize">{entry.description}</p>
+							<p>{entry.description}</p>
 							<p>Link: <a href={entry.link}>{entry.link}</a></p>
 							<input type="hidden" name="entry-{i}" value={entry.number} />
 							<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
