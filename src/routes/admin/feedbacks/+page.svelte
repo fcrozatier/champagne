@@ -14,13 +14,15 @@
 		<thead>
 			<tr class="px-6">
 				<th>Feedback</th>
+				<th class="pr-8">Explicit</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each feedbacks as feedback, _}
 				<tr>
-					<td class="pl-8 capitalize"><p>{feedback.value}</p></td>
+					<td class="pl-8"><p>{feedback.value}</p></td>
+					<td class=""><p>{feedback.explicit ? '☢️' : ''}</p></td>
 					<td class="pr-4">
 						<form
 							class="grid items-center gap-2 py-2"
@@ -52,7 +54,8 @@
 <style>
 	tr {
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: 1fr auto auto;
+		gap: 1rem;
 		align-items: center;
 	}
 	tr:nth-child(even) {

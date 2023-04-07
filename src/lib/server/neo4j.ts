@@ -27,6 +27,7 @@ export interface FeedbackProperties extends Record<string, unknown> {
 	token: string;
 	userToken: string;
 	value: string;
+	explicit: boolean;
 	validated: boolean;
 }
 

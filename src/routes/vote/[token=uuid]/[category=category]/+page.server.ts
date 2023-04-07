@@ -5,6 +5,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { PUBLIC_RATE_LIMIT, PUBLIC_VOTE_LIMIT } from '$env/static/public';
 import { FlagSchema, validateForm } from '$lib/server/validation';
+import { profanity } from '$lib/server/profanity';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -275,6 +276,10 @@ export const actions: Actions = {
 			const losingFeedback = AToB ? feedbackA : feedbackB;
 			const winningFeedback = AToB ? feedbackB : feedbackA;
 
+			// Find explicit language
+			const losingExplicit = losingFeedback.split(' ').some((w) => profanity.includes(w));
+			const winningExplicit = winningFeedback.split(' ').some((w) => profanity.includes(w));
+
 			// Rate limit : as least PUBLIC_RATE_LIMIT minutes between two votes
 			const user = await session.executeRead((tx) => {
 				return tx.run<{ u: User }>(
@@ -318,6 +323,7 @@ export const actions: Actions = {
 				DELETE a
 				CREATE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
+				SET f1.explicit = $losingExplicit, f2.explicit = $winningExplicit
 				SET f1.token = apoc.create.uuid(), f2.token = apoc.create.uuid()
 				RETURN e1, e2
 			`,
@@ -327,7 +333,9 @@ export const actions: Actions = {
 						losingEntryNumber,
 						winningEntryNumber,
 						losingFeedback,
-						winningFeedback
+						winningFeedback,
+						losingExplicit,
+						winningExplicit
 					}
 				);
 			});
