@@ -4,7 +4,7 @@
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import type { ActionData, PageData } from './$types';
-	import { RATE_LIMIT } from '$lib/config';
+	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -152,7 +152,7 @@
 					</select>
 					{#if form?.id === 'VOTE' && form.rateLimitError}
 						<p class="text-error">
-							Please wait at least {RATE_LIMIT} minutes between votes.
+							Please wait at least {PUBLIC_RATE_LIMIT} minutes between votes.
 						</p>
 					{/if}
 					<button type="submit" class="btn-md btn">Vote for this entry</button>

@@ -1,7 +1,8 @@
 <script>
 	import { competitionStarted } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
-	import { COMPETITION, REGISTRATION_END } from '$lib/config';
+	import { COMPETITION } from '$lib/config';
+	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
 </script>
 
 <svelte:head>
@@ -71,7 +72,7 @@
 	{#if competitionStarted()}
 		<p>
 			You can register until
-			<Time datetime={REGISTRATION_END} />
+			<Time datetime={PUBLIC_REGISTRATION_END} />
 		</p>
 	{:else}
 		<p>The competition has not started yet</p>

@@ -4,7 +4,12 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
-	import { COMPETITION, REGISTRATION_END, REGISTRATION_START, VOTE_END } from '$lib/config';
+	import { COMPETITION } from '$lib/config';
+	import {
+		PUBLIC_REGISTRATION_END,
+		PUBLIC_REGISTRATION_START,
+		PUBLIC_VOTE_END
+	} from '$env/static/public';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
 
@@ -48,7 +53,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge badge-success">current</span>
+						<span class="badge-success badge">current</span>
 					{/if}
 				</p>
 			</li>
@@ -56,12 +61,12 @@
 	</ul>
 
 	{#if !competitionStarted()}
-		{#if !REGISTRATION_START}
+		{#if !PUBLIC_REGISTRATION_START}
 			<p>The competition has not started yet.</p>
 			<p>Stay tuned for the announcement of phase 1.</p>
 		{:else}
 			<p>
-				The competition will start <Time datetime={REGISTRATION_START} />
+				The competition will start <Time datetime={PUBLIC_REGISTRATION_START} />
 			</p>
 		{/if}
 	{/if}
@@ -71,7 +76,7 @@
 		<strong>Phase 1 is open</strong>
 		<p>
 			You can register until
-			<Time datetime={REGISTRATION_END} />
+			<Time datetime={PUBLIC_REGISTRATION_END} />
 		</p>
 		<p><a class="btn" href="/register">Go to registration page</a></p>
 	{/if}
@@ -81,7 +86,7 @@
 		<strong>Phase 2 is open</strong>
 		<p>
 			You can vote until
-			<Time datetime={VOTE_END} />
+			<Time datetime={PUBLIC_VOTE_END} />
 		</p>
 		{#if data.token}
 			<p><a class="btn" href="/vote/{data.token}">Vote</a></p>

@@ -8,17 +8,17 @@ import {
 	isTime
 } from 'neo4j-driver';
 import {
-	REGISTRATION_END,
-	REGISTRATION_START,
-	RESULTS_AVAILABLE,
-	VOTE_END,
-	VOTE_START
-} from '$lib/config';
+	PUBLIC_REGISTRATION_END,
+	PUBLIC_REGISTRATION_START,
+	PUBLIC_RESULTS_AVAILABLE,
+	PUBLIC_VOTE_END,
+	PUBLIC_VOTE_START
+} from '$env/static/public';
 
 export function competitionStarted() {
-	if (!REGISTRATION_START) return false;
+	if (!PUBLIC_REGISTRATION_START) return false;
 	const now = new Date();
-	const start = new Date(REGISTRATION_START);
+	const start = new Date(PUBLIC_REGISTRATION_START);
 	return now > start;
 }
 
@@ -33,15 +33,15 @@ function phaseOpen(startDate: string, endDate: string) {
 }
 
 export function registrationOpen() {
-	return phaseOpen(REGISTRATION_START, REGISTRATION_END);
+	return phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END);
 }
 
 export function voteOpen() {
-	return phaseOpen(VOTE_START, VOTE_END);
+	return phaseOpen(PUBLIC_VOTE_START, PUBLIC_VOTE_END);
 }
 
 export function resultsAvailable() {
-	return RESULTS_AVAILABLE;
+	return Boolean(PUBLIC_RESULTS_AVAILABLE);
 }
 
 interface Properties {

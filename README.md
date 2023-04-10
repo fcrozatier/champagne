@@ -30,15 +30,24 @@ This project is a [SvelteKit](https://kit.svelte.dev/) app running a [Neo4j](htt
 
 You can use this project by setting these environment variables in your local `.env` file:
 
-| name              | value                         | description             |
-| ----------------- | ----------------------------- | ----------------------- |
-| `ORIGIN`          | string                        | Custom domain           |
-| `ADMIN_PASSWORD`  | string                        | Admin level access      |
-| `NEO4J_URI`       | e.g. "neo4j://localhost:7687" | neo4j connection string |
-| `NEO4J_USERNAME`  | string                        | neo4j user              |
-| `NEO4J_PASSWORD`  | string                        | neo4j password          |
-| `MAILGUN_API_KEY` | string                        | mailgun config          |
-| `DOMAIN`          | string                        | mailgun config          |
+| name                        | value                         | description                                                           |
+| --------------------------- | ----------------------------- | --------------------------------------------------------------------- |
+| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"        | Registration start date                                               |
+| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"        | Registration deadline                                                 |
+| `PUBLIC_VOTE_START`         | "yyyy-mm-ddThh:mm:ssZ"        | Vote start date                                                       |
+| `PUBLIC_VOTE_END`           | "yyyy-mm-ddThh:mm:ssZ"        | Vote deadline                                                         |
+| `PUBLIC_RATE_LIMIT`         | number                        | Minimum time delta between votes in minutes                           |
+| `PUBLIC_VOTE_LIMIT`         | float between 0 and 1         | Maximum number of votes per user relative to a category total entries |
+| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                        | 1 if results are available                                            |
+| `ORIGIN`                    | string                        | Custom domain                                                         |
+| `ADMIN_PASSWORD`            | string                        | Admin level access                                                    |
+| `NEO4J_URI`                 | e.g. "neo4j://localhost:7687" | neo4j connection string                                               |
+| `NEO4J_USERNAME`            | string                        | neo4j user                                                            |
+| `NEO4J_PASSWORD`            | string                        | neo4j password                                                        |
+| `MAILGUN_API_KEY`           | string                        | mailgun config                                                        |
+| `DOMAIN`                    | string                        | mailgun config                                                        |
+
+You can tweak the competition settings (name and categories) in the `$lib/config.ts` file. A few additional server configurations are available in `$lib/server/config.ts`
 
 ## How to run locally?
 
