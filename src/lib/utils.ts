@@ -41,7 +41,7 @@ export function voteOpen() {
 }
 
 export function resultsAvailable() {
-	return Boolean(PUBLIC_RESULTS_AVAILABLE);
+	return Boolean(parseInt(PUBLIC_RESULTS_AVAILABLE));
 }
 
 interface Properties {
