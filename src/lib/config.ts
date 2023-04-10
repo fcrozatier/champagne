@@ -13,3 +13,11 @@ export const REGISTRATION_END = '2023-01-31T12:00:00Z';
 // const VOTE_START=""
 export const VOTE_START = '2022-08-31T12:00:00Z';
 export const VOTE_END = '2023-08-31T12:00:00Z';
+
+// Rate limits
+// Minimum number of minutes a user has to wait between two votes
+export const RATE_LIMIT = 0;
+// Maximum number of votes a user can make in each category, relative to the number of entries
+export const VOTE_LIMIT = 0.5;
+
+export const RESULTS_AVAILABLE = true;

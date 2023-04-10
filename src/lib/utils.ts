@@ -1,4 +1,3 @@
-import { PUBLIC_RESULTS_AVAILABLE } from '$env/static/public';
 import {
 	isDate,
 	isDateTime,
@@ -8,7 +7,13 @@ import {
 	isLocalTime,
 	isTime
 } from 'neo4j-driver';
-import { REGISTRATION_END, REGISTRATION_START, VOTE_END, VOTE_START } from '$lib/config';
+import {
+	REGISTRATION_END,
+	REGISTRATION_START,
+	RESULTS_AVAILABLE,
+	VOTE_END,
+	VOTE_START
+} from '$lib/config';
 
 export function competitionStarted() {
 	if (!REGISTRATION_START) return false;
@@ -36,7 +41,7 @@ export function voteOpen() {
 }
 
 export function resultsAvailable() {
-	return !!parseInt(PUBLIC_RESULTS_AVAILABLE);
+	return RESULTS_AVAILABLE;
 }
 
 interface Properties {

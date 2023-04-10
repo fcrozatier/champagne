@@ -30,14 +30,15 @@ This project is a [SvelteKit](https://kit.svelte.dev/) app running a [Neo4j](htt
 
 You can use this project by setting these environment variables in your local `.env` file:
 
-| name                       | value                         | description                                 |
-| -------------------------- | ----------------------------- | ------------------------------------------- |
-| `PUBLIC_RATE_LIMIT`        | number                        | Minimum time delta between votes in minutes |
-| `PUBLIC_RESULTS_AVAILABLE` | 0 or 1                        | 1 if results are available                  |
-| `ADMIN_PASSWORD`           | string                        | Admin level access                          |
-| `NEO4J_URI`                | e.g. "neo4j://localhost:7687" | neo4j connection string                     |
-| `NEO4J_USERNAME`           | string                        | neo4j user                                  |
-| `NEO4J_PASSWORD`           | string                        | neo4j password                              |
+| name              | value                         | description             |
+| ----------------- | ----------------------------- | ----------------------- |
+| `ORIGIN`          | string                        | Custom domain           |
+| `ADMIN_PASSWORD`  | string                        | Admin level access      |
+| `NEO4J_URI`       | e.g. "neo4j://localhost:7687" | neo4j connection string |
+| `NEO4J_USERNAME`  | string                        | neo4j user              |
+| `NEO4J_PASSWORD`  | string                        | neo4j password          |
+| `MAILGUN_API_KEY` | string                        | mailgun config          |
+| `DOMAIN`          | string                        | mailgun config          |
 
 ## How to run locally?
 

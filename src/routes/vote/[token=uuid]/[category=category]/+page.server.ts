@@ -3,9 +3,9 @@ import type { Integer } from 'neo4j-driver';
 import { toNativeTypes, voteOpen } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { PUBLIC_RATE_LIMIT, PUBLIC_VOTE_LIMIT } from '$env/static/public';
 import { FlagSchema, validateForm } from '$lib/server/validation';
 import { profanity } from '$lib/server/profanity';
+import { RATE_LIMIT, VOTE_LIMIT } from '$lib/config';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -46,7 +46,7 @@ export const load: PageServerLoad = async (event) => {
 			const rate =
 				votes.records[0].get('votes').toNumber() / votes.records[0].get('entries').toNumber();
 			console.log('VOTE rate', rate);
-			if (rate >= parseFloat(PUBLIC_VOTE_LIMIT)) {
+			if (rate >= VOTE_LIMIT) {
 				console.log('stop vote');
 
 				return { stopVote: true };
@@ -280,7 +280,7 @@ export const actions: Actions = {
 			const losingExplicit = losingFeedback.split(' ').some((w) => profanity.includes(w));
 			const winningExplicit = winningFeedback.split(' ').some((w) => profanity.includes(w));
 
-			// Rate limit : as least PUBLIC_RATE_LIMIT minutes between two votes
+			// Rate limit : as least RATE_LIMIT minutes between two votes
 			const user = await session.executeRead((tx) => {
 				return tx.run<{ u: User }>(
 					`
@@ -305,7 +305,7 @@ export const actions: Actions = {
 					const now = Date.now();
 					const lastVote = Date.parse(u.lastVote);
 
-					if (now - lastVote < 1000 * 60 * parseInt(PUBLIC_RATE_LIMIT)) {
+					if (now - lastVote < 1000 * 60 * RATE_LIMIT) {
 						console.log('rate limit fail');
 						return fail(422, { id, rateLimitError: true });
 					}
