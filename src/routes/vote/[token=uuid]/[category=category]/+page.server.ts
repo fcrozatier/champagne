@@ -5,7 +5,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { FlagSchema, validateForm } from '$lib/server/validation';
 import { profanity } from '$lib/server/profanity';
-import { PUBLIC_RATE_LIMIT } from '$env/static/public';
+import { PUBLIC_RATE_LIMIT, PUBLIC_VOTE_LIMIT } from '$env/static/public';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -45,8 +45,8 @@ export const load: PageServerLoad = async (event) => {
 		if (votes?.records[0]?.length) {
 			const rate =
 				votes.records[0].get('votes').toNumber() / votes.records[0].get('entries').toNumber();
-			console.log('VOTE rate', rate);
-			if (rate >= parseFloat(PUBLIC_RATE_LIMIT)) {
+			console.log('VOTE rate', rate, parseFloat(PUBLIC_VOTE_LIMIT));
+			if (rate >= parseFloat(PUBLIC_VOTE_LIMIT)) {
 				console.log('stop vote');
 
 				return { stopVote: true };
