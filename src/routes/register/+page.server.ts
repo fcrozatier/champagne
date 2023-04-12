@@ -5,6 +5,20 @@ import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
 import { sendRegistrationEmail } from '$lib/server/email';
+import sharp from 'sharp';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { S3_KEY, S3_SECRET } from '$env/static/private';
+
+const client = new S3Client({
+	region: 'fra1',
+	credentials: {
+		accessKeyId: S3_KEY,
+		secretAccessKey: S3_SECRET
+	},
+	endpoint: 'https://fra1.digitaloceanspaces.com'
+});
+
+sharp.cache(false);
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
@@ -35,9 +49,11 @@ export const actions: Actions = {
 					const others = validation.data.others;
 					others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
 
+					const { thumbnail, ...restData } = validation.data;
+
 					const params = {
 						users,
-						...validation.data
+						...restData
 					};
 
 					await session.executeWrite((tx) => {
@@ -55,6 +71,22 @@ export const actions: Actions = {
 							{ params }
 						);
 					});
+
+					const input = await thumbnail.arrayBuffer();
+					const output = await sharp(input)
+						.resize({
+							width: 640,
+							height: 360
+						})
+						.toFormat('webp')
+						.toBuffer();
+
+					const command = new PutObjectCommand({
+						Bucket: 'some3',
+						Key: Buffer.from(restData.link).toString('base64'),
+						Body: output
+					});
+					await client.send(command);
 				} else {
 					await session.executeWrite((tx) => {
 						return tx.run(

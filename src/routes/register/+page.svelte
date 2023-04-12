@@ -95,6 +95,7 @@
 		{:else}
 			<form
 				method="post"
+				enctype="multipart/form-data"
 				use:enhance={({ submitter, data }) => {
 					data.append('others', JSON.stringify(otherContributors));
 					submitter?.setAttribute('disabled', 'on');
@@ -200,17 +201,22 @@
 						<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
 					{/if}
 
-					<label for="description" class="label">Short description</label>
-					<textarea
-						id="description"
-						name="description"
-						class="textarea-bordered textarea w-full max-w-xs text-base"
-						maxlength="500"
-						bind:value={description}
-						required
-					/>
-					<div class="w-full max-w-xs text-right leading-none">
-						<span class="label-text-alt">{description.length}/500</span>
+					<div class="form-control w-full max-w-xs">
+						<label for="description" class="label">
+							<span class="label-text">Short description</span>
+						</label>
+						<textarea
+							id="description"
+							name="description"
+							class="textarea-bordered textarea text-base"
+							maxlength="500"
+							bind:value={description}
+							required
+						/>
+						<div class="label">
+							<span class="label-text-alt" />
+							<span class="label-text-alt">{description.length}/500</span>
+						</div>
 					</div>
 					{#if form?.fieldErrors?.description}
 						<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
@@ -230,12 +236,34 @@
 					{:else if form?.linkExists}
 						<span class="block text-error">entry already registered</span>
 					{/if}
+
+					<div class="form-control max-w-xs">
+						<label for="thumbnail" class="label">
+							<span class="label-text">Thumbnail</span>
+							<span class="label-text-alt">Recommended ratio 16:9</span>
+						</label>
+						<input
+							id="thumbnail"
+							type="file"
+							accept="image/*"
+							name="thumbnail"
+							class="file-input input-bordered"
+							required
+						/>
+						{#if form?.fieldErrors?.thumbnail}
+							<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
+						{/if}
+					</div>
 				{/if}
 
-				<label for="rules" class="label flex gap-2">
-					<input id="rules" type="checkbox" name="rules" class="checkbox" required />
-					<span class="flex-1"> I've read the <a href="/rules">rules</a> of the competition </span>
-				</label>
+				<div class="form-control max-w-xs">
+					<label for="rules" class="label gap-2">
+						<input id="rules" type="checkbox" name="rules" class="checkbox" required />
+						<span class="label-text mr-auto">
+							I've read the <a href="/rules">rules</a> of the competition
+						</span>
+					</label>
+				</div>
 				{#if form?.fieldErrors?.rules}
 					<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
 				{/if}

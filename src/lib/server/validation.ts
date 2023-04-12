@@ -1,5 +1,8 @@
 import { z } from 'zod';
 import { categories } from '$lib/config';
+import { MAX_IMG_SIZE } from './config';
+
+const SHARP_IMAGE_INPUT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
 export const CategorySchema = z.enum(categories);
 
@@ -64,6 +67,12 @@ const CreatorSchema = z.object({
 		.min(10, { message: 'Description too short' })
 		.max(500, { message: 'Description too long' }),
 	link: UrlSchema,
+	thumbnail: z
+		.instanceof(File)
+		.refine((file) => file.size < MAX_IMG_SIZE, { message: 'Image too big: 1MB max' })
+		.refine((file) => SHARP_IMAGE_INPUT_TYPES.includes(file.type), {
+			message: 'Must be a jpeg, png, webp or gif image'
+		}),
 	rules: CheckboxSchema
 });
 
