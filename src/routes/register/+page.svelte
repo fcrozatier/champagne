@@ -105,103 +105,120 @@
 					};
 				}}
 			>
-				<label for="user-type" class="label">I want to register as a</label>
-				<select
-					id="user-type"
-					name="userType"
-					class="select-bordered select w-full max-w-xs"
-					bind:value
-					required
-				>
-					<option disabled selected />
-					<option value="creator">Creator</option>
-					<option value="judge">Judge</option>
-				</select>
-				{#if form?.fieldErrors?.userType}
-					<span class="block text-error">{form.fieldErrors.userType.join(', ')}</span>
-				{/if}
-
-				<label for="email" class="label"
-					>{otherContributors.length === 0 ? 'Email' : 'Emails'}</label
-				>
-				<input
-					id="email"
-					type="email"
-					name="email"
-					placeholder="john@gmail.com"
-					class="input-bordered input w-full max-w-xs"
-					bind:value={email}
-					required
-				/>
-				{#if form?.fieldErrors?.email}
-					<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
-				{/if}
-				{#if value === 'creator'}
-					{#each otherContributors as _, i}
-						<p class="flex items-center gap-2">
-							<input
-								id="email_{i}"
-								type="email"
-								name="email_{i}"
-								class="input-bordered input w-full max-w-xs"
-								bind:value={otherContributors[i]}
-								required
-							/>
-							<button
-								type="button"
-								class="btn-outline btn-xs btn-circle btn opacity-80"
-								on:click={() => {
-									otherContributors.splice(i, 1);
-									otherContributors = otherContributors;
-								}}>&cross;</button
-							>
-						</p>
-					{/each}
-					<p class="flex items-center gap-2 text-sm text-gray-500">
-						Add contributor
-						<button
-							type="button"
-							class="btn-outline btn-sm btn-circle btn opacity-80"
-							on:click={addContributor}
-						>
-							+</button
-						>
-					</p>
-				{/if}
-				{#if form?.emailExists}
-					<span class="block text-error">email already registered : {form.emailExists}</span>
-				{/if}
-				{#if value === 'creator'}
-					<label for="category" class="label">Category</label>
+				<div class="form-control max-w-xs">
+					<label for="user-type" class="label">
+						<span class="label-text"> I am a </span>
+					</label>
 					<select
-						id="category"
-						name="category"
-						class="select-bordered select w-full max-w-xs"
-						bind:value={category}
+						id="user-type"
+						name="userType"
+						class="select-bordered select w-full"
+						bind:value
 						required
 					>
-						{#each categories as category}
-							<option value={category}>{category}</option>
-						{/each}
+						<option disabled selected />
+						<option value="creator">Creator</option>
+						<option value="judge">Judge</option>
 					</select>
-					{#if form?.fieldErrors?.category}
-						<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
+					{#if form?.fieldErrors?.userType}
+						<span class="block text-error">{form.fieldErrors.userType.join(', ')}</span>
 					{/if}
+				</div>
 
-					<label for="title" class="label">Title</label>
+				<div class="form-control max-w-xs">
+					<label for="email" class="label">
+						<span class="label-text">
+							{otherContributors.length === 0 ? 'Email' : 'Emails'}
+						</span>
+					</label>
 					<input
-						id="title"
-						type="text"
-						name="title"
-						class="input-bordered input w-full max-w-xs"
-						bind:value={title}
+						id="email"
+						type="email"
+						name="email"
+						placeholder="john@gmail.com"
+						class="input-bordered input w-full"
+						bind:value={email}
 						required
 					/>
-					{#if form?.fieldErrors?.title}
-						<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
+					{#if form?.fieldErrors?.email}
+						<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
 					{/if}
+					{#if value === 'creator'}
+						{#each otherContributors as _, i}
+							<p class="flex items-center gap-2">
+								<input
+									id="email_{i}"
+									type="email"
+									name="email_{i}"
+									class="input-bordered input w-full"
+									bind:value={otherContributors[i]}
+									required
+								/>
+								<button
+									type="button"
+									class="btn-outline btn-xs btn-circle btn opacity-80"
+									on:click={() => {
+										otherContributors.splice(i, 1);
+										otherContributors = otherContributors;
+									}}>&cross;</button
+								>
+							</p>
+						{/each}
+						<p class="flex items-center gap-2 text-sm text-gray-500">
+							Add contributor
+							<button
+								type="button"
+								class="btn-outline btn-sm btn-circle btn opacity-80"
+								on:click={addContributor}
+							>
+								+</button
+							>
+						</p>
+					{/if}
+					{#if form?.emailExists}
+						<span class="block text-error">email already registered : {form.emailExists}</span>
+					{/if}
+				</div>
 
-					<div class="form-control w-full max-w-xs">
+				{#if value === 'creator'}
+					<div class="form-control max-w-xs">
+						<label for="category" class="label">
+							<span class="label-text"> Category </span>
+						</label>
+						<select
+							id="category"
+							name="category"
+							class="select-bordered select w-full"
+							bind:value={category}
+							required
+						>
+							{#each categories as category}
+								<option value={category}>{category}</option>
+							{/each}
+						</select>
+						{#if form?.fieldErrors?.category}
+							<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
+						{/if}
+					</div>
+
+					<div class="form-control max-w-xs">
+						<label for="title" class="label">
+							<span class="label-text">Title</span>
+						</label>
+						<input
+							id="title"
+							type="text"
+							name="title"
+							class="input-bordered input w-full"
+							bind:value={title}
+							required
+						/>
+						{#if form?.fieldErrors?.title}
+							<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
+						{/if}
+					</div>
+
+					<div class="form-control max-w-xs">
 						<label for="description" class="label">
 							<span class="label-text">Short description</span>
 						</label>
@@ -217,25 +234,29 @@
 							<span class="label-text-alt" />
 							<span class="label-text-alt">{description.length}/500</span>
 						</div>
+						{#if form?.fieldErrors?.description}
+							<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
+						{/if}
 					</div>
-					{#if form?.fieldErrors?.description}
-						<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
-					{/if}
 
-					<label for="link" class="label">Link to your entry</label>
-					<input
-						id="link"
-						type="url"
-						name="link"
-						placeholder="https://"
-						class="input-bordered input w-full max-w-xs"
-						bind:value={link}
-					/>
-					{#if form?.fieldErrors?.link}
-						<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
-					{:else if form?.linkExists}
-						<span class="block text-error">entry already registered</span>
-					{/if}
+					<div class="form-control max-w-xs">
+						<label for="link" class="label">
+							<span class="label-text"> Link </span>
+						</label>
+						<input
+							id="link"
+							type="url"
+							name="link"
+							placeholder="https://"
+							class="input-bordered input w-full"
+							bind:value={link}
+						/>
+						{#if form?.fieldErrors?.link}
+							<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
+						{:else if form?.linkExists}
+							<span class="block text-error">entry already registered</span>
+						{/if}
+					</div>
 
 					<div class="form-control max-w-xs">
 						<label for="thumbnail" class="label">
@@ -257,16 +278,16 @@
 				{/if}
 
 				<div class="form-control max-w-xs">
-					<label for="rules" class="label gap-2">
+					<label for="rules" class="label justify-normal gap-2">
 						<input id="rules" type="checkbox" name="rules" class="checkbox" required />
-						<span class="label-text mr-auto">
+						<span class="label-text">
 							I've read the <a href="/rules">rules</a> of the competition
 						</span>
 					</label>
+					{#if form?.fieldErrors?.rules}
+						<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
+					{/if}
 				</div>
-				{#if form?.fieldErrors?.rules}
-					<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
-				{/if}
 
 				{#if form?.fieldErrors || $page.status !== 200}
 					<p class="block text-error">Something went wrong. Please try again</p>
