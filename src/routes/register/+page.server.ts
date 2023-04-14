@@ -92,7 +92,8 @@ export const actions: Actions = {
 						const command = new PutObjectCommand({
 							Bucket: 'some3',
 							Key: thumbnailKey,
-							Body: output
+							Body: output,
+							ACL: 'public-read'
 						});
 						await client.send(command);
 					}
