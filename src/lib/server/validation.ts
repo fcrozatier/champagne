@@ -18,7 +18,8 @@ export const TokenForm = z.object({
 
 const UrlSchema = z
 	.string()
-	.url({ message: 'Invalid url, please provide the full url with the https:// prefix' });
+	.url({ message: 'Invalid url, please provide the full url with the https:// prefix' })
+	.refine((str) => !str.includes('playlist'), { message: 'Playlists are not allowed' });
 
 export const FlagForm = z.object({
 	link: UrlSchema,
