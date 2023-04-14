@@ -5,6 +5,7 @@
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import type { ActionData, PageData } from './$types';
 	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
+	import { YOUTUBE_VIDEO_REGEX } from '$lib/utils';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -111,6 +112,27 @@
 					{#each entries as entry, i}
 						<div class="w-3/4">
 							<h3 class="capitalize">{entry.title}</h3>
+							{#if YOUTUBE_VIDEO_REGEX.test(entry.link)}
+								{@const youtubeLink = entry.link.match(YOUTUBE_VIDEO_REGEX)?.[1]}
+								<iframe
+									class="mx-auto rounded-lg"
+									width="560"
+									height="315"
+									src={`https://www.youtube.com/embed/${youtubeLink}`}
+									title="YouTube video player"
+									frameborder="0"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+								/>
+							{:else}
+								<picture>
+									<source
+										srcset={`https://some3.fra1.cdn.digitaloceanspaces.com/${entry.thumbnail}`}
+										type="image/webp"
+									/>
+									<img src="/images/thumb.jpeg" alt="" width="560" height="315" />
+								</picture>
+							{/if}
 							<p>{entry.description}</p>
 							<p>Link: <a href={entry.link}>{entry.link}</a></p>
 							<input type="hidden" name="entry-{i}" value={entry.number} />

@@ -50,10 +50,13 @@ export const actions: Actions = {
 					others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
 
 					const { thumbnail, ...restData } = validation.data;
+					const thumbnailKey = Buffer.from(restData.link).toString('base64') + '.webp';
+					console.log('thumbnailKey:', thumbnailKey);
 
 					const params = {
 						users,
-						...restData
+						...restData,
+						thumbnailKey
 					};
 
 					await session.executeWrite((tx) => {
@@ -62,7 +65,7 @@ export const actions: Actions = {
 					MATCH (n:Entry)
 					WHERE n.category = $params.category
 					WITH count(n) as number
-					CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link})
+					CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
 					SET entry.number = number
 					WITH *
 					UNWIND $params.users AS creator
@@ -88,7 +91,7 @@ export const actions: Actions = {
 
 						const command = new PutObjectCommand({
 							Bucket: 'some3',
-							Key: Buffer.from(restData.link).toString('base64'),
+							Key: thumbnailKey,
 							Body: output
 						});
 						await client.send(command);

@@ -84,3 +84,5 @@ function valueToNativeType(value: any) {
 
 	return value;
 }
+
+export const YOUTUBE_VIDEO_REGEX = /youtube\.com\/watch\?v=(.*)/;
