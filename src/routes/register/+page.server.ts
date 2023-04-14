@@ -72,21 +72,27 @@ export const actions: Actions = {
 						);
 					});
 
-					const input = await thumbnail.arrayBuffer();
-					const output = await sharp(input)
-						.resize({
-							width: 640,
-							height: 360
-						})
-						.toFormat('webp')
-						.toBuffer();
+					if (!restData.link.includes('youtube.com')) {
+						if (!thumbnail) {
+							return fail(400, { thumbnailRequired: true });
+						}
 
-					const command = new PutObjectCommand({
-						Bucket: 'some3',
-						Key: Buffer.from(restData.link).toString('base64'),
-						Body: output
-					});
-					await client.send(command);
+						const input = await thumbnail.arrayBuffer();
+						const output = await sharp(input)
+							.resize({
+								width: 640,
+								height: 360
+							})
+							.toFormat('webp')
+							.toBuffer();
+
+						const command = new PutObjectCommand({
+							Bucket: 'some3',
+							Key: Buffer.from(restData.link).toString('base64'),
+							Body: output
+						});
+						await client.send(command);
+					}
 				} else {
 					await session.executeWrite((tx) => {
 						return tx.run(

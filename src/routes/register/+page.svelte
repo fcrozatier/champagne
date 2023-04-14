@@ -258,23 +258,27 @@
 						{/if}
 					</div>
 
-					<div class="form-control max-w-xs">
-						<label for="thumbnail" class="label">
-							<span class="label-text">Thumbnail</span>
-							<span class="label-text-alt">Recommended ratio 16:9</span>
-						</label>
-						<input
-							id="thumbnail"
-							type="file"
-							accept="image/*"
-							name="thumbnail"
-							class="file-input input-bordered"
-							required
-						/>
-						{#if form?.fieldErrors?.thumbnail}
-							<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
-						{/if}
-					</div>
+					{#if link && !link.includes('youtube.com')}
+						<div class="form-control max-w-xs">
+							<label for="thumbnail" class="label">
+								<span class="label-text">Thumbnail</span>
+								<span class="label-text-alt">Recommended ratio 16:9</span>
+							</label>
+							<input
+								id="thumbnail"
+								type="file"
+								accept="image/*"
+								name="thumbnail"
+								class="file-input input-bordered"
+								required
+							/>
+							{#if form?.fieldErrors?.thumbnail}
+								<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
+							{:else if form?.thumbnailRequired}
+								<span class="block text-error">A thumbnail is required</span>
+							{/if}
+						</div>
+					{/if}
 				{/if}
 
 				<div class="form-control max-w-xs">
