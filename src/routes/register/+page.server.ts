@@ -8,6 +8,7 @@ import { sendRegistrationEmail } from '$lib/server/email';
 import sharp from 'sharp';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { S3_KEY, S3_SECRET } from '$env/static/private';
+import { dev } from '$app/environment';
 
 const client = new S3Client({
 	region: 'fra1',
@@ -110,13 +111,14 @@ export const actions: Actions = {
 						);
 					});
 				}
-
-				try {
-					for (const user of users) {
-						await sendRegistrationEmail(user.email, user.token);
+				if (!dev) {
+					try {
+						for (const user of users) {
+							await sendRegistrationEmail(user.email, user.token);
+						}
+					} catch (error) {
+						console.error('Cannot send email');
 					}
-				} catch (error) {
-					console.error('Cannot send email');
 				}
 				return {
 					success: true,
