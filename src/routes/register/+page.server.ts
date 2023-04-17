@@ -1,23 +1,14 @@
 import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { registrationOpen } from '$lib/utils';
+import { registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
 import { sendRegistrationEmail } from '$lib/server/email';
 import sharp from 'sharp';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { S3_KEY, S3_SECRET } from '$env/static/private';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { dev } from '$app/environment';
-
-const client = new S3Client({
-	region: 'fra1',
-	credentials: {
-		accessKeyId: S3_KEY,
-		secretAccessKey: S3_SECRET
-	},
-	endpoint: 'https://fra1.digitaloceanspaces.com'
-});
+import { client } from '$lib/server/s3';
 
 sharp.cache(false);
 
@@ -76,7 +67,7 @@ export const actions: Actions = {
 						);
 					});
 
-					if (!restData.link.includes('youtube.com')) {
+					if (!YOUTUBE_EMBEDDABLE.test(restData.link)) {
 						if (!thumbnail) {
 							return fail(400, { thumbnailRequired: true });
 						}
