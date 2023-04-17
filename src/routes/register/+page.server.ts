@@ -6,9 +6,8 @@ import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
 import { sendRegistrationEmail } from '$lib/server/email';
 import sharp from 'sharp';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { dev } from '$app/environment';
-import { client } from '$lib/server/s3';
+import { saveThumbnail } from '$lib/server/s3';
 
 sharp.cache(false);
 
@@ -72,22 +71,7 @@ export const actions: Actions = {
 							return fail(400, { thumbnailRequired: true });
 						}
 
-						const input = await thumbnail.arrayBuffer();
-						const output = await sharp(input)
-							.resize({
-								width: 640,
-								height: 360
-							})
-							.toFormat('webp')
-							.toBuffer();
-
-						const command = new PutObjectCommand({
-							Bucket: 'some3',
-							Key: thumbnailKey,
-							Body: output,
-							ACL: 'public-read'
-						});
-						await client.send(command);
+						await saveThumbnail(thumbnail, restData.link);
 					}
 				} else {
 					await session.executeWrite((tx) => {
