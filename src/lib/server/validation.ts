@@ -46,6 +46,26 @@ const JudgeSchema = z.object({
 	rules: CheckboxSchema
 });
 
+const TitleSchema = z
+	.string()
+	.trim()
+	.min(1, { message: 'Title cannot be empty' })
+	.max(64, { message: 'Title too long' });
+
+const DescriptionSchema = z
+	.string()
+	.trim()
+	.min(10, { message: 'Description too short' })
+	.max(500, { message: 'Description too long' });
+
+const ThumbnailSchema = z
+	.instanceof(File)
+	.refine((file) => file.size < MAX_IMG_SIZE, { message: 'Image too big: 1MB max' })
+	.refine((file) => SHARP_IMAGE_INPUT_TYPES.includes(file.type), {
+		message: 'Must be a jpeg, png, webp or gif image'
+	})
+	.optional();
+
 const CreatorSchema = z.object({
 	userType: z.literal('creator'),
 	email: EmailSchema,
@@ -62,28 +82,23 @@ const CreatorSchema = z.object({
 		}
 	}),
 	category: CategorySchema,
-	title: z
-		.string()
-		.trim()
-		.min(1, { message: 'Title cannot be empty' })
-		.max(64, { message: 'Title too long' }),
-	description: z
-		.string()
-		.trim()
-		.min(10, { message: 'Description too short' })
-		.max(500, { message: 'Description too long' }),
+	title: TitleSchema,
+	description: DescriptionSchema,
 	link: UrlSchema,
-	thumbnail: z
-		.instanceof(File)
-		.refine((file) => file.size < MAX_IMG_SIZE, { message: 'Image too big: 1MB max' })
-		.refine((file) => SHARP_IMAGE_INPUT_TYPES.includes(file.type), {
-			message: 'Must be a jpeg, png, webp or gif image'
-		})
-		.optional(),
+	thumbnail: ThumbnailSchema,
 	rules: CheckboxSchema
 });
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
+
+export const SwapSchema = z.object({
+	email: EmailSchema,
+	category: CategorySchema,
+	title: TitleSchema,
+	description: DescriptionSchema,
+	link: UrlSchema,
+	thumbnail: ThumbnailSchema
+});
 
 export const FlagSchema = z.object({
 	reason: z.string().min(1).max(140),
