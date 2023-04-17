@@ -43,7 +43,7 @@ def expander_from_cycles(k, N):
     if N < 2:
         return []
     elif N < 5:
-        cycle = random_cycle(N)
+        cycle = range(N)
         return [*list(pairwise(cycle)), (cycle[-1], cycle[0])]
 
     assert k > 1, "You need at least 2 cycles"
