@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { categories } from '$lib/config';
 import { MAX_IMG_SIZE } from './config';
-import { YOUTUBE_VIDEO_REGEX } from '../utils';
 
 const SHARP_IMAGE_INPUT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
@@ -25,10 +24,7 @@ export const TokenForm = z.object({
 const UrlSchema = z
 	.string()
 	.url({ message: 'Invalid url, please provide the full url with the https:// prefix' })
-	.refine((str) => !str.includes('playlist'), { message: 'Playlists are not allowed' })
-	.refine((str) => !str.includes('youtube.com') || YOUTUBE_VIDEO_REGEX.test(str), {
-		message: 'Invalid youtube link'
-	});
+	.refine((str) => !str.includes('playlist'), { message: 'Playlists are not allowed' });
 
 export const FlagForm = z.object({
 	link: UrlSchema,

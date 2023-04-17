@@ -5,7 +5,7 @@
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import type { ActionData, PageData } from './$types';
 	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
-	import { YOUTUBE_VIDEO_REGEX } from '$lib/utils';
+	import { YOUTUBE_EMBEDDABLE } from '$lib/utils';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -112,8 +112,8 @@
 					{#each entries as entry, i}
 						<div class="w-3/4">
 							<h3 class="capitalize">{entry.title}</h3>
-							{#if YOUTUBE_VIDEO_REGEX.test(entry.link)}
-								{@const youtubeLink = entry.link.match(YOUTUBE_VIDEO_REGEX)?.[1]}
+							{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
+								{@const youtubeLink = entry.link.match(YOUTUBE_EMBEDDABLE)?.[1]}
 								<iframe
 									class="mx-auto rounded-lg"
 									width="560"
