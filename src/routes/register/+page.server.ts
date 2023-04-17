@@ -14,7 +14,7 @@ export const load: PageServerLoad = async () => {
 	}
 };
 
-export const actions: Actions = {
+export const actions = {
 	default: async ({ request }) => {
 		try {
 			if (!registrationOpen()) {
@@ -123,4 +123,4 @@ export const actions: Actions = {
 			return fail(500, { invalid: true });
 		}
 	}
-};
+} satisfies Actions;
