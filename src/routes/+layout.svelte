@@ -10,9 +10,11 @@
 </script>
 
 <div class="flex min-h-[100vh] flex-col">
-	<header class="navbar px-8">
+	<header class="navbar p-4">
 		<nav class="flex gap-8">
-			<a href="/">Home</a>
+			<a class="inline-flex items-center gap-4" href="/">
+				<Icon height="3rem" width="3rem" name="logo" /> Home</a
+			>
 			{#if voteOpen() && data.token}
 				<a href="/vote">Vote</a>
 			{/if}
@@ -24,7 +26,7 @@
 		<div class="flex-1" />
 	</header>
 
-	<main class="prose mb-40 mt-10 max-w-full">
+	<main class="prose mb-40 mt-8 max-w-full">
 		<h1 class="text-center">{COMPETITION}</h1>
 		<slot />
 	</main>
