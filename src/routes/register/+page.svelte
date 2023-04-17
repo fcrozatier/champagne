@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
-	import { registrationOpen } from '$lib/utils';
+	import { YOUTUBE_EMBEDDABLE, registrationOpen } from '$lib/utils';
 	import { COMPETITION, categories } from '$lib/config';
 	import type { Snapshot } from './$types';
 	import { tick } from 'svelte';
@@ -258,7 +258,7 @@
 						{/if}
 					</div>
 
-					{#if link && !link.includes('youtube.com')}
+					{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
 						<div class="form-control max-w-xs">
 							<label for="thumbnail" class="label">
 								<span class="label-text">Thumbnail</span>
