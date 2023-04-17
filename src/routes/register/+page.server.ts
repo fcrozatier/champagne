@@ -5,11 +5,8 @@ import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
 import { sendRegistrationEmail } from '$lib/server/email';
-import sharp from 'sharp';
 import { dev } from '$app/environment';
 import { saveThumbnail } from '$lib/server/s3';
-
-sharp.cache(false);
 
 export const load: PageServerLoad = async () => {
 	if (!registrationOpen()) {
