@@ -44,6 +44,10 @@ You can use this project by setting these environment variables in your local `.
 | `NEO4J_URI`                 | e.g. "neo4j://localhost:7687" | neo4j connection string                                               |
 | `NEO4J_USERNAME`            | string                        | neo4j user                                                            |
 | `NEO4J_PASSWORD`            | string                        | neo4j password                                                        |
+| `S3_KEY`                    | string                        | s3 bucket key                                                         |
+| `S3_SECRET`                 | string                        | s3 bucket secret                                                      |
+| `S3_ENDPOINT`               | string                        | s3 endpoint                                                           |
+| `S3_REGION`                 | string                        | s3 region                                                             |
 | `MAILGUN_API_KEY`           | string                        | mailgun config                                                        |
 | `DOMAIN`                    | string                        | mailgun config                                                        |
 
