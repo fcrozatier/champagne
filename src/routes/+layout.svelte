@@ -5,8 +5,12 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import { page } from '$app/stores';
 	import { COMPETITION } from '$lib/config';
+	import { dev } from '$app/environment';
+	import { inject } from '@vercel/analytics';
 
 	export let data: LayoutData;
+
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <div class="flex min-h-[100vh] flex-col">
