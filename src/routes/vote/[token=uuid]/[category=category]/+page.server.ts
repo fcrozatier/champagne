@@ -150,8 +150,9 @@ export const load: PageServerLoad = async (event) => {
 				AND n2.flagged IS NULL
 				WITH n1, n2, u, step
 				MATCH p = (n1)-[r]-(n2)
-				WHERE none(rel IN relationships(p) WHERE rel.userToken = u.token)
-				AND size(relationships(p)) <= step
+				WITH n1, n2, u, step, collect(r) as relations
+				WHERE size(relations) = step
+				AND none(relation IN relations WHERE relation.userToken = u.token)
 				WITH n1, n2
 				LIMIT 1
 				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
