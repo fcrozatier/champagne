@@ -1,4 +1,4 @@
-# Champagne! 🍾
+# 🍾  Champagne!
 
 Bubble up and celebrate the outstanding!
 
