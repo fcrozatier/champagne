@@ -45,7 +45,7 @@ export const load: PageServerLoad = async (event) => {
 		if (votes?.records[0]?.length) {
 			const rate =
 				votes.records[0].get('votes').toNumber() / votes.records[0].get('entries').toNumber();
-			console.log('VOTE rate', rate, parseFloat(PUBLIC_VOTE_LIMIT));
+			console.log('user vote rate', rate, parseFloat(PUBLIC_VOTE_LIMIT));
 			if (rate >= parseFloat(PUBLIC_VOTE_LIMIT)) {
 				console.log('stop vote');
 
@@ -72,7 +72,7 @@ export const load: PageServerLoad = async (event) => {
 
 		if (prev?.records[0]?.length) {
 			const row = prev.records[0];
-			console.log('previous entries');
+			console.log('show user previously assigned entries');
 			// Return previously assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -115,7 +115,7 @@ export const load: PageServerLoad = async (event) => {
 
 		if (notAssigned?.records[0]?.length) {
 			const row = notAssigned.records[0];
-			console.log('assigned new from not assigned ');
+			console.log('show user a pair of not yet assigned entries');
 			// Return new assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -166,7 +166,7 @@ export const load: PageServerLoad = async (event) => {
 
 		if (duplicate?.records[0]?.length) {
 			const row = duplicate.records[0];
-			console.log('assigned new DUPLICATES');
+			console.log('show user entries that where already compared');
 			// Return new assigned entries
 			return {
 				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
@@ -175,20 +175,26 @@ export const load: PageServerLoad = async (event) => {
 
 		// If we cannot find an entry with s:Step number of relations then the graph is regular,
 		// We can increase the step in the category and start again
-		await session.executeWrite((tx) => {
-			return tx.run(
+		const step = await session.executeWrite((tx) => {
+			return tx.run<{ step: Integer }>(
 				`
 				MATCH (s:Step)
 				WHERE s.category = $category
 				CALL apoc.atomic.add(s, 'value', 1)
 				YIELD oldValue, newValue
-				RETURN newValue
+				RETURN newValue as step
 				`,
 				{ category }
 			);
 		});
-		console.log('increment step');
-		return await load(event);
+
+		// Avoid infinite loop
+		if (step?.records?.[0]?.length && step.records[0].get('step').toInt() < 100) {
+			console.log('increment step');
+			return await load(event);
+		} else {
+			return { stopVote: true };
+		}
 	} catch (error) {
 		console.log(error);
 		throw error;
