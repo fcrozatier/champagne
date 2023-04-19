@@ -51,7 +51,7 @@ export const load: PageServerLoad = async () => {
 				ON f.token;
       `);
 		});
-
+		// TODO use Sequence to avoid counting entries (Category node with value)
 		// Sequences
 		for (const category of categories) {
 			await session.executeWrite((tx) => {
