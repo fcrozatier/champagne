@@ -226,17 +226,19 @@
 							id="description"
 							name="description"
 							class="textarea-bordered textarea text-base"
+							minlength="10"
 							maxlength="500"
 							bind:value={description}
 							required
 						/>
 						<div class="label">
-							<span class="label-text-alt" />
+							<span class="label-text-alt text-error">
+								{#if form?.fieldErrors?.description}
+									{form.fieldErrors.description.join(', ')}
+								{/if}
+							</span>
 							<span class="label-text-alt">{description.length}/500</span>
 						</div>
-						{#if form?.fieldErrors?.description}
-							<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
-						{/if}
 					</div>
 
 					<div class="form-control max-w-xs">
