@@ -108,14 +108,14 @@
 					};
 				}}
 			>
-				<div class="grid w-full justify-items-center gap-10 sm:grid-cols-2">
+				<div class="grid w-full justify-items-center gap-10 px-10 sm:grid-cols-2">
 					{#each entries as entry, i}
-						<div class="w-3/4">
+						<div>
 							<h3 class="capitalize">{entry.title}</h3>
 							{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
 								{@const youtubeLink = entry.link.match(YOUTUBE_EMBEDDABLE)?.[1]}
 								<iframe
-									class="mx-auto rounded-lg"
+									class="mx-auto max-w-full rounded-lg"
 									width="560"
 									height="315"
 									src={`https://www.youtube.com/embed/${youtubeLink}`}
@@ -125,13 +125,15 @@
 									allowfullscreen
 								/>
 							{:else}
-								<picture>
-									<source
-										srcset={`https://some3.fra1.cdn.digitaloceanspaces.com/${entry.thumbnail}`}
-										type="image/webp"
+								<a href={entry.link}>
+									<img
+										class="mx-auto my-0 max-w-full rounded-lg"
+										src={`https://some3.fra1.cdn.digitaloceanspaces.com/${entry.thumbnail}`}
+										alt="thumbnail"
+										width="560"
+										height="315"
 									/>
-									<img src="/images/thumb.jpeg" alt="" width="560" height="315" />
-								</picture>
+								</a>
 							{/if}
 							<p>{entry.description}</p>
 							<p>Link: <a href={entry.link}>{entry.link}</a></p>
