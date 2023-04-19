@@ -142,7 +142,7 @@
 							<textarea
 								id="feedback-{i}"
 								name="feedback-{i}"
-								class="textarea-bordered textarea w-full max-w-md text-base"
+								class="textarea-bordered textarea w-full text-base"
 								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
 								maxlength="500"
 								rows="10"
@@ -222,7 +222,7 @@
 			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
 				>Cancel</button
 			>
-			<button type="submit" class="btn-outline btn-error btn">Flag this entry </button>
+			<button type="submit" class="btn-outline btn-error btn">Flag </button>
 			{#if form?.id === 'FLAG' && form?.flagFail}
 				<p class="text-error">Something went wrong.</p>
 			{/if}
