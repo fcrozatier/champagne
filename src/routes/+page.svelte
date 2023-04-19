@@ -4,7 +4,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
-	import { COMPETITION } from '$lib/config';
+	import { COMPETITION, categories } from '$lib/config';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
@@ -18,6 +18,8 @@
 		'Phase 2: Vote for the best contributions',
 		'Phase 3: Results and feedback'
 	];
+
+	const formatter = new Intl.ListFormat('en', { type: 'disjunction', style: 'short' });
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -41,9 +43,9 @@
 
 <article class="layout-prose">
 	<p>
-		The SOME <small>(Summer Of Math Exposition)</small> is an annual competition to foster the creation
-		of excellent math content. You can contribute as a creator or judge in different categories, video
-		or non video.
+		The SoME <small>(Summer of Math Exposition)</small> is an annual competition to foster the
+		creation of excellent math content. You can contribute as a creator or judge in different
+		categories, {formatter.format(categories)}.
 	</p>
 	<h2>Organization</h2>
 	<p>The competition has three phases:</p>
@@ -53,7 +55,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge-success badge">current</span>
+						<span class="badge badge-success">current</span>
 					{/if}
 				</p>
 			</li>
