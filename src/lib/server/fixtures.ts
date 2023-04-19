@@ -1,5 +1,7 @@
 import { categories } from '../config';
 
+const youtubeVideos = ['cy8r7WSuT1I', 'zeJD6dqJ5lo', 'KuXjwB4LzSA', '851U557j6HE', 'cDofhN-RJqg'];
+
 export function makeCreators(n: number) {
 	const creators = [];
 
@@ -11,7 +13,10 @@ export function makeCreators(n: number) {
 				category: category,
 				description:
 					'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem sequi ipsum ex dolores, placeat dolor blanditiis est voluptatibus similique ad nobis ab fugit explicabo tempore asperiores aliquid id itaque neque.',
-				link: `http://link${c * n + i}.com`,
+				link:
+					category === 'video'
+						? `http://youtube.com/watch?v=${youtubeVideos[i]}`
+						: `http://link${c * n + i}.com`,
 				number: i
 			});
 		}
