@@ -41,7 +41,7 @@
 
 <article class="layout-prose">
 	<p>
-		The <a href="https://www.3blue1brown.com/blog/some1><u> Summer of Math Exposition (SoME) </u></a> is an annual competition to foster the creation of excellent math content online.
+		The <a href="https://www.3blue1brown.com/blog/some1>Summer of Math Exposition (SoME)</a> is an annual competition to foster the creation of excellent math content online.
 		On this page, you can sign up as either a creator or judge for the video and non-video categories.
 	</p>
 	<h2>Organization</h2>

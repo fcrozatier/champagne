@@ -65,11 +65,11 @@
 			</p>
 		{:else}
 			<p>
-				Every member of the team will receive shortly a confirmation email with his link for the
+				Every member of the team will soon receive a confirmation email with their link for the
 				voting phase. <strong>Please do not delete this email.</strong>
 			</p>
 		{/if}
-		<p>See you in the voting phase.</p>
+		<p>See you in the voting phase!</p>
 	{:else}
 		<h2>Register for the competition</h2>
 		<h3>Creators</h3>

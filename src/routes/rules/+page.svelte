@@ -97,7 +97,7 @@
 			value in surfacing otherwise obscure ideas which more people should know about.
 		</li>
 		<li>
-			<strong>Memorable:</strong> Something should make the piece easy to remember even several months
+			<strong>Memorability:</strong> Something should make the piece easy to remember even several months
 			later. Maybe it's the beauty of the presentation, the enthusiasm of the presenter, or the mind-blowingness
 			of an aha moment.
 		</li>
@@ -113,7 +113,7 @@
 	<p>
 		For longer works, judges might not be able to consume the full video/post. Again, what's hard
 		about this is that sometimes great explainers are longer, such as a full lecture and we don't
-		want to discourage those. Just understand that to select winners, there is only so much time, so
+		want to discourage those. Just understand that to select winners, there is only so much time available for review, so
 		the substance of your work should be clearly visible with a 5-10 minute view.
 	</p>
 </article>
