@@ -6,6 +6,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
 	import { YOUTUBE_EMBEDDABLE } from '$lib/utils';
+	import { PUBLIC_S3_ENDPOINT } from '$env/static/public';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -129,7 +130,7 @@
 								<a href={entry.link}>
 									<img
 										class="mx-auto my-0 max-w-full rounded-lg"
-										src={`https://some3.fra1.cdn.digitaloceanspaces.com/${entry.thumbnail}`}
+										src={`${PUBLIC_S3_ENDPOINT}/${entry.thumbnail}`}
 										alt="thumbnail"
 										width="560"
 										height="315"
