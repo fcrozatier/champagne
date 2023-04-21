@@ -6,6 +6,8 @@ Bubble up and celebrate the outstanding!
 
 Champagne is a voting platform for massive competitions. It implements a peer ranking algorithm where people vote by comparing pairs of entries to let the best ones bubble up the surface. See [NodeRank](https://github.com/fcrozatier/NodeRank) for more details.
 
+It's the platform used by the [Summer of Math Exposition](https://www.3blue1brown.com/blog/some1) competition, live at [some.3b1b.co](https://some.3b1b.co)
+
 ## Features
 
 - Register creators-entries pairs and judges. Prevent duplicates (only one sign-up per email) and allow group entries
