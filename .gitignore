@@ -6,8 +6,7 @@ node_modules
 .env
 .env.*
 vite.config.js.timestamp-*
-s3.do.config
-s3.linode.config
+config
 
 # Python
 .venv
