@@ -43,8 +43,9 @@
 
 <article class="layout-prose">
 	<p>
-		The <a href="https://www.3blue1brown.com/blog/some1>Summer of Math Exposition (SoME)</a> is an annual competition to foster the creation of excellent math content online.
-		On this page, you can sign up as either a creator or judge for the {formatter.format(categories)}.
+		The <a href="https://www.3blue1brown.com/blog/some1">Summer of Math Exposition (SoME)</a> is an
+		annual competition to foster the creation of excellent math content online. On this page, you
+		can sign up as either a creator or judge for the {formatter.format(categories)}.
 	</p>
 	<h2>Organization</h2>
 	<p>The competition has three phases:</p>
@@ -54,7 +55,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge badge-success">current</span>
+						<span class="badge-success badge">current</span>
 					{/if}
 				</p>
 			</li>
@@ -74,7 +75,7 @@
 
 	{#if registrationOpen()}
 		<h2>Register</h2>
-		<strong>Phase 1 is open</strong>
+		<b>Phase 1 is open</b>
 		<p>
 			You can register until
 			<Time datetime={PUBLIC_REGISTRATION_END} />
@@ -84,7 +85,7 @@
 
 	{#if voteOpen()}
 		<h2>Vote</h2>
-		<strong>Phase 2 is open</strong>
+		<b>Phase 2 is open</b>
 		<p>
 			You can vote until
 			<Time datetime={PUBLIC_VOTE_END} />
@@ -93,7 +94,8 @@
 			<p><a class="btn" href="/vote/{data.token}">Vote</a></p>
 		{:else}
 			<p>
-				If you are registered as either an entrant or a judge, you can vote with your personal link you received by email or have bookmarked after the registration.
+				If you are registered as either an entrant or a judge, you can vote with your personal link
+				you received by email or have bookmarked after the registration.
 			</p>
 			<p>In case you can't find your personal link we can resend it to you.</p>
 			<p>

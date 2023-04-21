@@ -83,9 +83,18 @@
 		</p>
 		<h3>Important Notes:</h3>
 		<ul>
-			<li>You can only register one entry per person/group for the competition; however, you may submit multiple entries if you are a part of different (unique) groups.</li>
-			<li>You should not register both as a creator and as a judge. If you are a creator, you will automatically be signed up as a judge as well.</li>
-			<li>Please read the <a href="/rules"><u>rules and judging criteria</u></a> before submitting your entry.</li>
+			<li>
+				You can only register one entry per person/group for the competition; however, you may
+				submit multiple entries if you are a part of different (unique) groups.
+			</li>
+			<li>
+				You should not register both as a creator and as a judge. If you are a creator, you will
+				automatically be signed up as a judge as well.
+			</li>
+			<li>
+				Please read the <a href="/rules"><u>rules and judging criteria</u></a> before submitting your
+				entry.
+			</li>
 		</ul>
 
 		{#if !registrationOpen()}

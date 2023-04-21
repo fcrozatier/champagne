@@ -10,6 +10,6 @@ export function clickOutside(node: Element, callback: (node?: Element) => void) 
 	return {
 		destroy() {
 			document.removeEventListener('click', handleClick, true);
-		},
+		}
 	};
 }

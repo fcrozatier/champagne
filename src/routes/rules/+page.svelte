@@ -82,23 +82,23 @@
 	<p>Here's what we're looking for:</p>
 	<ul>
 		<li>
-			<strong> Clarity: </strong>
+			<b> Clarity: </b>
 			Jargon should be explained, the goals of the lesson should be understandable with minimal background,
 			and the submission should generally display empathy for people unfamiliar with the topic.
 		</li>
 		<li>
-			<strong>Motivation:</strong> It should be clear to the reader/viewer within the first 30 seconds
-			why they should care.
+			<b>Motivation:</b> It should be clear to the reader/viewer within the first 30 seconds why they
+			should care.
 		</li>
 		<li>
-			<strong>Novelty:</strong> It doesn't necessarily have to be an original idea or original topic,
-			but it should offer someone an experience they might otherwise not have by searching around online.
-			Some of the greatest value comes from covering common topics in better ways. Other times there's
-			value in surfacing otherwise obscure ideas which more people should know about.
+			<b>Novelty:</b> It doesn't necessarily have to be an original idea or original topic, but it should
+			offer someone an experience they might otherwise not have by searching around online. Some of the
+			greatest value comes from covering common topics in better ways. Other times there's value in surfacing
+			otherwise obscure ideas which more people should know about.
 		</li>
 		<li>
-			<strong>Memorability:</strong> Something should make the piece easy to remember even several months
-			later. Maybe it's the beauty of the presentation, the enthusiasm of the presenter, or the mind-blowingness
+			<b>Memorability:</b> Something should make the piece easy to remember even several months later.
+			Maybe it's the beauty of the presentation, the enthusiasm of the presenter, or the mind-blowingness
 			of an aha moment.
 		</li>
 	</ul>
@@ -106,14 +106,15 @@
 		A peer review process will help filter the better entries. Then the admins will manually select
 		the best entries.
 	</p>
-	<strong>
+	<b>
 		If your entry does not respect the rules or copyright notice you will not be eligible to accept
 		any prize money.
-	</strong>
+	</b>
 	<p>
 		For longer works, judges might not be able to consume the full video/post. Again, what's hard
 		about this is that sometimes great explainers are longer, such as a full lecture and we don't
-		want to discourage those. Just understand that to select winners, there is only so much time available for review, so
-		the substance of your work should be clearly visible with a 5-10 minute view.
+		want to discourage those. Just understand that to select winners, there is only so much time
+		available for review, so the substance of your work should be clearly visible with a 5-10 minute
+		view.
 	</p>
 </article>

@@ -27,28 +27,31 @@
 			<h2>Vote</h2>
 			<h3>Guidelines</h3>
 			<p>
-				Choose your preferred entry between the following two. It is ultimately up to you how you make this decision, but you might consider the following principles:
+				Choose your preferred entry between the following two. It is ultimately up to you how you
+				make this decision, but you might consider the following principles:
 			</p>
 			<ul>
 				<li>
-					<strong>Motivation</strong>: is the notion well motivated?
+					<b>Motivation</b>: is the notion well motivated?
 				</li>
 				<li>
-					<strong>Explanation</strong>: is the explanation clear?
+					<b>Explanation</b>: is the explanation clear?
 				</li>
 				<li>
-					<strong>Originality</strong>: does the entry bring a new way to approach a notion or else a
-					personal touch etc.?
+					<b>Originality</b>: does the entry bring a new way to approach a notion or else a personal
+					touch etc.?
 				</li>
 				<li>
-					<strong>Length</strong>: is the time to read/watch appropriate for the underlying concept?
+					<b>Length</b>: is the time to read/watch appropriate for the underlying concept?
 				</li>
 			</ul>
 			<p>
-				Please feedback to each creator. Remember to be as constructive as possible in your comments.
+				Please feedback to each creator. Remember to be as constructive as possible in your
+				comments.
 			</p>
 			<p>
-				If an entry is inappropriate or does not follow the <a href="/rules">rules</a> you can flag it and we will review it manually.
+				If an entry is inappropriate or does not follow the <a href="/rules">rules</a> you can flag it
+				and we will review it manually.
 			</p>
 		</section>
 

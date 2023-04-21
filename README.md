@@ -1,4 +1,4 @@
-# 🍾  Champagne!
+# 🍾 Champagne!
 
 Bubble up and celebrate the outstanding!
 
@@ -63,7 +63,6 @@ You can tweak the competition settings (name and categories) in the `$lib/config
 1. Visit `localhost:5173/admin` to add the validation constraints to the database and fixtures if you want dummy data
 
 > Note: if you want the background auto cleanup of old assigned comparisons in dev mode then you need to visit `localhost:5173/admin/db-setup` each time you launch neo4j Desktop since the background job is cleared when you close the db
-
 
 ## Python tests
 
