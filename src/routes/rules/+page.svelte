@@ -53,15 +53,13 @@
 
 	<h2>Copyright</h2>
 	<p>By registering as a creator you agree to the following copyright notice:</p>
-	<p class="px-12">
-		<q class="italic">
-			I have permission to use all material (music, video clips, images, software, etc.) within my
-			entry for commercial purposes. I have not used any Creative Commons Non-Commercial or
-			copyrighted work unless I have explicit permission from the copyright holder to use their
-			material. If I have used Creative Commons BY work, I have provided appropriate attribution. If
-			I have used Creative Commons Share-Alike, I have made sure my entry is also licensed under a
-			Creative Commons license.
-		</q>
+	<p class="indent-8 italic">
+		I have permission to use all material (music, video clips, images, software, etc.) within my
+		entry for commercial purposes. I have not used any Creative Commons Non-Commercial or
+		copyrighted work unless I have explicit permission from the copyright holder to use their
+		material. If I have used Creative Commons BY work, I have provided appropriate attribution. If I
+		have used Creative Commons Share-Alike, I have made sure my entry is also licensed under a
+		Creative Commons license.
 	</p>
 	<p>
 		Exception: We have a standing agreement with Desmos that you may use this software in the
@@ -106,10 +104,10 @@
 		A peer review process will help filter the better entries. Then the admins will manually select
 		the best entries.
 	</p>
-	<b>
+	<strong>
 		If your entry does not respect the rules or copyright notice you will not be eligible to accept
 		any prize money.
-	</b>
+	</strong>
 	<p>
 		For longer works, judges might not be able to consume the full video/post. Again, what's hard
 		about this is that sometimes great explainers are longer, such as a full lecture and we don't
