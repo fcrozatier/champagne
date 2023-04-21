@@ -76,7 +76,7 @@
 						<option value={category}>{category}</option>
 					{/each}
 				</select>
-				{#if form?.fieldErrors?.category}
+				{#if form?.ID === 'swap' && form?.fieldErrors?.category}
 					<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
 				{/if}
 			</div>
@@ -93,7 +93,7 @@
 					value={entry.title}
 					required
 				/>
-				{#if form?.fieldErrors?.title}
+				{#if form?.ID === 'swap' && form?.fieldErrors?.title}
 					<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
 				{/if}
 			</div>
@@ -110,7 +110,7 @@
 					value={entry.description}
 					required
 				/>
-				{#if form?.fieldErrors?.description}
+				{#if form?.ID === 'swap' && form?.fieldErrors?.description}
 					<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
 				{/if}
 			</div>
@@ -127,9 +127,9 @@
 					class="input-bordered input w-full"
 					bind:value={link}
 				/>
-				{#if form?.fieldErrors?.link}
+				{#if form?.ID === 'swap' && form?.fieldErrors?.link}
 					<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
-				{:else if form?.linkExists}
+				{:else if form?.ID === 'swap' && form?.linkExists}
 					<span class="block text-error">entry already registered</span>
 				{/if}
 			</div>
@@ -148,7 +148,7 @@
 						class="file-input input-bordered"
 						required
 					/>
-					{#if form?.fieldErrors?.thumbnail}
+					{#if form?.ID === 'swap' && form?.fieldErrors?.thumbnail}
 						<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
 					{:else if form?.thumbnailRequired}
 						<span class="block text-error">A thumbnail is required</span>

@@ -3,13 +3,17 @@ import { EmailForm, SwapSchema, validateForm } from '$lib/server/validation';
 import { driver, type Entry } from '$lib/server/neo4j';
 import { toNativeTypes, YOUTUBE_EMBEDDABLE } from '$lib/utils';
 import { saveThumbnail } from '$lib/server/s3';
+import { Neo4jError } from 'neo4j-driver';
+
+let ID: 'find' | 'swap';
 
 export const actions = {
 	find: async ({ request }) => {
+		ID = 'find';
 		const validation = await validateForm(request, EmailForm);
 
 		if (!validation.success) {
-			return fail(400, validation.error.flatten());
+			return fail(400, { ...validation.error.flatten() });
 		}
 
 		// Save data
@@ -39,10 +43,11 @@ export const actions = {
 		}
 	},
 	swap: async ({ request }) => {
+		ID = 'swap';
 		const validation = await validateForm(request, SwapSchema);
 
 		if (!validation.success) {
-			return fail(400, validation.error.flatten());
+			return fail(400, { ID, ...validation.error.flatten() });
 		}
 
 		// Save data
@@ -84,6 +89,16 @@ export const actions = {
 				await saveThumbnail(thumbnail, restData.link);
 			}
 		} catch (error) {
+			if (
+				error instanceof Neo4jError &&
+				error.code === 'Neo.ClientError.Schema.ConstraintValidationFailed'
+			) {
+				console.log(error.message);
+
+				if (error.message.includes('link')) {
+					return fail(422, { linkExists: true });
+				}
+			}
 			console.log(error);
 			return fail(500, { invalid: true });
 		} finally {
