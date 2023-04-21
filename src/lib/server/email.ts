@@ -7,8 +7,15 @@ const mailgun = new Mailgun(formData);
 
 export const mg = mailgun.client({ username: 'api', key: MAILGUN_API_KEY });
 
-const registrationEmail = Object.values(
+const registrationEmailHtml = Object.values(
 	import.meta.glob('./registrationEmail.html', {
+		as: 'raw',
+		eager: true
+	})
+)[0];
+
+const registrationEmailTxt = Object.values(
+	import.meta.glob('./registrationEmail.txt', {
 		as: 'raw',
 		eager: true
 	})
@@ -19,6 +26,7 @@ export async function sendRegistrationEmail(to: string, token: string) {
 		from: 'SoME <some@3blue1brown.com>',
 		to,
 		subject: `${COMPETITION} registration`,
-		html: registrationEmail.replace('%user.token%', token).replace('%domain%', ORIGIN)
+		html: registrationEmailHtml.replace('%user.token%', token).replace('%domain%', ORIGIN),
+		text: registrationEmailTxt.replace('%user.token%', token).replace('%domain%', ORIGIN)
 	});
 }

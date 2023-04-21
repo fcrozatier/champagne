@@ -1,0 +1,14 @@
+Hey,
+
+You successfully registered to the SoME3 event!
+
+Here is your personal link for the vote, you can bookmark it and use it when the vote is open:
+
+<a href="%domain%/vote/%user.token%">your personal link</a>
+
+This email was auto-generated, please dot not answer. If you have any questions you can contact
+us at 3b1b.some@gmail.com
+
+See you in the voting phase,
+
+The SoME team
