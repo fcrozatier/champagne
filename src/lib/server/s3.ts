@@ -1,6 +1,6 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { S3_BUCKET, S3_KEY, S3_REGION, S3_SECRET } from '$env/static/private';
-import { PUBLIC_S3_ENDPOINT } from '$env/static/public';
+import { S3_KEY, S3_REGION, S3_SECRET } from '$env/static/private';
+import { PUBLIC_S3_BUCKET, PUBLIC_S3_ENDPOINT } from '$env/static/public';
 import sharp from 'sharp';
 
 const client = new S3Client({
@@ -30,7 +30,7 @@ export async function saveThumbnail(thumbnail: File, key: string) {
 		.toBuffer();
 
 	const command = new PutObjectCommand({
-		Bucket: S3_BUCKET,
+		Bucket: PUBLIC_S3_BUCKET,
 		Key: key,
 		Body: output,
 		ACL: 'public-read'

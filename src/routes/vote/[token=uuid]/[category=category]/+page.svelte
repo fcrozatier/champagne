@@ -4,7 +4,7 @@
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import type { ActionData, PageData } from './$types';
-	import { PUBLIC_RATE_LIMIT } from '$env/static/public';
+	import { PUBLIC_RATE_LIMIT, PUBLIC_S3_BUCKET } from '$env/static/public';
 	import { YOUTUBE_EMBEDDABLE } from '$lib/utils';
 	import { PUBLIC_S3_ENDPOINT } from '$env/static/public';
 
@@ -130,7 +130,10 @@
 								<a href={entry.link}>
 									<img
 										class="mx-auto my-0 max-w-full rounded-lg"
-										src={`${PUBLIC_S3_ENDPOINT}/${entry.thumbnail}`}
+										src={`https://${PUBLIC_S3_BUCKET}.${PUBLIC_S3_ENDPOINT.replace(
+											'https://',
+											''
+										)}/${entry.thumbnail}`}
 										alt="thumbnail"
 										width="560"
 										height="315"

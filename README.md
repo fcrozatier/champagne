@@ -46,9 +46,9 @@ You can use this project by setting these environment variables in your local `.
 | `NEO4J_PASSWORD`            | string                        | neo4j password                                   |
 | `S3_KEY`                    | string                        | s3 bucket key                                    |
 | `S3_SECRET`                 | string                        | s3 bucket secret                                 |
-| `S3_ENDPOINT`               | string                        | s3 endpoint                                      |
 | `S3_REGION`                 | string                        | s3 region                                        |
-| `S3_BUCKET`                 | string                        | s3 bucket name                                   |
+| `PUBLIC_S3_ENDPOINT`        | string                        | s3 endpoint                                      |
+| `PUBLIC_S3_BUCKET`          | string                        | s3 bucket name                                   |
 | `MAILGUN_API_KEY`           | string                        | mailgun config                                   |
 | `DOMAIN`                    | string                        | mailgun config                                   |
 
