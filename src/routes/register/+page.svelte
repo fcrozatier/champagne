@@ -42,7 +42,7 @@
 	async function addContributor() {
 		otherContributors = [...otherContributors, ''];
 		await tick();
-		const lastEmail = document.getElementById(`email_${otherContributors.length - 1}`);
+		const lastEmail = document.getElementById(`email-${otherContributors.length - 1}`);
 		(lastEmail as HTMLInputElement)?.focus();
 	}
 </script>
