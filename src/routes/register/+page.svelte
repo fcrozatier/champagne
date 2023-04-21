@@ -136,9 +136,7 @@
 
 				<div class="form-control max-w-xs">
 					<label for="email" class="label">
-						<span class="label-text">
-							{otherContributors.length === 0 ? 'Email' : 'Emails'}
-						</span>
+						<span class="label-text"> Email </span>
 					</label>
 					<input
 						id="email"
@@ -152,11 +150,16 @@
 					{#if form?.fieldErrors?.email}
 						<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
 					{/if}
-					{#if value === 'creator'}
-						{#each otherContributors as _, i}
-							<p class="flex items-center gap-2">
+				</div>
+				{#if value === 'creator'}
+					{#each otherContributors as _, i}
+						<div class="form-control max-w-xs">
+							<label for="email-{i}" class="label">
+								<span class="label-text">Email {i + 2}</span>
+							</label>
+							<div class="flex items-center gap-2">
 								<input
-									id="email_{i}"
+									id="email-{i}"
 									type="email"
 									name="email_{i}"
 									class="input-bordered input w-full"
@@ -171,23 +174,23 @@
 										otherContributors = otherContributors;
 									}}>&cross;</button
 								>
-							</p>
-						{/each}
-						<p class="flex items-center gap-2 text-sm text-gray-500">
-							Add contributor
-							<button
-								type="button"
-								class="btn-outline btn-sm btn-circle btn opacity-80"
-								on:click={addContributor}
-							>
-								+</button
-							>
-						</p>
-					{/if}
-					{#if form?.emailExists}
-						<span class="block text-error">email already registered: {form.emailExists}</span>
-					{/if}
-				</div>
+							</div>
+						</div>
+					{/each}
+					<p class="flex items-center gap-2 text-sm text-gray-500">
+						Add contributor
+						<button
+							type="button"
+							class="btn-outline btn-sm btn-circle btn opacity-80"
+							on:click={addContributor}
+						>
+							+</button
+						>
+					</p>
+				{/if}
+				{#if form?.emailExists}
+					<span class="block text-error">email already registered: {form.emailExists}</span>
+				{/if}
 
 				{#if value === 'creator'}
 					<div class="form-control max-w-xs">
