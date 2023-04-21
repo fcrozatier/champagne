@@ -4,7 +4,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
-	import { COMPETITION, categories } from '$lib/config';
+	import { COMPETITION, categories, listFormatter } from '$lib/config';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
@@ -18,8 +18,6 @@
 		'Phase 2: Vote for the best contributions',
 		'Phase 3: Results and feedback'
 	];
-
-	const formatter = new Intl.ListFormat('en', { type: 'disjunction', style: 'short' });
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -45,7 +43,7 @@
 	<p>
 		The <a href="https://www.3blue1brown.com/blog/some1">Summer of Math Exposition</a> (SoME) is an
 		annual competition to foster the creation of excellent math content online. On this page, you
-		can sign up as either a creator or judge for the {formatter.format(categories)} categories.
+		can sign up as either a creator or judge for the {listFormatter.format(categories)} categories.
 	</p>
 	<h2>Organization</h2>
 	<p>The competition has three phases:</p>

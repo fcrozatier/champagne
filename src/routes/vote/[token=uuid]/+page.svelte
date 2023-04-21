@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { categories } from '$lib/config';
+	import { categories, listFormatter } from '$lib/config';
 	import { page } from '$app/stores';
 	import { voteOpen } from '$lib/utils';
 </script>
@@ -16,7 +16,7 @@
 	{:else}
 		<p>
 			The vote is not open yet, but make sure to bookmark this page. When the vote will open, this
-			is where you can select a category (video / non-video etc.) to judge entries from.
+			is where you can select a category ({listFormatter.format(categories)}) to judge entries from.
 		</p>
 	{/if}
 </article>
