@@ -86,7 +86,7 @@ export const actions = {
 					return fail(400, { thumbnailRequired: true });
 				}
 
-				await saveThumbnail(thumbnail, restData.link);
+				await saveThumbnail(thumbnail, thumbnailKey);
 			}
 		} catch (error) {
 			if (
