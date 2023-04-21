@@ -43,9 +43,8 @@
 
 <article class="layout-prose">
 	<p>
-		The SoME <small>(Summer of Math Exposition)</small> is an annual competition to foster the
-		creation of excellent math content. You can contribute as a creator or judge in different
-		categories, {formatter.format(categories)}.
+		The <a href="https://www.3blue1brown.com/blog/some1>Summer of Math Exposition (SoME)</a> is an annual competition to foster the creation of excellent math content online.
+		On this page, you can sign up as either a creator or judge for the {formatter.format(categories)}.
 	</p>
 	<h2>Organization</h2>
 	<p>The competition has three phases:</p>
@@ -65,7 +64,7 @@
 	{#if !competitionStarted()}
 		{#if !PUBLIC_REGISTRATION_START}
 			<p>The competition has not started yet.</p>
-			<p>Stay tuned for the announcement of phase 1.</p>
+			<p>Stay tuned for the announcement of phase 1!</p>
 		{:else}
 			<p>
 				The competition will start <Time datetime={PUBLIC_REGISTRATION_START} />
@@ -94,8 +93,7 @@
 			<p><a class="btn" href="/vote/{data.token}">Vote</a></p>
 		{:else}
 			<p>
-				If you are registered you can vote with your personal link you received by email or have
-				bookmarked after the registration.
+				If you are registered as either an entrant or a judge, you can vote with your personal link you received by email or have bookmarked after the registration.
 			</p>
 			<p>In case you can't find your personal link we can resend it to you.</p>
 			<p>
