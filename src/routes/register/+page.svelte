@@ -185,7 +185,7 @@
 						</p>
 					{/if}
 					{#if form?.emailExists}
-						<span class="block text-error">email already registered : {form.emailExists}</span>
+						<span class="block text-error">email already registered: {form.emailExists}</span>
 					{/if}
 				</div>
 

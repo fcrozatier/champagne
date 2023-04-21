@@ -287,7 +287,7 @@ export const actions: Actions = {
 			const losingExplicit = losingFeedback.split(' ').some((w) => profanity.includes(w));
 			const winningExplicit = winningFeedback.split(' ').some((w) => profanity.includes(w));
 
-			// Rate limit : as least PUBLIC_RATE_LIMIT minutes between two votes
+			// Rate limit: as least PUBLIC_RATE_LIMIT minutes between two votes
 			const user = await session.executeRead((tx) => {
 				return tx.run<{ u: User }>(
 					`
