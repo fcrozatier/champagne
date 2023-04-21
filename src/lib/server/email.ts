@@ -16,7 +16,7 @@ const registrationEmail = Object.values(
 
 export async function sendRegistrationEmail(to: string, token: string) {
 	await mg.messages.create(DOMAIN, {
-		from: 'SoME <some@mailer.3blue1brown.com>',
+		from: 'SoME <some@3blue1brown.com>',
 		to,
 		subject: `${COMPETITION} registration`,
 		html: registrationEmail.replace('%user.token%', token).replace('%domain%', ORIGIN)
