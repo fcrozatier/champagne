@@ -149,9 +149,9 @@ export const load: PageServerLoad = async (event) => {
 				AND n1.flagged IS NULL
 				AND n2.flagged IS NULL
 				WITH n1, n2, u, step
-				MATCH p = (n1)-[r]-(n2)
+				MATCH p = (n1)-[r]->(n2)
 				WITH n1, n2, u, step, collect(r) as relations
-				WHERE size(relations) = step
+				WHERE size(relations) <= step
 				AND none(relation IN relations WHERE relation.userToken = u.token)
 				WITH n1, n2
 				LIMIT 1
@@ -191,7 +191,7 @@ export const load: PageServerLoad = async (event) => {
 
 		// Avoid infinite loop
 		if (step?.records?.[0]?.length && step.records[0].get('step').toInt() < 100) {
-			console.log('increment step');
+			console.log('\tINCREMENT step');
 			return await load(event);
 		} else {
 			return { stopVote: true };
@@ -328,7 +328,7 @@ export const actions: Actions = {
 				AND e2.number = $winningEntryNumber AND e2.category = $category
 				AND a.userToken = $token
 				DELETE a
-				CREATE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
+				MERGE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
 				SET f1.value = $losingFeedback, f2.value = $winningFeedback
 				SET f1.explicit = $losingExplicit, f2.explicit = $winningExplicit
 				SET f1.token = apoc.create.uuid(), f2.token = apoc.create.uuid()
