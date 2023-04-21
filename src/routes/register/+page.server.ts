@@ -68,7 +68,7 @@ export const actions = {
 							return fail(400, { thumbnailRequired: true });
 						}
 						console.time('thumbnail');
-						await saveThumbnail(thumbnail, restData.link);
+						await saveThumbnail(thumbnail, thumbnailKey);
 						console.timeEnd('thumbnail');
 					}
 				} else {

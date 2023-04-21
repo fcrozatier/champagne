@@ -12,6 +12,13 @@ const client = new S3Client({
 	endpoint: PUBLIC_S3_ENDPOINT
 });
 
+/**
+ * Saves an image File object to s3 bucket.
+ * Processes the image beforehand: resizes to 16:9 (640x360px) and formats to webp
+ *
+ * @param thumbnail File object to save
+ * @param key The name of the file on the bucket
+ */
 export async function saveThumbnail(thumbnail: File, key: string) {
 	const input = await thumbnail.arrayBuffer();
 	const output = await sharp(input)
@@ -22,11 +29,9 @@ export async function saveThumbnail(thumbnail: File, key: string) {
 		.toFormat('webp')
 		.toBuffer();
 
-	const thumbnailKey = Buffer.from(key).toString('base64') + '.webp';
-
 	const command = new PutObjectCommand({
 		Bucket: 'some3',
-		Key: thumbnailKey,
+		Key: key,
 		Body: output,
 		ACL: 'public-read'
 	});
