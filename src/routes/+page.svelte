@@ -43,9 +43,9 @@
 
 <article class="layout-prose">
 	<p>
-		The <a href="https://www.3blue1brown.com/blog/some1">Summer of Math Exposition (SoME)</a> is an
+		The <a href="https://www.3blue1brown.com/blog/some1">Summer of Math Exposition</a> (SoME) is an
 		annual competition to foster the creation of excellent math content online. On this page, you
-		can sign up as either a creator or judge for the {formatter.format(categories)}.
+		can sign up as either a creator or judge for the {formatter.format(categories)} categories.
 	</p>
 	<h2>Organization</h2>
 	<p>The competition has three phases:</p>
@@ -55,7 +55,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge-success badge">current</span>
+						<span class="badge badge-success">current</span>
 					{/if}
 				</p>
 			</li>
