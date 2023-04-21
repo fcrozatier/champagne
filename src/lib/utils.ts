@@ -64,7 +64,7 @@ export function toNativeTypes<T extends Properties>(properties: T) {
 /**
  * Convert an individual value to its JavaScript equivalent
  */
-function valueToNativeType(value: any) {
+function valueToNativeType(value: unknown) {
 	if (Array.isArray(value)) {
 		value = value.map((innerValue) => valueToNativeType(innerValue));
 	} else if (isInt(value)) {
