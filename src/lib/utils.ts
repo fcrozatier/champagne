@@ -86,3 +86,16 @@ function valueToNativeType(value: any) {
 }
 
 export const YOUTUBE_EMBEDDABLE = /youtube\.com\/watch\?.*v=([^&]*)|youtu.be\/([^&]*)/;
+
+/**
+ * Normalizes youtube links to improve uniqueness
+ * @param link a Youtube embeddable link
+ * @returns the normalized link in the form youtube.com/watch?v=...
+ */
+export function normalizeYoutubeLink(link: string) {
+	const m = link.match(YOUTUBE_EMBEDDABLE);
+
+	const id = m?.[1] || m?.[2];
+
+	return `https://youtube.com/watch?v=${id}`;
+}

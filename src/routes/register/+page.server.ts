@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib/utils';
+import { normalizeYoutubeLink, registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
@@ -37,12 +37,19 @@ export const actions = {
 					const others = validation.data.others;
 					others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
 
-					const { thumbnail, ...restData } = validation.data;
-					const thumbnailKey = Buffer.from(restData.link).toString('base64') + '.webp';
+					const { thumbnail, link, ...restData } = validation.data;
+					const thumbnailKey = Buffer.from(link).toString('base64') + '.webp';
 					console.log('thumbnailKey:', thumbnailKey);
+
+					// Normalize youtube links
+					let normalizedLink = link;
+					if (YOUTUBE_EMBEDDABLE.test(link)) {
+						normalizedLink = normalizeYoutubeLink(link);
+					}
 
 					const params = {
 						users,
+						link: normalizedLink,
 						...restData,
 						thumbnailKey
 					};
@@ -63,7 +70,7 @@ export const actions = {
 						);
 					});
 
-					if (!YOUTUBE_EMBEDDABLE.test(restData.link)) {
+					if (!YOUTUBE_EMBEDDABLE.test(link)) {
 						if (!thumbnail) {
 							return fail(400, { thumbnailRequired: true });
 						}
