@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { COMPETITION } from '$lib/config';
+	import { COMPETITION_SHORT_NAME } from '$lib/config';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
 <svelte:head>
-	<title>Feedback &middot; {COMPETITION}</title>
+	<title>Feedback &middot; {COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">

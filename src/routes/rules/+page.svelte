@@ -1,12 +1,12 @@
 <script>
 	import { competitionStarted } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
-	import { COMPETITION } from '$lib/config';
+	import { COMPETITION_SHORT_NAME } from '$lib/config';
 	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
 </script>
 
 <svelte:head>
-	<title>Rules &middot; {COMPETITION}</title>
+	<title>Rules &middot; {COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">

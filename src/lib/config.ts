@@ -1,5 +1,6 @@
 // The competition name
-export const COMPETITION = 'SoME3';
+export const COMPETITION_FULL_NAME = 'Summer of Maths Exposition';
+export const COMPETITION_SHORT_NAME = 'SoME';
 
 // The different possible categories for entries
 // No space as the strings are used in vote url

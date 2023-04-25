@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Time from '$lib/components/Time.svelte';
-	import { COMPETITION } from '$lib/config';
+	import { COMPETITION_SHORT_NAME } from '$lib/config';
 </script>
 
 <svelte:head>
-	<title>Privacy policy &middot; {COMPETITION}</title>
+	<title>Privacy policy &middot; {COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">

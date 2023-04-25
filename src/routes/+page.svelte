@@ -4,7 +4,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
-	import { COMPETITION, categories, listFormatter } from '$lib/config';
+	import { COMPETITION_SHORT_NAME, categories, listFormatter } from '$lib/config';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<title>{COMPETITION}</title>
+	<title>{COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">
@@ -53,7 +53,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge-success badge">current</span>
+						<span class="badge badge-success">current</span>
 					{/if}
 				</p>
 			</li>

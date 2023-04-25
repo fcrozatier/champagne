@@ -1,7 +1,7 @@
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import { DOMAIN, MAILGUN_API_KEY, ORIGIN } from '$env/static/private';
-import { COMPETITION } from '../config';
+import { COMPETITION_FULL_NAME } from '../config';
 
 const mailgun = new Mailgun(formData);
 
@@ -25,7 +25,7 @@ export async function sendRegistrationEmail(to: string, token: string) {
 	await mg.messages.create(DOMAIN, {
 		from: 'SoME <some@3blue1brown.com>',
 		to,
-		subject: `${COMPETITION} registration`,
+		subject: `${COMPETITION_FULL_NAME} registration`,
 		html: registrationEmailHtml.replace('%user.token%', token).replace('%domain%', ORIGIN),
 		text: registrationEmailTxt.replace('%user.token%', token).replace('%domain%', ORIGIN)
 	});

@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { YOUTUBE_EMBEDDABLE, registrationOpen } from '$lib/utils';
-	import { COMPETITION, categories } from '$lib/config';
+	import { COMPETITION_SHORT_NAME, categories } from '$lib/config';
 	import type { Snapshot } from './$types';
 	import { tick } from 'svelte';
 
@@ -48,7 +48,7 @@
 </script>
 
 <svelte:head>
-	<title>Register &middot; {COMPETITION}</title>
+	<title>Register &middot; {COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">

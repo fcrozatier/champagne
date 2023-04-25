@@ -4,7 +4,7 @@
 	import type { LayoutData } from './$types';
 	import Icon from '$lib/components/Icon.svelte';
 	import { page } from '$app/stores';
-	import { COMPETITION } from '$lib/config';
+	import { COMPETITION_FULL_NAME } from '$lib/config';
 	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 
@@ -35,7 +35,7 @@
 	</div>
 
 	<main class="prose mb-40 mt-8 max-w-full">
-		<h1 class="text-center">{COMPETITION}</h1>
+		<h1 class="text-center">{COMPETITION_FULL_NAME}</h1>
 		<slot />
 	</main>
 
