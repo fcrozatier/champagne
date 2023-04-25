@@ -1,5 +1,5 @@
 // The competition name
-export const COMPETITION_FULL_NAME = 'Summer of Maths Exposition';
+export const COMPETITION_FULL_NAME = 'Summer of Math Exposition';
 export const COMPETITION_SHORT_NAME = 'SoME';
 
 // The different possible categories for entries

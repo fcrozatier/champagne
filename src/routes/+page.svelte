@@ -4,7 +4,7 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
-	import { COMPETITION_SHORT_NAME, categories, listFormatter } from '$lib/config';
+	import { COMPETITION_FULL_NAME, COMPETITION_SHORT_NAME, categories, listFormatter } from '$lib/config';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
@@ -41,7 +41,7 @@
 
 <article class="layout-prose">
 	<p>
-		The <a href="https://www.3blue1brown.com/blog/some1">Summer of Math Exposition</a> (SoME) is an
+		The <a href="https://www.3blue1brown.com/blog/some1">{COMPETITION_FULL_NAME}</a> (SoME) is an
 		annual competition to foster the creation of excellent math content online. On this page, you
 		can sign up as either a creator or judge for the {listFormatter.format(categories)} categories.
 	</p>
