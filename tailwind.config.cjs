@@ -7,14 +7,20 @@ module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
-			typography: ({ theme }) => ({
-				DEFAULT: {
-					css: {
-						color: theme('colors.gray.800')
-					}
-				}
-			})
+			DEFAULT: {
+				css: {}
+			}
 		}
 	},
-	plugins: [typography, daisyui]
+	plugins: [typography, daisyui],
+	daisyui: {
+		themes: [
+			{
+				light: {
+					...require('daisyui/src/colors/themes')['[data-theme=light]'],
+					'base-content': '#09090b'
+				}
+			}
+		]
+	}
 };
