@@ -16,11 +16,11 @@ export const load: PageServerLoad = async () => {
 
 export const actions = {
 	default: async ({ request }) => {
-		try {
-			if (!registrationOpen()) {
-				return fail(422, { invalid: true });
-			}
+		if (!registrationOpen()) {
+			return fail(422, { invalid: true });
+		}
 
+		try {
 			const validation = await validateForm(request, RegistrationSchema);
 
 			if (!validation.success) {
@@ -28,27 +28,28 @@ export const actions = {
 			}
 
 			const users = [{ email: validation.data.email, token: crypto.randomUUID() }];
+			if (validation.data.userType === 'creator') {
+				const others = validation.data.others;
+				others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
+			}
+
+			// Email deliverability validation
+			const emailValidation = await Promise.all(
+				[...users].map(async ({ email }) => await validateEmail(email))
+			);
+			if (emailValidation.some((x) => x === null)) {
+				return fail(400, { invalid: true });
+			}
+			const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
+			if (undeliverable) {
+				return fail(400, { undeliverable: undeliverable.address });
+			}
 
 			// Save data
 			const session = driver.session();
 
 			try {
 				if (validation.data.userType === 'creator') {
-					const others = validation.data.others;
-					others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
-
-					// Email deliverability validation
-					const emailValidation = await Promise.all(
-						[...users].map(async ({ email }) => await validateEmail(email))
-					);
-					if (emailValidation.some((x) => x === null)) {
-						return fail(400, { invalid: true });
-					}
-					const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
-					if (undeliverable) {
-						return fail(400, { undeliverable: undeliverable.address });
-					}
-
 					const { thumbnail, link, ...restData } = validation.data;
 					const thumbnailKey = Buffer.from(link).toString('base64') + '.webp';
 					console.log('thumbnailKey:', thumbnailKey);
@@ -91,18 +92,6 @@ export const actions = {
 						console.timeEnd('thumbnail');
 					}
 				} else {
-					// Email deliverability validation
-					const emailValidation = await Promise.all(
-						[...users].map(async ({ email }) => await validateEmail(email))
-					);
-					if (emailValidation.some((x) => x === null)) {
-						return fail(400, { invalid: true });
-					}
-					const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
-					if (undeliverable) {
-						return fail(400, { undeliverable: undeliverable.address });
-					}
-
 					await session.executeWrite((tx) => {
 						return tx.run(
 							`
