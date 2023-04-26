@@ -28,7 +28,7 @@
 	<header class="navbar p-4">
 		<nav class="flex gap-8">
 			<a class="inline-flex items-center gap-4" href="/">
-				<img src="/images/logo.png" width="64" height="64" alt="Logo" />
+				<Icon class="rounded-full" name="logo" width="3.5em" />
 				<span>Home</span></a
 			>
 			{#if voteOpen() && data.token}
