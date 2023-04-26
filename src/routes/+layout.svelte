@@ -7,13 +7,14 @@
 	import { COMPETITION_FULL_NAME } from '$lib/config';
 	import { browser, dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
-	import { webVitals } from '$lib/vitals';
+	import { webVitals } from '$lib/vitals.js';
 
 	export let data: LayoutData;
 
 	let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
 
 	$: if (browser && analyticsId) {
+		console.log('analyticsId', analyticsId);
 		webVitals({
 			path: $page.url.pathname,
 			params: $page.params,

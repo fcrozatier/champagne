@@ -1,25 +1,19 @@
-import { onCLS, onFCP, onFID, onLCP, onTTFB } from 'web-vitals';
+import { getCLS, getFCP, getFID, getLCP, getTTFB } from 'web-vitals';
 
 const vitalsUrl = 'https://vitals.vercel-analytics.com/v1/vitals';
 
 function getConnectionSpeed() {
-	console.log('Connection Speed', navigator?.connection?.effectiveType ?? '');
-	// @ts-ignore
-	return navigator?.connection?.effectiveType ?? '';
+	return 'connection' in navigator &&
+		navigator['connection'] &&
+		'effectiveType' in navigator['connection']
+		? // @ts-ignore
+		  navigator['connection']['effectiveType']
+		: '';
 }
 
 /**
- * @typedef Options
- * @type {object}
- * @property {{ [s: string]: any; } | ArrayLike<any>} params
- * @property {string} path
- * @property {string} analyticsId
- * @property {boolean} [debug] optional debug mode
- */
-
-/**
  * @param {import("web-vitals").Metric} metric
- * @param {Options} options
+ * @param {{ params: { [s: string]: any; } | ArrayLike<any>; path: string; analyticsId: string; debug: boolean; }} options
  */
 function sendToAnalytics(metric, options) {
 	const page = Object.entries(options.params).reduce(
@@ -28,13 +22,13 @@ function sendToAnalytics(metric, options) {
 	);
 
 	const body = {
-		dsn: options.analyticsId, // qPgJqYH9LQX5o31Ormk8iWhCxZO
-		id: metric.id, // v2-1653884975443-1839479248192
-		page, // /blog/[slug]
-		href: location.href, // https://{my-example-app-name-here}/blog/my-test
-		event_name: metric.name, // TTFB
-		value: metric.value.toString(), // 60.20000000298023
-		speed: getConnectionSpeed() // 4g
+		dsn: options.analyticsId,
+		id: metric.id,
+		page,
+		href: location.href,
+		event_name: metric.name,
+		value: metric.value.toString(),
+		speed: getConnectionSpeed()
 	};
 
 	if (options.debug) {
@@ -57,15 +51,15 @@ function sendToAnalytics(metric, options) {
 }
 
 /**
- * @param {Options} options
+ * @param {any} options
  */
 export function webVitals(options) {
 	try {
-		onFID((metric) => sendToAnalytics(metric, options));
-		onTTFB((metric) => sendToAnalytics(metric, options));
-		onLCP((metric) => sendToAnalytics(metric, options));
-		onCLS((metric) => sendToAnalytics(metric, options));
-		onFCP((metric) => sendToAnalytics(metric, options));
+		getFID((metric) => sendToAnalytics(metric, options));
+		getTTFB((metric) => sendToAnalytics(metric, options));
+		getLCP((metric) => sendToAnalytics(metric, options));
+		getCLS((metric) => sendToAnalytics(metric, options));
+		getFCP((metric) => sendToAnalytics(metric, options));
 	} catch (err) {
 		console.error('[Analytics]', err);
 	}
