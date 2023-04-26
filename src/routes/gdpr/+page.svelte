@@ -45,6 +45,4 @@
 		vote functionality.
 	</p>
 	<p>We do not use nor install third party cookies (e.g advertisement, tracking etc.).</p>
-
-	<p class="text-right text-sm italic">Last update <Time datetime="2023-03-08" time={false} /></p>
 </article>
