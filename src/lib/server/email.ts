@@ -21,8 +21,7 @@ type Validation = {
 
 export const validateEmail = async (email: string) => {
 	try {
-		const validationRes = (await mg.validate.get(email)) as Validation; // improves default types
-		return validationRes;
+		return (await mg.validate.get(email)) as Validation; // improves default types
 	} catch (error) {
 		return null;
 	}
