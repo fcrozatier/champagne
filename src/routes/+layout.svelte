@@ -5,10 +5,21 @@
 	import Icon from '$lib/components/Icon.svelte';
 	import { page } from '$app/stores';
 	import { COMPETITION_FULL_NAME } from '$lib/config';
-	import { dev } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
+	import { webVitals } from '$lib/vitals';
 
 	export let data: LayoutData;
+
+	let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
+
+	$: if (browser && analyticsId) {
+		webVitals({
+			path: $page.url.pathname,
+			params: $page.params,
+			analyticsId
+		});
+	}
 
 	inject({ mode: dev ? 'development' : 'production' });
 </script>
