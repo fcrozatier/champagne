@@ -4,7 +4,7 @@ import { normalizeYoutubeLink, registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
-import { sendRegistrationEmail } from '$lib/server/email';
+import { sendRegistrationEmail, validateEmail } from '$lib/server/email';
 import { dev } from '$app/environment';
 import { saveThumbnail } from '$lib/server/s3';
 
@@ -36,6 +36,18 @@ export const actions = {
 				if (validation.data.userType === 'creator') {
 					const others = validation.data.others;
 					others.forEach((x) => users.push({ email: x, token: crypto.randomUUID() }));
+
+					// Email deliverability validation
+					const emailValidation = await Promise.all(
+						[...users].map(async ({ email }) => await validateEmail(email))
+					);
+					if (emailValidation.some((x) => x === null)) {
+						return fail(400, { invalid: true });
+					}
+					const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
+					if (undeliverable) {
+						return fail(400, { undeliverable: undeliverable.address });
+					}
 
 					const { thumbnail, link, ...restData } = validation.data;
 					const thumbnailKey = Buffer.from(link).toString('base64') + '.webp';
@@ -79,6 +91,18 @@ export const actions = {
 						console.timeEnd('thumbnail');
 					}
 				} else {
+					// Email deliverability validation
+					const emailValidation = await Promise.all(
+						[...users].map(async ({ email }) => await validateEmail(email))
+					);
+					if (emailValidation.some((x) => x === null)) {
+						return fail(400, { invalid: true });
+					}
+					const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
+					if (undeliverable) {
+						return fail(400, { undeliverable: undeliverable.address });
+					}
+
 					await session.executeWrite((tx) => {
 						return tx.run(
 							`

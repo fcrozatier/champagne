@@ -190,6 +190,12 @@
 				{/if}
 				{#if form?.emailExists}
 					<span class="block text-error">email already registered: {form.emailExists}</span>
+				{:else if form?.undeliverable}
+					<span class="block text-error"
+						>undeliverable email{otherContributors.length > 0
+							? ': ' + form.undeliverable
+							: ''}</span
+					>
 				{/if}
 
 				{#if value === 'creator'}
@@ -308,7 +314,11 @@
 				</div>
 
 				{#if form?.fieldErrors || $page.status !== 200}
-					<p class="block text-error">Something went wrong. Please try again</p>
+					<p class="block text-error">
+						Something went wrong. {form?.invalid
+							? 'Please try again later'
+							: 'Please correct the highlighted fields above'}
+					</p>
 				{/if}
 				<p>
 					<button class="btn block" disabled={!registrationOpen()}>Register</button>

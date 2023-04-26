@@ -7,6 +7,27 @@ const mailgun = new Mailgun(formData);
 
 export const mg = mailgun.client({ username: 'api', key: MAILGUN_API_KEY });
 
+// https://documentation.mailgun.com/en/latest/api-email-validation.html
+type Validation = {
+	address: string;
+	did_you_mean?: string;
+	is_disposable_address: boolean;
+	is_role_address: boolean;
+	reason: string[];
+	result: 'deliverable' | 'undeliverable' | 'do_not_send' | 'catch_all' | 'unknown';
+	risk: 'high' | 'medium' | 'low' | 'unknown';
+	root_address?: string;
+};
+
+export const validateEmail = async (email: string) => {
+	try {
+		const validationRes = (await mg.validate.get(email)) as Validation; // improves default types
+		return validationRes;
+	} catch (error) {
+		return null;
+	}
+};
+
 const registrationEmailHtml = Object.values(
 	import.meta.glob('./registrationEmail.html', {
 		as: 'raw',
