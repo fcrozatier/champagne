@@ -46,7 +46,7 @@
 		<thead>
 			<tr>
 				<th class="pl-8">Category</th>
-				<th>Number</th>
+				<th>Count</th>
 			</tr>
 		</thead>
 		<tbody>
