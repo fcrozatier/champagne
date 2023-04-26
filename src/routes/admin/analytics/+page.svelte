@@ -34,11 +34,19 @@
 
 <article class="layout-prose">
 	<h2>Graph analytics</h2>
+	<h3>Users</h3>
+
+	<ul>
+		<li><b>Creators:</b> {data.analytics.reduce((prev, x) => prev + x.count, 0)}</li>
+		<li><b>Judges:</b> {data.judges}</li>
+	</ul>
+
+	<h3>Entries</h3>
 	<table class="w-full">
 		<thead>
 			<tr>
 				<th class="pl-8">Category</th>
-				<th>Entries</th>
+				<th>Number</th>
 			</tr>
 		</thead>
 		<tbody>

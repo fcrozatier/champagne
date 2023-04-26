@@ -29,6 +29,15 @@ export const load: PageServerLoad = async ({ parent }) => {
 			);
 		});
 
+		const judges = await session.executeRead((tx) => {
+			return tx.run<{ judges: Integer }>(
+				`
+				MATCH (n:Judge)
+				RETURN count(n) as judges
+			`
+			);
+		});
+
 		const pairings = await session.executeRead((tx) => {
 			return tx.run<{ graph: Integer }>(
 				`
@@ -43,7 +52,11 @@ export const load: PageServerLoad = async ({ parent }) => {
 			analytics.push({ category: row.get('category'), count: row.get('count').toNumber() });
 		}
 
-		return { analytics, pairings: pairings.records.length > 0 };
+		return {
+			analytics,
+			pairings: pairings.records.length > 0,
+			judges: judges.records[0].get('judges').toNumber()
+		};
 	} finally {
 		session.close();
 	}
