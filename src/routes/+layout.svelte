@@ -11,6 +11,8 @@
 
 	export let data: LayoutData;
 
+	inject({ mode: dev ? 'development' : 'production' });
+
 	let analyticsId = import.meta.env.VERCEL_ANALYTICS_ID;
 
 	$: if (browser && analyticsId) {
@@ -21,8 +23,6 @@
 			analyticsId
 		});
 	}
-
-	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <div class="flex min-h-[100vh] flex-col">
