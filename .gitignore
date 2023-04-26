@@ -1,11 +1,10 @@
 .DS_Store
-node_modules
-/build
-/.svelte-kit
-/package
 .env
-.env.*
-vite.config.js.timestamp-*
+
+.svelte-kit
+.vercel
+node_modules
+build
 config
 
 # Python
