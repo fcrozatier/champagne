@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Time from '$lib/components/Time.svelte';
 	import { COMPETITION_SHORT_NAME } from '$lib/config';
 </script>
 
