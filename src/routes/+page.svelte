@@ -58,7 +58,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge-success badge">current</span>
+						<span class="badge badge-success">current</span>
 					{/if}
 				</p>
 			</li>
