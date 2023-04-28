@@ -4,7 +4,12 @@
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions/clickOutside';
 	import { enhance } from '$app/forms';
-	import { COMPETITION_FULL_NAME, COMPETITION_SHORT_NAME, categories, listFormatter } from '$lib/config';
+	import {
+		COMPETITION_FULL_NAME,
+		COMPETITION_SHORT_NAME,
+		categories,
+		listFormatter
+	} from '$lib/config';
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
@@ -53,7 +58,7 @@
 				<p class="flex items-center gap-2">
 					{description}
 					{#if phases[i]}
-						<span class="badge badge-success">current</span>
+						<span class="badge-success badge">current</span>
 					{/if}
 				</p>
 			</li>
