@@ -3,7 +3,7 @@ import type { Integer } from 'neo4j-driver';
 import { toNativeTypes, voteOpen } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { FlagSchema, validateForm } from '$lib/server/validation';
+import { FlagSchema, validateForm, VoteSchema } from '$lib/server/validation';
 import { profanity } from '$lib/server/profanity';
 import { PUBLIC_RATE_LIMIT, PUBLIC_VOTE_LIMIT } from '$env/static/public';
 
@@ -200,7 +200,7 @@ export const load: PageServerLoad = async (event) => {
 		console.log(error);
 		throw error;
 	} finally {
-		session.close();
+		await session.close();
 	}
 };
 
@@ -242,7 +242,7 @@ export const actions: Actions = {
 		} catch (error) {
 			return fail(400, { id, flagFail: true });
 		} finally {
-			session.close();
+			await session.close();
 		}
 	},
 	vote: async ({ request, locals, params }) => {
@@ -250,42 +250,32 @@ export const actions: Actions = {
 		const token = locals.token;
 		const { category } = params;
 
-		const data = await request.formData();
-		const entryNumberA = data.get('entry-0');
-		const entryNumberB = data.get('entry-1');
-		const feedbackA = data.get('feedback-0');
-		const feedbackB = data.get('feedback-1');
-		const choice = data.get('choice');
+		const validation = await validateForm(request, VoteSchema);
 
-		if (
-			!entryNumberA ||
-			!entryNumberB ||
-			!feedbackA ||
-			!feedbackB ||
-			!choice ||
-			typeof entryNumberA !== 'string' ||
-			typeof entryNumberB !== 'string' ||
-			typeof feedbackA !== 'string' ||
-			typeof feedbackB !== 'string' ||
-			typeof choice !== 'string'
-		) {
-			console.log('vote fail');
+		if (!validation.success) {
 			return fail(400, { id, voteFail: true });
 		}
+
+		const entryNumberA = validation.data['entry-0'];
+		const entryNumberB = validation.data['entry-1'];
+		const feedbackA = validation.data['feedback-0'];
+		const feedbackB = validation.data['feedback-1'];
+		const choice = validation.data['choice'];
 
 		const session = driver.session();
 
 		try {
 			// Should the arrow go from A to B ?
 			const AToB = choice === entryNumberB;
-			const losingEntryNumber = AToB ? +entryNumberA : +entryNumberB;
-			const winningEntryNumber = AToB ? +entryNumberB : +entryNumberA;
+			const losingEntryNumber = AToB ? entryNumberA : entryNumberB;
+			const winningEntryNumber = AToB ? entryNumberB : entryNumberA;
 			const losingFeedback = AToB ? feedbackA : feedbackB;
 			const winningFeedback = AToB ? feedbackB : feedbackA;
 
 			// Find explicit language
-			const losingExplicit = losingFeedback.split(' ').some((w) => profanity.includes(w));
-			const winningExplicit = winningFeedback.split(' ').some((w) => profanity.includes(w));
+			const losingExplicit = losingFeedback?.split(' ').some((w) => profanity.includes(w)) ?? false;
+			const winningExplicit =
+				winningFeedback?.split(' ').some((w) => profanity.includes(w)) ?? false;
 
 			// Rate limit: as least PUBLIC_RATE_LIMIT minutes between two votes
 			const user = await session.executeRead((tx) => {
@@ -321,18 +311,36 @@ export const actions: Actions = {
 
 			// Make sure vote was assigned, take vote into account and remove assignment
 			await session.executeWrite((tx) => {
-				tx.run(
+				return tx.run(
 					`
 				MATCH (e1:Entry)-[a:ASSIGNED]-(e2:Entry)
 				WHERE e1.number = $losingEntryNumber AND e1.category = $category
 				AND e2.number = $winningEntryNumber AND e2.category = $category
 				AND a.userToken = $token
 				DELETE a
-				MERGE (f1:Feedback {userToken: $token})<-[:FEEDBACK]-(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)-[:FEEDBACK]->(f2:Feedback {userToken: $token})
-				SET f1.value = $losingFeedback, f2.value = $winningFeedback
-				SET f1.explicit = $losingExplicit, f2.explicit = $winningExplicit
-				SET f1.token = apoc.create.uuid(), f2.token = apoc.create.uuid()
-				RETURN e1, e2
+				CREATE (e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)
+				WITH e1, e2
+
+				CALL apoc.do.when($losingFeedback <> '', '
+					CREATE (f1:Feedback)<-[:FEEDBACK]-(e)
+					SET f1.value = value
+					SET f1.explicit = explicit
+					SET f1.token = apoc.create.uuid()
+					RETURN f1
+				', '', {value: $losingFeedback, explicit: $losingExplicit, e: e1 }) YIELD value
+
+				CALL apoc.do.when($winningFeedback <> '', '
+					CREATE (f2:Feedback)<-[:FEEDBACK]-(e)
+					SET f2.value = $winningFeedback
+					SET f2.explicit = $winningExplicit
+					SET f2.token = apoc.create.uuid()
+					RETURN f2
+				', '', {winningFeedback: $winningFeedback, winningExplicit: $winningExplicit, e: e2 }) YIELD value AS value2
+
+				WITH *
+				MATCH (u:User)
+				WHERE u.token = $token
+				SET u.lastVote = datetime()
 			`,
 					{
 						category,
@@ -347,27 +355,13 @@ export const actions: Actions = {
 				);
 			});
 
-			await session.executeWrite((tx) => {
-				// The vote was recorded so save lastVote time
-				return tx.run(
-					`
-				MATCH (u:User)
-				WHERE u.token = $token
-				SET u.lastVote = datetime()
-				RETURN u
-			`,
-					{
-						token
-					}
-				);
-			});
 			console.log('success');
 			return { id, voteSuccess: true };
 		} catch (error) {
 			console.log(error);
 			return fail(400, { id, voteFail: true });
 		} finally {
-			session.close();
+			await session.close();
 		}
 	}
 };

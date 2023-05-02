@@ -77,7 +77,7 @@
 				};
 			}}
 		>
-			<div class="grid w-full justify-items-center gap-10 px-10 sm:grid-cols-2">
+			<div class="grid w-full justify-items-center gap-20 px-16 lg:grid-cols-2">
 				{#each entries as entry, i}
 					<div>
 						<h3 class="capitalize">{entry.title}</h3>
@@ -107,7 +107,7 @@
 							</a>
 						{/if}
 						<p>{entry.description}</p>
-						<p>Link: <a href={entry.link}>{entry.link}</a></p>
+						<p>Link: <a href={entry.link} target="_blank">{entry.link}</a></p>
 						<input type="hidden" name="entry-{i}" value={entry.number} />
 						<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
 						<textarea
@@ -115,9 +115,8 @@
 							name="feedback-{i}"
 							class="textarea-bordered textarea w-full text-base"
 							placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
-							maxlength="500"
-							rows="10"
-							required
+							maxlength="2000"
+							rows="8"
 						/>
 
 						<button
@@ -214,7 +213,7 @@
 			id="reason"
 			type="text"
 			name="reason"
-			maxlength="140"
+			maxlength="100"
 			class="input-bordered input w-full"
 			required
 		/>
