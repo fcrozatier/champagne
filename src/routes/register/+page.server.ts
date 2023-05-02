@@ -8,7 +8,7 @@ import { sendRegistrationEmail, validateEmail } from '$lib/server/email';
 import { dev } from '$app/environment';
 import { saveThumbnail } from '$lib/server/s3';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = () => {
 	if (!registrationOpen()) {
 		throw error(403, 'The registration phase is not open');
 	}
