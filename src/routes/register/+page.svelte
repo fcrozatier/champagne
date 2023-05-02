@@ -115,7 +115,7 @@
 				}}
 			>
 				<div class="form-control max-w-xs">
-					<span class="label-text capitalize"> I am a </span>
+					<span class="label-text"> I am a </span>
 					{#each userTypes as type, i}
 						<label for="user-type-{i}" class="label cursor-pointer justify-start gap-2">
 							<input
