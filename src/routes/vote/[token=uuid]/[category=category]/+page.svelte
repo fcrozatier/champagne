@@ -23,9 +23,138 @@
 			<h2>Invalid token</h2>
 			<p>You can use the link you received by email to vote</p>
 		</div>
+	{:else if form?.id === 'FLAG' && form?.flagSuccess}
+		<div class="layout-prose">
+			<p class="text-success">Entry flagged. Thank you</p>
+			<!-- Force reload to grab a new pair of entries -->
+			<p>
+				<a
+					class="btn"
+					href={`/vote/${$page.params.token}/${$page.params.category}`}
+					data-sveltekit-reload>New vote</a
+				>
+			</p>
+		</div>
+	{:else if form?.id === 'VOTE' && form?.voteFail}
+		<div class="layout-prose">
+			<p class="text-error">Something went wrong.</p>
+			<!-- Force reload to grab a new pair of entries -->
+			<p>
+				<a
+					class="btn"
+					href={`/vote/${$page.params.token}/${$page.params.category}`}
+					data-sveltekit-reload>New vote</a
+				>
+			</p>
+		</div>
+	{:else if form?.id === 'VOTE' && form?.voteSuccess}
+		<div class="layout-prose">
+			<p class="text-success">Thank you !</p>
+			<!-- Force reload to grab a new pair of entries -->
+			<p>
+				<a
+					class="btn"
+					href={`/vote/${$page.params.token}/${$page.params.category}`}
+					data-sveltekit-reload>New vote</a
+				>
+			</p>
+		</div>
+	{:else if data.stopVote}
+		<div class="layout-prose">
+			<p class="text-success">Thank you for participating!</p>
+		</div>
 	{:else}
+		<form
+			method="post"
+			action="?/vote"
+			use:enhance={() => {
+				const buttons = document.querySelectorAll('button');
+				buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+				return ({ result }) => {
+					// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
+					applyAction(result);
+					buttons.forEach((b) => b.removeAttribute('disabled'));
+				};
+			}}
+		>
+			<div class="grid w-full justify-items-center gap-10 px-10 sm:grid-cols-2">
+				{#each entries as entry, i}
+					<div>
+						<h3 class="capitalize">{entry.title}</h3>
+						{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
+							{@const youtubeLink = entry.link.match(YOUTUBE_EMBEDDABLE)?.[1]}
+							<iframe
+								class="mx-auto max-w-full rounded-lg"
+								width="560"
+								height="315"
+								src={`https://www.youtube.com/embed/${youtubeLink}`}
+								title="YouTube video player"
+								frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+							/>
+						{:else}
+							<a href={entry.link} target="_blank">
+								<img
+									class="mx-auto my-0 max-w-full rounded-lg"
+									src={`https://${PUBLIC_S3_BUCKET}.${PUBLIC_S3_ENDPOINT.replace('https://', '')}/${
+										entry.thumbnail
+									}`}
+									alt="thumbnail"
+									width="560"
+									height="315"
+								/>
+							</a>
+						{/if}
+						<p>{entry.description}</p>
+						<p>Link: <a href={entry.link}>{entry.link}</a></p>
+						<input type="hidden" name="entry-{i}" value={entry.number} />
+						<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
+						<textarea
+							id="feedback-{i}"
+							name="feedback-{i}"
+							class="textarea-bordered textarea w-full text-base"
+							placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
+							maxlength="500"
+							rows="10"
+							required
+						/>
+
+						<button
+							type="button"
+							class="btn-outline btn-error btn-xs btn"
+							on:click={() => {
+								flagEntry = entry;
+								flagDialog.showModal();
+							}}
+							>Flag this entry
+						</button>
+					</div>
+				{/each}
+			</div>
+			<section class="layout-prose mt-8 w-full space-y-4">
+				<label for="choice" class="label">Which entry is the best one?</label>
+				<select
+					id="choice"
+					name="choice"
+					class="select-bordered select w-full max-w-full capitalize"
+					required
+				>
+					<option disabled selected />
+					{#each entries as entry}
+						<option value={entry.number}>{entry.title}</option>
+					{/each}
+				</select>
+				{#if form?.id === 'VOTE' && form.rateLimitError}
+					<p class="text-error">
+						Please wait at least {PUBLIC_RATE_LIMIT} minutes between votes.
+					</p>
+				{/if}
+				<button type="submit" class="btn-md btn">Vote for this entry</button>
+			</section>
+		</form>
+
 		<section class="layout-prose">
-			<h2>Vote</h2>
 			<h3>Guidelines</h3>
 			<p>
 				Choose your preferred entry between the following two. It is ultimately up to you how you
@@ -55,139 +184,6 @@
 				and we will review it manually.
 			</p>
 		</section>
-
-		{#if form?.id === 'FLAG' && form?.flagSuccess}
-			<div class="layout-prose">
-				<p class="text-success">Entry flagged. Thank you</p>
-				<!-- Force reload to grab a new pair of entries -->
-				<p>
-					<a
-						class="btn"
-						href={`/vote/${$page.params.token}/${$page.params.category}`}
-						data-sveltekit-reload>New vote</a
-					>
-				</p>
-			</div>
-		{:else if form?.id === 'VOTE' && form?.voteFail}
-			<div class="layout-prose">
-				<p class="text-error">Something went wrong.</p>
-				<!-- Force reload to grab a new pair of entries -->
-				<p>
-					<a
-						class="btn"
-						href={`/vote/${$page.params.token}/${$page.params.category}`}
-						data-sveltekit-reload>New vote</a
-					>
-				</p>
-			</div>
-		{:else if form?.id === 'VOTE' && form?.voteSuccess}
-			<div class="layout-prose">
-				<p class="text-success">Thank you !</p>
-				<!-- Force reload to grab a new pair of entries -->
-				<p>
-					<a
-						class="btn"
-						href={`/vote/${$page.params.token}/${$page.params.category}`}
-						data-sveltekit-reload>New vote</a
-					>
-				</p>
-			</div>
-		{:else if data.stopVote}
-			<div class="layout-prose">
-				<p class="text-success">Thank you for participating!</p>
-			</div>
-		{:else}
-			<form
-				method="post"
-				action="?/vote"
-				use:enhance={() => {
-					const buttons = document.querySelectorAll('button');
-					buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-					return ({ result }) => {
-						// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
-						applyAction(result);
-						buttons.forEach((b) => b.removeAttribute('disabled'));
-					};
-				}}
-			>
-				<div class="grid w-full justify-items-center gap-10 px-10 sm:grid-cols-2">
-					{#each entries as entry, i}
-						<div>
-							<h3 class="capitalize">{entry.title}</h3>
-							{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
-								{@const youtubeLink = entry.link.match(YOUTUBE_EMBEDDABLE)?.[1]}
-								<iframe
-									class="mx-auto max-w-full rounded-lg"
-									width="560"
-									height="315"
-									src={`https://www.youtube.com/embed/${youtubeLink}`}
-									title="YouTube video player"
-									frameborder="0"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-									allowfullscreen
-								/>
-							{:else}
-								<a href={entry.link} target="_blank">
-									<img
-										class="mx-auto my-0 max-w-full rounded-lg"
-										src={`https://${PUBLIC_S3_BUCKET}.${PUBLIC_S3_ENDPOINT.replace(
-											'https://',
-											''
-										)}/${entry.thumbnail}`}
-										alt="thumbnail"
-										width="560"
-										height="315"
-									/>
-								</a>
-							{/if}
-							<p>{entry.description}</p>
-							<p>Link: <a href={entry.link}>{entry.link}</a></p>
-							<input type="hidden" name="entry-{i}" value={entry.number} />
-							<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
-							<textarea
-								id="feedback-{i}"
-								name="feedback-{i}"
-								class="textarea-bordered textarea w-full text-base"
-								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
-								maxlength="500"
-								rows="10"
-								required
-							/>
-
-							<button
-								type="button"
-								class="btn-outline btn-error btn-xs btn"
-								on:click={() => {
-									flagEntry = entry;
-									flagDialog.showModal();
-								}}
-								>Flag this entry
-							</button>
-						</div>
-					{/each}
-				</div>
-				<section class="layout-prose mt-8 w-full space-y-4">
-					<label for="choice" class="label">Which entry is the best one?</label>
-					<select
-						id="choice"
-						name="choice"
-						class="select-bordered select w-full max-w-full capitalize"
-						required
-					>
-						<option disabled selected />
-						{#each entries as entry}
-							<option value={entry.number}>{entry.title}</option>
-						{/each}
-					</select>
-					{#if form?.id === 'VOTE' && form.rateLimitError}
-						<p class="text-error">
-							Please wait at least {PUBLIC_RATE_LIMIT} minutes between votes.
-						</p>
-					{/if}
-					<button type="submit" class="btn-md btn">Vote for this entry</button>
-				</section>
-			</form>
-		{/if}
 	{/if}
 </article>
 
