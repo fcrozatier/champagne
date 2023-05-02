@@ -7,4 +7,6 @@ export const COMPETITION_SHORT_NAME = 'SoME';
 export const categories = ['video', 'non-video'] as const;
 export type Category = (typeof categories)[number];
 
+export const userTypes = ['creator', 'judge'] as const;
+
 export const listFormatter = new Intl.ListFormat('en', { type: 'disjunction', style: 'short' });
