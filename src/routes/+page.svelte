@@ -33,8 +33,7 @@
 	];
 
 	const dateFormat = {
-		year: '2-digit',
-		month: '2-digit',
+		month: 'short',
 		day: '2-digit',
 		hour: 'numeric',
 		minute: 'numeric'
