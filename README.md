@@ -34,13 +34,13 @@ You can use this project by setting these environment variables in your local `.
 
 | name                        | value                         | description                                      |
 | --------------------------- | ----------------------------- | ------------------------------------------------ |
-| `PUBLIC_REGISTRATION_START` | "yyyy-mm-ddThh:mm:ssZ"        | Registration start date                          |
-| `PUBLIC_REGISTRATION_END`   | "yyyy-mm-ddThh:mm:ssZ"        | Registration deadline                            |
-| `PUBLIC_VOTE_START`         | "yyyy-mm-ddThh:mm:ssZ"        | Vote start date                                  |
-| `PUBLIC_VOTE_END`           | "yyyy-mm-ddThh:mm:ssZ"        | Vote deadline                                    |
+| `PUBLIC_REGISTRATION_START` | yyyy-mm-ddThh:mm:ssZ          | Registration start date                          |
+| `PUBLIC_REGISTRATION_END`   | yyyy-mm-ddThh:mm:ssZ          | Registration deadline                            |
+| `PUBLIC_VOTE_START`         | yyyy-mm-ddThh:mm:ssZ          | Vote start date                                  |
+| `PUBLIC_VOTE_END`           | yyyy-mm-ddThh:mm:ssZ          | Vote deadline                                    |
+| `PUBLIC_RESULTS_AVAILABLE`  | yyyy-mm-ddThh:mm:ssZ          | Results                                          |
 | `PUBLIC_RATE_LIMIT`         | number                        | Minimum time delta between votes in minutes      |
 | `PUBLIC_VOTE_LIMIT`         | float between 0 and 1         | Maximum number of votes per user / total entries |
-| `PUBLIC_RESULTS_AVAILABLE`  | 0 or 1                        | 1 if results are available                       |
 | `ORIGIN`                    | string                        | Custom domain                                    |
 | `ADMIN_PASSWORD`            | string                        | Admin level access                               |
 | `NEO4J_URI`                 | e.g. "neo4j://localhost:7687" | neo4j connection string                          |

@@ -13,7 +13,9 @@
 	import {
 		PUBLIC_REGISTRATION_END,
 		PUBLIC_REGISTRATION_START,
-		PUBLIC_VOTE_END
+		PUBLIC_RESULTS_AVAILABLE,
+		PUBLIC_VOTE_END,
+		PUBLIC_VOTE_START
 	} from '$env/static/public';
 
 	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
@@ -23,6 +25,20 @@
 		'Phase 2: Vote for the best contributions',
 		'Phase 3: Results and feedback'
 	];
+
+	const dates = [
+		[PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END],
+		[PUBLIC_VOTE_START, PUBLIC_VOTE_END],
+		[PUBLIC_RESULTS_AVAILABLE]
+	];
+
+	const dateFormat = {
+		year: '2-digit',
+		month: '2-digit',
+		day: '2-digit',
+		hour: 'numeric',
+		minute: 'numeric'
+	} as const;
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -55,11 +71,21 @@
 	<ul>
 		{#each descriptions as description, i}
 			<li class={phases[i] ? 'marker:text-green-500' : ''}>
-				<p class="flex items-center gap-2">
-					{description}
-					{#if phases[i]}
-						<span class="badge badge-success">current</span>
-					{/if}
+				<p>
+					<span class="flex items-center gap-2">
+						{description}
+						{#if phases[i]}
+							<span class="badge badge-success">current</span>
+						{/if}
+					</span>
+					<span
+						>{#if dates[i].length > 1}
+							From <Time datetime={dates[i][0]} options={dateFormat} /> to
+							<Time datetime={dates[i][1]} options={dateFormat} />
+						{:else}
+							From <Time datetime={dates[i][0]} options={dateFormat} />
+						{/if}</span
+					>
 				</p>
 			</li>
 		{/each}
