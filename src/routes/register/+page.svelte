@@ -132,7 +132,7 @@
 					{/each}
 
 					{#if form?.fieldErrors?.userType}
-						<span class="text-error">{form.fieldErrors.userType.join(', ')}</span>
+						<span class="block text-error">{form.fieldErrors.userType.join(', ')}</span>
 					{/if}
 				</div>
 
