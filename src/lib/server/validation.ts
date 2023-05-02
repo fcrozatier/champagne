@@ -86,10 +86,21 @@ const CreatorSchema = z.object({
 	description: DescriptionSchema,
 	link: UrlSchema,
 	thumbnail: ThumbnailSchema,
-	rules: CheckboxSchema
+	rules: CheckboxSchema,
+	copyright: CheckboxSchema
 });
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
+
+const FeedbackSchema = z.string().trim().max(2000, { message: 'Feedback too long' }).optional();
+
+export const VoteSchema = z.object({
+	'entry-0': z.coerce.number().int(),
+	'entry-1': z.coerce.number().int(),
+	'feedback-0': FeedbackSchema,
+	'feedback-1': FeedbackSchema,
+	choice: z.coerce.number().int()
+});
 
 export const SwapSchema = z.object({
 	email: EmailSchema,
@@ -101,7 +112,7 @@ export const SwapSchema = z.object({
 });
 
 export const FlagSchema = z.object({
-	reason: z.string().min(1).max(140),
+	reason: z.string().min(1).max(100, { message: 'Reason too long' }),
 	link: UrlSchema
 });
 

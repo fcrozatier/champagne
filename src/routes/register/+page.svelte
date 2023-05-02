@@ -114,7 +114,7 @@
 					};
 				}}
 			>
-				<div class="form-control max-w-xs">
+				<div class="form-control max-w-md">
 					<span class="label-text capitalize"> I am a </span>
 					{#each userTypes as type, i}
 						<label for="user-type-{i}" class="label cursor-pointer justify-start gap-2">
@@ -136,7 +136,7 @@
 					{/if}
 				</div>
 
-				<div class="form-control max-w-xs">
+				<div class="form-control max-w-md">
 					<label for="email" class="label">
 						<span class="label-text"> Email </span>
 					</label>
@@ -155,7 +155,7 @@
 				</div>
 				{#if userType === 'creator'}
 					{#each otherContributors as _, i}
-						<div class="form-control max-w-xs">
+						<div class="form-control max-w-md">
 							<label for="email-{i}" class="label">
 								<span class="label-text">Email {i + 2}</span>
 							</label>
@@ -201,7 +201,7 @@
 				{/if}
 
 				{#if userType === 'creator'}
-					<div class="form-control max-w-xs">
+					<div class="form-control max-w-md">
 						<label for="category" class="label">
 							<span class="label-text"> Category </span>
 						</label>
@@ -221,7 +221,7 @@
 						{/if}
 					</div>
 
-					<div class="form-control max-w-xs">
+					<div class="form-control max-w-md">
 						<label for="title" class="label">
 							<span class="label-text">Title</span>
 						</label>
@@ -238,7 +238,7 @@
 						{/if}
 					</div>
 
-					<div class="form-control max-w-xs">
+					<div class="form-control max-w-md">
 						<label for="description" class="label">
 							<span class="label-text">Short description</span>
 						</label>
@@ -261,7 +261,7 @@
 						</div>
 					</div>
 
-					<div class="form-control max-w-xs">
+					<div class="form-control max-w-md">
 						<label for="link" class="label">
 							<span class="label-text"> Link </span>
 						</label>
@@ -281,7 +281,7 @@
 					</div>
 
 					{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
-						<div class="form-control max-w-xs">
+						<div class="form-control max-w-md">
 							<label for="thumbnail" class="label">
 								<span class="label-text">Thumbnail</span>
 								<span class="label-text-alt">Recommended ratio 16:9</span>
@@ -303,8 +303,8 @@
 					{/if}
 				{/if}
 
-				<div class="form-control max-w-xs">
-					<label for="rules" class="label justify-normal gap-2">
+				<div class="form-control max-w-md">
+					<label for="rules" class="label justify-normal gap-4">
 						<input id="rules" type="checkbox" name="rules" class="checkbox" required />
 						<span class="label-text">
 							I've read the <a href="/rules">rules</a> of the competition
@@ -314,6 +314,25 @@
 						<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
 					{/if}
 				</div>
+
+				{#if userType === 'creator'}
+					<div class="form-control max-w-md">
+						<label for="copyright" class="label items-start justify-normal gap-4">
+							<input id="copyright" type="checkbox" name="copyright" class="checkbox" required />
+							<span class="label-text">
+								I have permission to use all material (music, video clips, images, software, etc.)
+								within my entry for commercial purposes. I have not used any Creative Commons
+								Non-Commercial or copyrighted work unless I have explicit permission from the
+								copyright holder to use their material. If I have used Creative Commons BY work, I
+								have provided appropriate attribution. If I have used Creative Commons Share-Alike,
+								I have made sure my entry is also licensed under a Creative Commons license.
+							</span>
+						</label>
+						{#if form?.fieldErrors?.copyright}
+							<span class="block text-error">{form.fieldErrors.copyright.join(', ')} </span>
+						{/if}
+					</div>
+				{/if}
 
 				{#if form?.fieldErrors || $page.status !== 200}
 					<p class="block text-error">
