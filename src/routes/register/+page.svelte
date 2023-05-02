@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { YOUTUBE_EMBEDDABLE, registrationOpen } from '$lib/utils';
-	import { COMPETITION_SHORT_NAME, categories } from '$lib/config';
+	import { COMPETITION_SHORT_NAME, categories, userTypes } from '$lib/config';
 	import type { Snapshot } from './$types';
 	import { tick } from 'svelte';
 
@@ -11,7 +11,7 @@
 	export const snapshot: Snapshot = {
 		capture: () => {
 			return {
-				value,
+				userType,
 				email,
 				otherContributors,
 				category,
@@ -21,7 +21,7 @@
 			};
 		},
 		restore: (v) => {
-			value = v.value;
+			userType = v.userType;
 			email = v.email;
 			otherContributors = v.otherContributors;
 			category = v.category;
@@ -31,7 +31,7 @@
 		}
 	};
 
-	let value: 'creator' | 'judge';
+	let userType: (typeof userTypes)[number];
 	let email: string;
 	let otherContributors: string[] = [];
 	let category: string;
@@ -115,22 +115,24 @@
 				}}
 			>
 				<div class="form-control max-w-xs">
-					<label for="user-type" class="label">
-						<span class="label-text"> I am a </span>
-					</label>
-					<select
-						id="user-type"
-						name="userType"
-						class="select-bordered select w-full"
-						bind:value
-						required
-					>
-						<option disabled selected />
-						<option value="creator">Creator</option>
-						<option value="judge">Judge</option>
-					</select>
+					<span class="label-text capitalize"> I am a </span>
+					{#each userTypes as type, i}
+						<label for="user-type-{i}" class="label cursor-pointer justify-start gap-2">
+							<input
+								id="user-type-{i}"
+								class="radio"
+								type="radio"
+								bind:group={userType}
+								name="userType"
+								value={type}
+								required
+							/>
+							<span class="label-text capitalize"> {type} </span>
+						</label>
+					{/each}
+
 					{#if form?.fieldErrors?.userType}
-						<span class="block text-error">{form.fieldErrors.userType.join(', ')}</span>
+						<span class="text-error">{form.fieldErrors.userType.join(', ')}</span>
 					{/if}
 				</div>
 
@@ -151,7 +153,7 @@
 						<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
 					{/if}
 				</div>
-				{#if value === 'creator'}
+				{#if userType === 'creator'}
 					{#each otherContributors as _, i}
 						<div class="form-control max-w-xs">
 							<label for="email-{i}" class="label">
@@ -198,7 +200,7 @@
 					>
 				{/if}
 
-				{#if value === 'creator'}
+				{#if userType === 'creator'}
 					<div class="form-control max-w-xs">
 						<label for="category" class="label">
 							<span class="label-text"> Category </span>
