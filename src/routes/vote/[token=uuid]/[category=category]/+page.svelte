@@ -127,7 +127,7 @@
 									allowfullscreen
 								/>
 							{:else}
-								<a href={entry.link}>
+								<a href={entry.link} target="_blank">
 									<img
 										class="mx-auto my-0 max-w-full rounded-lg"
 										src={`https://${PUBLIC_S3_BUCKET}.${PUBLIC_S3_ENDPOINT.replace(
