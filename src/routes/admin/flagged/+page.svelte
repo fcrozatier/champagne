@@ -7,7 +7,7 @@
 		link: string;
 		title: string;
 		reason: string;
-		token: string;
+		email: string;
 	}[];
 </script>
 
@@ -18,9 +18,9 @@
 		<thead>
 			<tr>
 				<th />
-				<th>Title</th>
-				<th>Reported by</th>
+				<th>Entry</th>
 				<th>Reason</th>
+				<th>Reported by</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -28,9 +28,9 @@
 			{#each flagged as entry, i}
 				<tr>
 					<th>{i + 1}</th>
-					<td><a class="capitalize" href={entry.link}>{entry.title}</a></td>
-					<td><span class="">{entry.token}</span></td>
+					<td><a class="capitalize" href={entry.link} target="_blank">{entry.title}</a></td>
 					<td><span class="">{entry.reason}</span></td>
+					<td><span class="">{entry.email}</span></td>
 					<td>
 						<form
 							class="flex gap-2"
@@ -45,9 +45,11 @@
 							}}
 						>
 							<input type="hidden" value={entry.link} name="link" />
-							<input type="hidden" value={entry.token} name="userToken" />
-							<button type="submit" formaction="?/unflag" class="btn-sm btn">Unflag</button>
-							<button type="submit" formaction="?/flag" class="btn-error btn-sm btn">Flag</button>
+							<input type="hidden" value={entry.email} name="email" />
+							<button type="submit" formaction="?/ignore" class="btn-sm btn">Ignore</button>
+							<button type="submit" formaction="?/remove" class="btn-error btn-sm btn"
+								>Remove</button
+							>
 						</form>
 					</td>
 				</tr>

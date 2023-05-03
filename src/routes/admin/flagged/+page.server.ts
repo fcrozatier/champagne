@@ -10,11 +10,10 @@ export const load: PageServerLoad = async () => {
 	try {
 		// Get flagged entries
 		const res = await session.executeRead((tx) => {
-			return tx.run<{ n: Entry; reason: string; token: string }>(
+			return tx.run<{ n: Entry; reason: string; email: string }>(
 				`
 				MATCH (n:Entry)<-[f:FLAG]-(u:User)
-				WHERE n.flagged IS NULL
-				RETURN n, f.reason as reason, u.token as token  LIMIT 25
+				RETURN n, f.reason as reason, u.email as email LIMIT 100
       `
 			);
 		});
@@ -23,13 +22,11 @@ export const load: PageServerLoad = async () => {
 		for (const row of res.records) {
 			const entry = row.get('n');
 			const reason = row.get('reason');
-			const token = row.get('token');
-			flagged.push({ link: entry.properties.link, title: entry.properties.title, reason, token });
+			const email = row.get('email');
+			flagged.push({ link: entry.properties.link, title: entry.properties.title, reason, email });
 		}
 
-		return {
-			flagged
-		};
+		return { flagged };
 	} catch (error) {
 		return { error: true };
 	} finally {
@@ -38,7 +35,7 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	unflag: async ({ request }) => {
+	ignore: async ({ request }) => {
 		const validation = await validateForm(request, FlagForm);
 		if (!validation.success) {
 			return fail(400, { unflagError: true });
@@ -51,10 +48,10 @@ export const actions: Actions = {
 				return tx.run(
 					`
 				MATCH (n:Entry)<-[f:FLAG]-(u:User)
-				WHERE n.link = $link AND u.token = $userToken
+				WHERE n.link = $link AND u.email = $email
         DELETE f
       `,
-					{ link: validation.data.link, userToken: validation.data.userToken }
+					{ link: validation.data.link, email: validation.data.email }
 				);
 			});
 			return { unflag: true };
@@ -64,7 +61,7 @@ export const actions: Actions = {
 			await session.close();
 		}
 	},
-	flag: async ({ request }) => {
+	remove: async ({ request }) => {
 		const validation = await validateForm(request, FlagForm);
 		if (!validation.success) {
 			return fail(400, { unflagError: true });
@@ -76,10 +73,10 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-				MATCH (n:Entry)
+				MATCH (n:Entry)-[:FEEDBACK]->(f:Feedback)
 				WHERE n.link = $link
-        SET n.flagged = True
-				RETURN n
+				DETACH DELETE n
+				DETACH DELETE f
       `,
 					{ link: validation.data.link }
 				);

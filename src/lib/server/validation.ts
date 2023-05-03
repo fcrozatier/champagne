@@ -28,7 +28,7 @@ const UrlSchema = z
 
 export const FlagForm = z.object({
 	link: UrlSchema,
-	userToken: TokenSchema
+	email: EmailSchema
 });
 export const PasswordForm = z.object({
 	password: z.string()
