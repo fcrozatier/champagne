@@ -16,12 +16,18 @@ export const load: PageServerLoad = async ({ parent }) => {
 
 	try {
 		const data = await session.executeRead((tx) => {
-			return tx.run<{ category: string; count: Integer }>(
+			return tx.run<{ what: string; total: Integer }>(
 				`
+				MATCH (j:Judge)
+				RETURN "judges" as what, count(j) as total
+				UNION ALL
+				MATCH (n:Graph)
+				RETURN "graph" as what, count(n) as total
+				UNION ALL
 				UNWIND $categories as category
-				MATCH (n:Entry)
-				WHERE n.category = category
-				RETURN category, count(n) as count
+				MATCH (m:Entry)
+				WHERE m.category = category
+				RETURN category as what, count(m) as total
 			`,
 				{
 					categories
@@ -29,34 +35,12 @@ export const load: PageServerLoad = async ({ parent }) => {
 			);
 		});
 
-		const judges = await session.executeRead((tx) => {
-			return tx.run<{ judges: Integer }>(
-				`
-				MATCH (n:Judge)
-				RETURN count(n) as judges
-			`
-			);
-		});
-
-		const pairings = await session.executeRead((tx) => {
-			return tx.run<{ graph: Integer }>(
-				`
-				MATCH (n:Graph)
-				RETURN n
-			`
-			);
-		});
-
-		const analytics = [];
+		const analytics = new Map();
 		for (const row of data.records) {
-			analytics.push({ category: row.get('category'), count: row.get('count').toNumber() });
+			analytics.set(row.get('what'), row.get('total').toNumber());
 		}
 
-		return {
-			analytics,
-			pairings: pairings.records.length > 0,
-			judges: judges.records[0].get('judges').toNumber()
-		};
+		return { analytics };
 	} finally {
 		await session.close();
 	}

@@ -4,8 +4,12 @@
 	import { loadPyodide } from 'pyodide';
 	import { page } from '$app/stores';
 	import { registrationOpen } from '$lib/utils';
+	import { categories } from '$lib/config';
 
 	export let data: PageData;
+
+	let creators = 0;
+	categories.forEach((c) => (creators += data.analytics.get(c)));
 
 	let computing = false;
 	let message = 'Computing... this can take a moment';
@@ -21,11 +25,11 @@
 
 		message = 'Computing graph edges...';
 		const edges = [];
-		for (const item of data.analytics) {
-			const N = item.count;
+		for (const category of categories) {
+			const N = data.analytics.get(category);
 			const k = Math.ceil(Math.log(N));
 			const pairs = await pyodide.runPythonAsync(`expander_from_cycles(${k},${N})`);
-			edges.push({ category: item.category, edges: pairs.toJs() });
+			edges.push({ category, edges: pairs.toJs() });
 		}
 
 		return edges;
@@ -37,8 +41,8 @@
 	<h3>Users</h3>
 
 	<ul>
-		<li><b>Creators:</b> {data.analytics.reduce((prev, x) => prev + x.count, 0)}</li>
-		<li><b>Judges:</b> {data.judges}</li>
+		<li><b>Creators:</b> {creators}</li>
+		<li><b>Judges:</b> {data.analytics.get('judges')}</li>
 	</ul>
 
 	<h3>Entries</h3>
@@ -50,19 +54,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.analytics as item, _}
+			{#each categories as category}
 				<tr>
-					<td class="pl-8">{item.category}</td>
-					<td class="pr-4">{item.count} </td>
+					<td class="pl-8">{category}</td>
+					<td class="pr-4">{data.analytics.get(category)} </td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
 
-	{#if !data.pairings && registrationOpen()}
+	{#if !data.analytics.get('graph') && registrationOpen()}
 		<p>To create the comparison graphs you need to close the registration first</p>
 	{/if}
-	{#if !data.pairings && !registrationOpen()}
+	{#if !data.analytics.get('graph') && !registrationOpen()}
 		<p>Create the comparison graphs</p>
 		{#if computing}
 			<p>{message}</p>
