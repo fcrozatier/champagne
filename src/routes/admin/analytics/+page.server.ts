@@ -63,18 +63,27 @@ export const actions: Actions = {
 		const session = driver.session();
 
 		try {
+			// Only add edges if comparison graph has not already been made
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-		      UNWIND $data as graph
-					WITH graph.category as category, graph.edges as edges
-					UNWIND edges as edge
-					MATCH (n:Entry), (m:Entry)
-					WHERE n.category = category
-					AND m.category = category
-					AND n.number = edge[0]
-					AND m.number = edge[1]
-					MERGE (n)-[:NOT_ASSIGNED]->(m)
+					MATCH (g:Graph)
+					WITH count(g) = 0 as condition
+
+					CALL apoc.do.when(condition, '
+						UNWIND $data as graph
+						WITH graph.category as category, graph.edges as edges
+						UNWIND edges as edge
+						MATCH (n:Entry), (m:Entry)
+						WHERE n.category = category
+						AND m.category = category
+						AND n.number = edge[0]
+						AND m.number = edge[1]
+						AND n.number < m.number
+						MERGE (n)-[:NOT_ASSIGNED]->(m)
+					', '', {data: $data}) YIELD value
+
+					RETURN value
 		    `,
 					{
 						data: validation.data

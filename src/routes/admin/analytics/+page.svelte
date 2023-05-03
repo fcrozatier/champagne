@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import { registrationOpen } from '$lib/utils';
 	import { categories } from '$lib/config';
+	import { onMount } from 'svelte';
 
 	export let data: PageData;
 
@@ -15,6 +16,8 @@
 	let message = 'Computing... this can take a moment';
 
 	async function createGraph() {
+		computing = true;
+
 		message = 'Loading Pyodide, Numpy and utilities...';
 		const pyodide = await loadPyodide({
 			indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.2/full'
@@ -27,13 +30,21 @@
 		const edges = [];
 		for (const category of categories) {
 			const N = data.analytics.get(category);
-			const k = Math.ceil(Math.log(N));
-			const pairs = await pyodide.runPythonAsync(`expander_from_cycles(${k},${N})`);
+			const cycles = Math.ceil(Math.log10(N)) + 1;
+			const pairs = await pyodide.runPythonAsync(`expander_from_cycles(${cycles},${N})`);
 			edges.push({ category, edges: pairs.toJs() });
 		}
 
+		computing = false;
 		return edges;
 	}
+
+	let edges: Awaited<ReturnType<typeof createGraph>>;
+	onMount(async () => {
+		if (!data.analytics.get('graph') && !registrationOpen()) {
+			edges = await createGraph();
+		}
+	});
 </script>
 
 <article class="layout-prose">
@@ -42,7 +53,7 @@
 
 	<ul>
 		<li><b>Creators:</b> {creators}</li>
-		<li><b>Judges:</b> {data.analytics.get('judges')}</li>
+		<li><b>Judges:</b> {data.analytics.get('judges') ?? 0}</li>
 	</ul>
 
 	<h3>Entries</h3>
@@ -70,27 +81,23 @@
 		<p>Create the comparison graphs</p>
 		{#if computing}
 			<p>{message}</p>
-		{:else}
-			<form
-				method="post"
-				action="?/pairing"
-				use:enhance={async ({ data }) => {
-					computing = true;
-					const edges = await createGraph();
-					data.append('edges', JSON.stringify(edges));
-					message = 'Creating relations in database...';
-
-					return async ({ update }) => {
-						await update();
-						computing = false;
-					};
-				}}
-			>
-				<button class="btn" disabled={computing}>Create pairings</button>
-				{#if $page.status !== 200}
-					<p class="text-error">Something went wrong</p>
-				{/if}
-			</form>
 		{/if}
+		<form
+			method="post"
+			action="?/pairing"
+			use:enhance={({ data, submitter }) => {
+				submitter?.setAttribute('disabled', 'on');
+				data.append('edges', JSON.stringify(edges));
+
+				return async ({ update }) => {
+					await update();
+				};
+			}}
+		>
+			<button class="btn" disabled={computing}>Create pairings</button>
+			{#if $page.status !== 200}
+				<p class="text-error">Something went wrong</p>
+			{/if}
+		</form>
 	{/if}
 </article>
