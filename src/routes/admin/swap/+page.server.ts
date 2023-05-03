@@ -64,7 +64,7 @@ export const actions = {
 			};
 
 			await session.executeWrite((tx) => {
-				tx.run(
+				return tx.run(
 					`
 					MATCH (u:Creator)-[:CREATED]->(n:Entry)
 					WHERE u.email = $params.email

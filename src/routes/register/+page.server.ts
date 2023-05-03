@@ -68,16 +68,16 @@ export const actions = {
 					};
 
 					await session.executeWrite((tx) => {
-						tx.run(
+						return tx.run(
 							`
-					MATCH (n:Entry)
-					WHERE n.category = $params.category
-					WITH count(n) as number
-					CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
-					SET entry.number = number
-					WITH *
-					UNWIND $params.users AS creator
-					MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
+							MATCH (n:Entry)
+							WHERE n.category = $params.category
+							WITH count(n) as number
+							CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
+							SET entry.number = number
+							WITH *
+							UNWIND $params.users AS creator
+							MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
 					`,
 							{ params }
 						);
