@@ -32,7 +32,7 @@ export const load: PageServerLoad = async () => {
 	} catch (error) {
 		return { success: false };
 	} finally {
-		session.close();
+		await session.close();
 	}
 };
 
@@ -60,7 +60,7 @@ export const actions: Actions = {
 		} catch (error) {
 			return fail(400, { error: true });
 		} finally {
-			session.close();
+			await session.close();
 		}
 	},
 	delete: async ({ request }) => {
@@ -85,7 +85,7 @@ export const actions: Actions = {
 		} catch (error) {
 			return fail(400, { error: true });
 		} finally {
-			session.close();
+			await session.close();
 		}
 	}
 };

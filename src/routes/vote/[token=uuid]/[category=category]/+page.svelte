@@ -70,9 +70,9 @@
 			use:enhance={() => {
 				const buttons = document.querySelectorAll('button');
 				buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-				return ({ result }) => {
+				return async ({ result }) => {
 					// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
-					applyAction(result);
+					await applyAction(result);
 					buttons.forEach((b) => b.removeAttribute('disabled'));
 				};
 			}}
@@ -194,9 +194,9 @@
 		use:enhance={() => {
 			const buttons = document.querySelectorAll('button');
 			buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-			return ({ result }) => {
+			return async ({ result }) => {
 				// Do not force a page update here to prevent assigning a new pair in case the user doesn't want to keep voting.
-				applyAction(result);
+				await applyAction(result);
 				buttons.forEach((b) => b.removeAttribute('disabled'));
 				flagDialog.close();
 			};

@@ -109,8 +109,9 @@
 					data.append('others', JSON.stringify(otherContributors));
 					submitter?.setAttribute('disabled', 'on');
 
-					return ({ update }) => {
-						update().then(() => submitter?.removeAttribute('disabled'));
+					return async ({ update }) => {
+						await update();
+						submitter?.removeAttribute('disabled');
 					};
 				}}
 			>

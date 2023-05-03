@@ -39,7 +39,7 @@ export const actions: Actions = {
 			console.log(error);
 			return fail(400, { error: true });
 		} finally {
-			session.close();
+			await session.close();
 		}
 	}
 };

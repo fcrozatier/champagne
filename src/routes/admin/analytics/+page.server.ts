@@ -58,7 +58,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 			judges: judges.records[0].get('judges').toNumber()
 		};
 	} finally {
-		session.close();
+		await session.close();
 	}
 };
 
@@ -113,7 +113,7 @@ export const actions: Actions = {
 			console.error(e);
 			return fail(400);
 		} finally {
-			session.close();
+			await session.close();
 		}
 	}
 };

@@ -40,6 +40,6 @@ export const load: LayoutServerLoad = async (event) => {
 		console.log(error);
 		throw error;
 	} finally {
-		session.close();
+		await session.close();
 	}
 };

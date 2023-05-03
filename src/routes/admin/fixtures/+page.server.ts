@@ -30,6 +30,6 @@ export const load: PageServerLoad = async () => {
 		console.log("couldn't add fixtures", error);
 		return { success: false };
 	} finally {
-		session.close();
+		await session.close();
 	}
 };

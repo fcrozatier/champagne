@@ -11,8 +11,9 @@
 		action="?/login"
 		use:enhance={({ submitter }) => {
 			submitter?.setAttribute('disabled', 'on');
-			return ({ update }) => {
-				update().then(() => submitter?.removeAttribute('disabled'));
+			return async ({ update }) => {
+				await update();
+				submitter?.removeAttribute('disabled');
 			};
 		}}
 	>

@@ -36,6 +36,6 @@ export const load: PageServerLoad = async (event) => {
 		console.log(error);
 		throw error;
 	} finally {
-		session.close();
+		await session.close();
 	}
 };

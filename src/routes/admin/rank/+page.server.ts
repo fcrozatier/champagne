@@ -92,7 +92,7 @@ export const actions: Actions = {
 
 			return { ranking };
 		} finally {
-			session.close();
+			await session.close();
 		}
 	}
 };
