@@ -10,12 +10,14 @@ export function makeCreators(n: number) {
 			creators.push({
 				email: `email${c * n + i}@gmail.com`,
 				title: `title${i}`,
-				category: category,
+				category,
 				description:
 					'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem sequi ipsum ex dolores, placeat dolor blanditiis est voluptatibus similique ad nobis ab fugit explicabo tempore asperiores aliquid id itaque neque.',
 				link:
 					category === 'video'
-						? `http://youtube.com/watch?v=${youtubeVideos[i]}`
+						? i < youtubeVideos.length
+							? `http://youtube.com/watch?v=${youtubeVideos[i]}`
+							: `http://youtube.com/v=${c * n + i}`
 						: `http://link${c * n + i}.com`,
 				number: i
 			});

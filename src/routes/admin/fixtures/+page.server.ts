@@ -7,7 +7,7 @@ export const load: PageServerLoad = async () => {
 	if (!dev) return;
 
 	const session = driver.session();
-	const N = 5; // Number of fixtures in each category
+	const N = 25; // Number of fixtures in each category
 	const creatorsData = makeCreators(N);
 
 	try {
