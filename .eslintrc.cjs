@@ -1,19 +1,23 @@
 module.exports = {
 	root: true,
-	parser: '@typescript-eslint/parser',
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:@typescript-eslint/recommended-requiring-type-checking',
+		// 'plugin:@typescript-eslint/recommended-requiring-type-checking',
 		'plugin:svelte/recommended',
 		'prettier'
 	],
+	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
-	ignorePatterns: ['*.cjs'],
 	parserOptions: {
-		project: './tsconfig.json',
 		sourceType: 'module',
+		ecmaVersion: 2020,
 		extraFileExtensions: ['.svelte']
+	},
+	env: {
+		browser: true,
+		es2020: true,
+		node: true
 	},
 	overrides: [
 		{
@@ -23,10 +27,5 @@ module.exports = {
 				parser: '@typescript-eslint/parser'
 			}
 		}
-	],
-	env: {
-		browser: true,
-		es2020: true,
-		node: true
-	}
+	]
 };
