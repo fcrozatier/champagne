@@ -17,7 +17,7 @@ It's the platform used by the [Summer of Math Exposition](https://www.3blue1brow
 - Rate limit votes: a user must wait at least X minutes between votes and can make at most Y votes in each categories.
 - Leave feedbacks. Creators can access their feedbacks at the end. Admins can review and validate feedbacks.
 - Detect explicit language in feedbacks
-- Flag inappropriate entries. Admins can review the flagged entries and confirm or unflag them
+- Flag inappropriate entries. Admins can review the flagged entries and confirm deletion
 - Deadlines: Sign-up and vote forms are disabled on given dates
 - Runs a [PageRank](https://en.wikipedia.org/wiki/PageRank) algorithm to rank the entries
 - Protected admin area
