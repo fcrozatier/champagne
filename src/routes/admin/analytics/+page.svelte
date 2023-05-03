@@ -13,7 +13,7 @@
 	async function createGraph() {
 		message = 'Loading Pyodide, Numpy and utilities...';
 		const pyodide = await loadPyodide({
-			indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.1/full'
+			indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.2/full'
 		});
 		await pyodide.loadPackage('numpy');
 		const utilities = import.meta.glob('/graph/utilities.py', { eager: true, as: 'raw' });
