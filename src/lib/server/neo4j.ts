@@ -18,7 +18,6 @@ export interface EntryProperties extends Record<string, unknown> {
 	description: string;
 	link: string;
 	thumbnail: string;
-	flagged?: boolean;
 	number: number;
 }
 

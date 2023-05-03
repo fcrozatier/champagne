@@ -83,7 +83,6 @@ export const load: PageServerLoad = async (event) => {
 		// in the current category
 		// not created by user
 		// not flagged by user
-		// not flagged
 		const notAssigned = await session.executeWrite((tx) => {
 			return tx.run<AssignedEntries>(
 				`
@@ -98,8 +97,6 @@ export const load: PageServerLoad = async (event) => {
 				AND NOT u2.token = $token
 				AND (n IS NULL OR NOT n1.number = n.number)
 				AND (n IS NULL OR NOT n2.number = n.number)
-				AND n1.flagged IS NULL
-				AND n2.flagged IS NULL
 				WITH r, n1, n2
 				LIMIT 1
 				DELETE r
@@ -127,7 +124,6 @@ export const load: PageServerLoad = async (event) => {
 		// in the current category
 		// not created by user
 		// not flagged by user
-		// not flagged
 		// not already voted for by user
 		const duplicate = await session.executeWrite((tx) => {
 			return tx.run<AssignedEntries>(
@@ -146,8 +142,6 @@ export const load: PageServerLoad = async (event) => {
 				AND NOT u2.token = u.token
 				AND (n IS NULL OR NOT n1.number = n.number)
 				AND (n IS NULL OR NOT n2.number = n.number)
-				AND n1.flagged IS NULL
-				AND n2.flagged IS NULL
 				WITH n1, n2, u, step
 				MATCH p = (n1)-[r]->(n2)
 				WITH n1, n2, u, step, collect(r) as relations
