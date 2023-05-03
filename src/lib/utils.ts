@@ -85,7 +85,7 @@ function valueToNativeType(value: any) {
 	return value;
 }
 
-export const YOUTUBE_EMBEDDABLE = /youtube\.com\/watch\?.*v=([^&]*)|youtu.be\/([^&]*)/;
+export const YOUTUBE_EMBEDDABLE = /youtube\.com\/watch\?.*v=([^&]*)|youtu\.be\/([^&]*)/;
 
 /**
  * Normalizes youtube links to improve uniqueness
