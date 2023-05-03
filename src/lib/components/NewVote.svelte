@@ -17,7 +17,7 @@
 	{#each categories as category}
 		{#if category !== $page.params.category}
 			<a class="btn" href={`/vote/${$page.params.token}/${category}`} data-sveltekit-reload
-				>{category} entries</a
+				>Go to {category} entries</a
 			>
 		{/if}
 	{/each}
