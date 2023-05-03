@@ -21,9 +21,9 @@
 	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
 
 	const descriptions = [
-		'Phase 1: Register as a creator or judge',
-		'Phase 2: Vote for the best contributions',
-		'Phase 3: Results and feedback'
+		'Register as a creator or judge',
+		'Vote for the best contributions',
+		'Results and feedback'
 	];
 
 	const dates = [
@@ -71,13 +71,14 @@
 		{#each descriptions as description, i}
 			<li class={phases[i] ? 'marker:text-green-500' : ''}>
 				<p>
+					<span class="font-semibold">Phase {i + 1} </span>
 					<span class="flex items-center gap-2">
 						{description}
 						{#if phases[i]}
 							<span class="badge-success badge">current</span>
 						{/if}
 					</span>
-					<span
+					<span class="text-sm text-gray-500"
 						>{#if dates[i].length > 1}
 							From <Time datetime={dates[i][0]} options={dateFormat} /> to
 							<Time datetime={dates[i][1]} options={dateFormat} />
