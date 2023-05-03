@@ -132,24 +132,30 @@
 				{/each}
 			</div>
 			<section class="layout-prose mt-8 w-full space-y-4">
-				<label for="choice" class="label">Which entry is the best one?</label>
-				<select
-					id="choice"
-					name="choice"
-					class="select-bordered select w-full max-w-full capitalize"
-					required
-				>
-					<option disabled selected />
-					{#each entries as entry}
-						<option value={entry.number}>{entry.title}</option>
+				<div class="form-control max-w-md">
+					<span class="mb-2 block">Which entry is the better one?</span>
+					{#each entries as entry, i}
+						<label for="choice-{i}" class="label cursor-pointer justify-start gap-2">
+							<input
+								id="choice-{i}"
+								class="radio"
+								type="radio"
+								name="choice"
+								value={entry.number}
+								required
+							/>
+							<span class="label-text"> {entry.title} </span>
+						</label>
 					{/each}
-				</select>
+				</div>
+				<p>
+					<button type="submit" class="btn-md btn">Vote for this entry</button>
+				</p>
 				{#if form?.id === 'VOTE' && form.rateLimitError}
 					<p class="text-error">
 						Please wait at least {PUBLIC_RATE_LIMIT} minutes between votes.
 					</p>
 				{/if}
-				<button type="submit" class="btn-md btn">Vote for this entry</button>
 			</section>
 		</form>
 
