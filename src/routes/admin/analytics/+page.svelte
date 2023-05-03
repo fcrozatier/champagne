@@ -30,7 +30,7 @@
 		const edges = [];
 		for (const category of categories) {
 			const N = data.analytics.get(category);
-			const cycles = Math.ceil(Math.log10(N)) + 1;
+			const cycles = Math.ceil(Math.log10(N) + 1);
 			const pairs = await pyodide.runPythonAsync(`expander_from_cycles(${cycles},${N})`);
 			edges.push({ category, edges: pairs.toJs() });
 		}
