@@ -7,6 +7,7 @@
 	import { PUBLIC_RATE_LIMIT, PUBLIC_S3_BUCKET } from '$env/static/public';
 	import { YOUTUBE_EMBEDDABLE } from '$lib/utils';
 	import { PUBLIC_S3_ENDPOINT } from '$env/static/public';
+	import NewVote from '$lib/components/NewVote.svelte';
 
 	export let data: PageData;
 	export let form: ActionData;
@@ -26,38 +27,20 @@
 	{:else if form?.id === 'FLAG' && form?.flagSuccess}
 		<div class="layout-prose">
 			<p class="text-success">Entry flagged. Thank you</p>
-			<!-- Force reload to grab a new pair of entries -->
-			<p>
-				<a
-					class="btn"
-					href={`/vote/${$page.params.token}/${$page.params.category}`}
-					data-sveltekit-reload>New vote</a
-				>
-			</p>
+
+			<NewVote {page} />
 		</div>
 	{:else if form?.id === 'VOTE' && form?.voteFail}
 		<div class="layout-prose">
 			<p class="text-error">Something went wrong.</p>
-			<!-- Force reload to grab a new pair of entries -->
-			<p>
-				<a
-					class="btn"
-					href={`/vote/${$page.params.token}/${$page.params.category}`}
-					data-sveltekit-reload>New vote</a
-				>
-			</p>
+
+			<NewVote {page} />
 		</div>
 	{:else if form?.id === 'VOTE' && form?.voteSuccess}
 		<div class="layout-prose">
 			<p class="text-success">Thank you !</p>
-			<!-- Force reload to grab a new pair of entries -->
-			<p>
-				<a
-					class="btn"
-					href={`/vote/${$page.params.token}/${$page.params.category}`}
-					data-sveltekit-reload>New vote</a
-				>
-			</p>
+
+			<NewVote {page} />
 		</div>
 	{:else if data.stopVote}
 		<div class="layout-prose">
@@ -210,8 +193,8 @@
 	>
 		<h2 class="mt-0">You're about to flag an entry</h2>
 		<p class="text-gray-700">
-			Please provide a short reason why this entry is inappropriate and should be flagged. This will
-			be reviewed by admins.
+			Please provide a reason why this entry is inappropriate and should be flagged. This will be
+			reviewed by admins.
 		</p>
 		<span class="capitalize">{flagEntry?.title}</span>
 		<label for="reason" class="label">Reason</label>

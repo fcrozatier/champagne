@@ -1,0 +1,24 @@
+<script lang="ts">
+	import { categories } from '$lib/config';
+
+	export let page;
+</script>
+
+<!-- Force reload to grab a new pair of entries -->
+<p>
+	<a
+		class="btn-lg btn"
+		href={`/vote/${$page.params.token}/${$page.params.category}`}
+		data-sveltekit-reload>New vote</a
+	>
+</p>
+<p>Or change category:</p>
+<p class="flex">
+	{#each categories as category}
+		{#if category !== $page.params.category}
+			<a class="btn" href={`/vote/${$page.params.token}/${category}`} data-sveltekit-reload
+				>{category} entries</a
+			>
+		{/if}
+	{/each}
+</p>
