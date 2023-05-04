@@ -153,43 +153,45 @@
 						<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
 					{/if}
 				</div>
-				{#if userType === 'creator'}
-					{#each otherContributors as _, i}
-						<div class="form-control max-w-xs">
-							<label for="email-{i}" class="label">
-								<span class="label-text">Email {i + 2}</span>
-							</label>
-							<div class="flex items-center gap-2">
-								<input
-									id="email-{i}"
-									type="email"
-									name="email_{i}"
-									class="input-bordered input w-full"
-									bind:value={otherContributors[i]}
-									required
-								/>
-								<button
-									type="button"
-									class="btn-outline btn-xs btn-circle btn opacity-80"
-									on:click={() => {
-										otherContributors.splice(i, 1);
-										otherContributors = otherContributors;
-									}}>&cross;</button
-								>
+				{#key userType}
+					{#if userType === 'creator'}
+						{#each otherContributors as _, i}
+							<div class="form-control max-w-xs">
+								<label for="email-{i}" class="label">
+									<span class="label-text">Email {i + 2}</span>
+								</label>
+								<div class="flex items-center gap-2">
+									<input
+										id="email-{i}"
+										type="email"
+										name="email_{i}"
+										class="input-bordered input w-full"
+										bind:value={otherContributors[i]}
+										required
+									/>
+									<button
+										type="button"
+										class="btn-outline btn-xs btn-circle btn opacity-80"
+										on:click={() => {
+											otherContributors.splice(i, 1);
+											otherContributors = otherContributors;
+										}}>&cross;</button
+									>
+								</div>
 							</div>
-						</div>
-					{/each}
-					<p class="flex items-center gap-2 text-sm text-gray-500">
-						Add contributor
-						<button
-							type="button"
-							class="btn-outline btn-sm btn-circle btn opacity-80"
-							on:click={addContributor}
-						>
-							+</button
-						>
-					</p>
-				{/if}
+						{/each}
+						<p class="flex items-center gap-2 text-sm text-gray-500">
+							Add contributor
+							<button
+								type="button"
+								class="btn-outline btn-sm btn-circle btn opacity-80"
+								on:click={addContributor}
+							>
+								+</button
+							>
+						</p>
+					{/if}
+				{/key}
 				{#if form?.emailExists}
 					<span class="block text-error">email already registered: {form.emailExists}</span>
 				{:else if form?.undeliverable}
@@ -200,108 +202,110 @@
 					>
 				{/if}
 
-				{#if userType === 'creator'}
-					<div class="form-control max-w-xs">
-						<label for="category" class="label">
-							<span class="label-text"> Category </span>
-						</label>
-						<select
-							id="category"
-							name="category"
-							class="select-bordered select w-full"
-							bind:value={category}
-							required
-						>
-							{#each categories as category}
-								<option value={category}>{category}</option>
-							{/each}
-						</select>
-						{#if form?.fieldErrors?.category}
-							<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
-						{/if}
-					</div>
-
-					<div class="form-control max-w-xs">
-						<label for="title" class="label">
-							<span class="label-text">Title</span>
-						</label>
-						<input
-							id="title"
-							type="text"
-							name="title"
-							class="input-bordered input w-full"
-							bind:value={title}
-							required
-						/>
-						{#if form?.fieldErrors?.title}
-							<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
-						{/if}
-					</div>
-
-					<div class="form-control max-w-xs">
-						<label for="description" class="label">
-							<span class="label-text">Short description</span>
-						</label>
-						<textarea
-							id="description"
-							name="description"
-							class="textarea-bordered textarea text-base"
-							minlength="10"
-							maxlength="500"
-							bind:value={description}
-							required
-						/>
-						<div class="label">
-							<span class="label-text-alt text-error">
-								{#if form?.fieldErrors?.description}
-									{form.fieldErrors.description.join(', ')}
-								{/if}
-							</span>
-							<span class="label-text-alt">{description.length}/500</span>
-						</div>
-					</div>
-
-					<div class="form-control max-w-xs">
-						<label for="link" class="label">
-							<span class="label-text"> Link </span>
-						</label>
-						<input
-							id="link"
-							type="url"
-							name="link"
-							placeholder="https://"
-							class="input-bordered input w-full"
-							bind:value={link}
-						/>
-						{#if form?.fieldErrors?.link}
-							<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
-						{:else if form?.linkExists}
-							<span class="block text-error">entry already registered</span>
-						{/if}
-					</div>
-
-					{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
+				{#key userType}
+					{#if userType === 'creator'}
 						<div class="form-control max-w-xs">
-							<label for="thumbnail" class="label">
-								<span class="label-text">Thumbnail</span>
-								<span class="label-text-alt">Recommended ratio 16:9</span>
+							<label for="category" class="label">
+								<span class="label-text"> Category </span>
 							</label>
-							<input
-								id="thumbnail"
-								type="file"
-								accept="image/*"
-								name="thumbnail"
-								class="file-input input-bordered"
+							<select
+								id="category"
+								name="category"
+								class="select-bordered select w-full"
+								bind:value={category}
 								required
-							/>
-							{#if form?.fieldErrors?.thumbnail}
-								<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
-							{:else if form?.thumbnailRequired}
-								<span class="block text-error">A thumbnail is required</span>
+							>
+								{#each categories as category}
+									<option value={category}>{category}</option>
+								{/each}
+							</select>
+							{#if form?.fieldErrors?.category}
+								<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
 							{/if}
 						</div>
+
+						<div class="form-control max-w-xs">
+							<label for="title" class="label">
+								<span class="label-text">Title</span>
+							</label>
+							<input
+								id="title"
+								type="text"
+								name="title"
+								class="input-bordered input w-full"
+								bind:value={title}
+								required
+							/>
+							{#if form?.fieldErrors?.title}
+								<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
+							{/if}
+						</div>
+
+						<div class="form-control max-w-xs">
+							<label for="description" class="label">
+								<span class="label-text">Short description</span>
+							</label>
+							<textarea
+								id="description"
+								name="description"
+								class="textarea-bordered textarea text-base"
+								minlength="10"
+								maxlength="500"
+								bind:value={description}
+								required
+							/>
+							<div class="label">
+								<span class="label-text-alt text-error">
+									{#if form?.fieldErrors?.description}
+										{form.fieldErrors.description.join(', ')}
+									{/if}
+								</span>
+								<span class="label-text-alt">{description.length}/500</span>
+							</div>
+						</div>
+
+						<div class="form-control max-w-xs">
+							<label for="link" class="label">
+								<span class="label-text"> Link </span>
+							</label>
+							<input
+								id="link"
+								type="url"
+								name="link"
+								placeholder="https://"
+								class="input-bordered input w-full"
+								bind:value={link}
+							/>
+							{#if form?.fieldErrors?.link}
+								<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
+							{:else if form?.linkExists}
+								<span class="block text-error">entry already registered</span>
+							{/if}
+						</div>
+
+						{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
+							<div class="form-control max-w-xs">
+								<label for="thumbnail" class="label">
+									<span class="label-text">Thumbnail</span>
+									<span class="label-text-alt">Recommended ratio 16:9</span>
+								</label>
+								<input
+									id="thumbnail"
+									type="file"
+									accept="image/*"
+									name="thumbnail"
+									class="file-input input-bordered"
+									required
+								/>
+								{#if form?.fieldErrors?.thumbnail}
+									<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
+								{:else if form?.thumbnailRequired}
+									<span class="block text-error">A thumbnail is required</span>
+								{/if}
+							</div>
+						{/if}
 					{/if}
-				{/if}
+				{/key}
 
 				<div class="form-control max-w-xs">
 					<label for="rules" class="label justify-normal gap-2">
