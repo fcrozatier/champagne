@@ -3,7 +3,7 @@ import { driver, type Feedback } from '$lib/server/neo4j';
 import { toNativeTypes } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { TokenForm, validateForm } from '$lib/server/validation';
+import { FeedbackForm, validateForm } from '$lib/server/validation';
 
 export const load: PageServerLoad = async () => {
 	const session = driver.session();
@@ -37,8 +37,8 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	validate: async ({ request }) => {
-		const validation = await validateForm(request, TokenForm);
+	ignore: async ({ request }) => {
+		const validation = await validateForm(request, FeedbackForm);
 		if (!validation.success) {
 			return fail(400, { error: true });
 		}
@@ -49,11 +49,12 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-				MATCH (f:Feedback)
-				WHERE f.token = $token
-				SET f.validated = True
+					UNWIND $selection as token
+					MATCH (f:Feedback)
+					WHERE f.token = token
+					SET f.validated = True
       `,
-					{ token: validation.data.token }
+					{ selection: validation.data.selection }
 				);
 			});
 			return { success: true };
@@ -63,8 +64,8 @@ export const actions: Actions = {
 			await session.close();
 		}
 	},
-	delete: async ({ request }) => {
-		const validation = await validateForm(request, TokenForm);
+	remove: async ({ request }) => {
+		const validation = await validateForm(request, FeedbackForm);
 		if (!validation.success) {
 			return fail(400, { error: true });
 		}
@@ -74,11 +75,12 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-				MATCH (f:Feedback)
-				WHERE f.token = $token
-				DETACH DELETE f
+					UNWIND $selection as token
+					MATCH (f:Feedback)
+					WHERE f.token = token
+					DETACH DELETE f
       `,
-					{ token: validation.data.token }
+					{ selection: validation.data.selection }
 				);
 			});
 			return { success: true };

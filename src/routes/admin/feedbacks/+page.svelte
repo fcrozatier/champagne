@@ -5,56 +5,90 @@
 
 	export let data: PageData;
 	$: feedbacks = data.feedbacks as FeedbackProperties[];
+
+	let selected: { email: string; link: string }[] = [];
+
+	function toggleSelectAll() {
+		const allSelected = document.getElementById('all');
+		const inputs = document.querySelectorAll<HTMLInputElement>(
+			'input[type="checkbox"]:not([id="all"])'
+		);
+
+		if (allSelected && (allSelected as HTMLInputElement).checked) {
+			for (const input of inputs) {
+				if (!input.checked) {
+					input.click();
+				}
+			}
+		} else {
+			for (const input of inputs) {
+				if (input.checked) {
+					input.click();
+				}
+			}
+		}
+	}
 </script>
 
 <article class="mx-auto w-4/5 max-w-5xl">
 	<h2>Feedbacks to review</h2>
 
-	<table class="w-full">
-		<thead>
-			<tr class="px-6">
-				<th>Feedback</th>
-				<th class="pr-8">Explicit</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each feedbacks as feedback, _}
-				<tr>
-					<td class="pl-8"><p>{feedback.value}</p></td>
-					<td class=""><p>{feedback.explicit ? '☢️' : ''}</p></td>
-					<td class="pr-4">
-						<form
-							class="grid items-center gap-2 py-2"
-							method="post"
-							use:enhance={({ form }) => {
-								const buttons = form.querySelectorAll('button');
-								buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-								return async ({ update }) => {
-									await update();
-									buttons.forEach((b) => b.removeAttribute('disabled'));
-								};
-							}}
-						>
-							<input type="hidden" value={feedback.token} name="token" />
-							<button type="submit" formaction="?/validate" class="btn-sm btn">Validate</button>
-							<button type="submit" formaction="?/delete" class="btn-error btn-sm btn"
-								>Delete</button
-							>
-						</form>
-					</td>
+	<form
+		method="post"
+		use:enhance={({ data }) => {
+			const buttons = document.querySelectorAll('button');
+			buttons.forEach((b) => b.setAttribute('disabled', 'on'));
+			data.append('selection', JSON.stringify(selected));
+
+			return async ({ update }) => {
+				await update();
+				buttons.forEach((b) => b.removeAttribute('disabled'));
+			};
+		}}
+	>
+		<table class="w-full">
+			<thead>
+				<tr class="px-6">
+					<th class="flex items-center"
+						><input id="all" type="checkbox" class="checkbox" on:click={toggleSelectAll} /></th
+					>
+					<th>Explicit</th>
+					<th>Feedback</th>
 				</tr>
-			{:else}
-				<p class="px-6">No feedback to review</p>
-			{/each}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{#each feedbacks as feedback, _}
+					<tr class="px-6">
+						<td class="flex items-center"
+							><input
+								type="checkbox"
+								class="checkbox"
+								name="selected"
+								value={feedback.token}
+								bind:group={selected}
+							/></td
+						>
+						<td class="flex justify-center"><p>{feedback.explicit ? '☢️' : ''}</p></td>
+						<td><p>{feedback.value}</p></td>
+					</tr>
+				{:else}
+					<p class="px-6">No feedback to review</p>
+				{/each}
+			</tbody>
+		</table>
+		<button type="submit" formaction="?/ignore" class="btn" disabled={!selected.length}
+			>Ignore</button
+		>
+		<button type="submit" formaction="?/remove" class="btn-error btn" disabled={!selected.length}
+			>Remove</button
+		>
+	</form>
 </article>
 
 <style>
 	tr {
 		display: grid;
-		grid-template-columns: 1fr auto auto;
+		grid-template-columns: auto 4rem 1fr;
 		gap: 1rem;
 		align-items: center;
 	}

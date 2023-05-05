@@ -17,9 +17,6 @@ export const EmailForm = z.object({
 });
 
 export const TokenSchema = z.string().uuid();
-export const TokenForm = z.object({
-	token: TokenSchema
-});
 
 const UrlSchema = z
 	.string()
@@ -37,6 +34,20 @@ export const FlagForm = z.object({
 					})
 				)
 				.parse(JSON.parse(val));
+		} catch {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom
+			});
+
+			return z.NEVER;
+		}
+	})
+});
+
+export const FeedbackForm = z.object({
+	selection: z.string().transform((val, ctx) => {
+		try {
+			return z.array(TokenSchema).parse(JSON.parse(val));
 		} catch {
 			ctx.addIssue({
 				code: z.ZodIssueCode.custom
