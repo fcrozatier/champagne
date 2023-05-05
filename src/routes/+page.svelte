@@ -2,7 +2,7 @@
 	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
 	import type { ActionData, PageData } from './$types';
-	import { clickOutside } from '$lib/actions/clickOutside';
+	import { clickOutside } from '$lib/actions';
 	import { enhance } from '$app/forms';
 	import {
 		COMPETITION_FULL_NAME,

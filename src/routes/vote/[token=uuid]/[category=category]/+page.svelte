@@ -2,7 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { page } from '$app/stores';
 	import type { EntryProperties } from '$lib/server/neo4j';
-	import { clickOutside } from '$lib/actions/clickOutside';
+	import { clickOutside } from '$lib/actions';
 	import type { ActionData, PageData } from './$types';
 	import { PUBLIC_RATE_LIMIT, PUBLIC_S3_BUCKET } from '$env/static/public';
 	import { YOUTUBE_EMBEDDABLE } from '$lib/utils';
