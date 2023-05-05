@@ -12,7 +12,6 @@
 	}[];
 
 	let selected: { email: string; link: string }[] = [];
-
 </script>
 
 <article class="mx-auto w-4/5 max-w-5xl overflow-x-auto">
@@ -76,7 +75,7 @@
 <style>
 	tr {
 		display: grid;
-		grid-template-columns: auto 10% 1fr auto;
+		grid-template-columns: auto 15rem 1fr auto;
 		gap: 1rem;
 		align-items: center;
 	}
