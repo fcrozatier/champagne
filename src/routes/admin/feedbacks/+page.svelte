@@ -1,33 +1,13 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { FeedbackProperties } from '$lib/server/neo4j';
+	import { toggleSelectAll } from '$lib/actions';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 	$: feedbacks = data.feedbacks as FeedbackProperties[];
 
 	let selected: { email: string; link: string }[] = [];
-
-	function toggleSelectAll() {
-		const allSelected = document.getElementById('all');
-		const inputs = document.querySelectorAll<HTMLInputElement>(
-			'input[type="checkbox"]:not([id="all"])'
-		);
-
-		if (allSelected && (allSelected as HTMLInputElement).checked) {
-			for (const input of inputs) {
-				if (!input.checked) {
-					input.click();
-				}
-			}
-		} else {
-			for (const input of inputs) {
-				if (input.checked) {
-					input.click();
-				}
-			}
-		}
-	}
 </script>
 
 <article class="mx-auto w-4/5 max-w-5xl">
@@ -50,7 +30,7 @@
 			<thead>
 				<tr class="px-6">
 					<th class="flex items-center"
-						><input id="all" type="checkbox" class="checkbox" on:click={toggleSelectAll} /></th
+						><input id="all" type="checkbox" class="checkbox" use:toggleSelectAll /></th
 					>
 					<th>Explicit</th>
 					<th>Feedback</th>

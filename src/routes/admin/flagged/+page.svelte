@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { toggleSelectAll } from '$lib/actions';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -12,26 +13,6 @@
 
 	let selected: { email: string; link: string }[] = [];
 
-	function toggleSelectAll() {
-		const allSelected = document.getElementById('all');
-		const inputs = document.querySelectorAll<HTMLInputElement>(
-			'input[type="checkbox"]:not([id="all"])'
-		);
-
-		if (allSelected && (allSelected as HTMLInputElement).checked) {
-			for (const input of inputs) {
-				if (!input.checked) {
-					input.click();
-				}
-			}
-		} else {
-			for (const input of inputs) {
-				if (input.checked) {
-					input.click();
-				}
-			}
-		}
-	}
 </script>
 
 <article class="mx-auto w-4/5 max-w-5xl overflow-x-auto">
@@ -52,9 +33,9 @@
 	>
 		<table class="w-full">
 			<thead>
-				<tr>
+				<tr class="px-6">
 					<th class="flex items-center"
-						><input id="all" type="checkbox" class="checkbox" on:click={toggleSelectAll} /></th
+						><input id="all" type="checkbox" class="checkbox" use:toggleSelectAll /></th
 					>
 					<th>Entry</th>
 					<th>Reason</th>
@@ -63,15 +44,15 @@
 			</thead>
 			<tbody>
 				{#each flagged as entry, i}
-					<tr>
-						<th class="flex items-center"
+					<tr class="px-6">
+						<td class="flex items-center"
 							><input
 								type="checkbox"
 								class="checkbox"
 								name="selected"
 								value={{ link: entry.link, email: entry.email }}
 								bind:group={selected}
-							/></th
+							/></td
 						>
 						<td><a class="capitalize" href={entry.link} target="_blank">{entry.title}</a></td>
 						<td><span class="">{entry.reason}</span></td>
