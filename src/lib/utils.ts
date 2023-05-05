@@ -99,3 +99,15 @@ export function normalizeYoutubeLink(link: string) {
 
 	return `https://youtube.com/watch?v=${id}`;
 }
+
+/**
+ * Randomly shuffles a tuple
+ * @param tuple
+ */
+export function shuffleTuple<T>(tuple: [T, T]) {
+	const [a, b] = tuple;
+	if (Math.random() < 0.5) {
+		return tuple;
+	}
+	return [b, a];
+}
