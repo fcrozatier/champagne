@@ -60,7 +60,7 @@
 				};
 			}}
 		>
-			<div class="grid w-full justify-items-center gap-20 px-16 lg:grid-cols-2">
+			<div class="grid w-full justify-items-center gap-20 px-16 lg:grid-cols-[47%_47%]">
 				{#each shuffleTuple(entries) as entry, i}
 					<div>
 						<h3 class="capitalize">{entry.title}</h3>
