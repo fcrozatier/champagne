@@ -15,7 +15,7 @@
 	let flagDialog: HTMLDialogElement;
 	let flagEntry: EntryProperties | null = null;
 
-	$: entries = data.entries as [EntryProperties, EntryProperties];
+	$: entries = shuffleTuple(data.entries) as [EntryProperties, EntryProperties];
 </script>
 
 <article>
@@ -61,7 +61,7 @@
 			}}
 		>
 			<div class="grid w-full justify-items-center gap-20 px-16 lg:grid-cols-[47%_47%]">
-				{#each shuffleTuple(entries) as entry, i}
+				{#each entries as entry, i}
 					<div>
 						<h3 class="capitalize">{entry.title}</h3>
 						{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
