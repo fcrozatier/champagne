@@ -1,4 +1,3 @@
-import type { Actions } from './$types';
 import { driver, type Entry } from '$lib/server/neo4j';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
@@ -34,7 +33,7 @@ export const load: PageServerLoad = async () => {
 	}
 };
 
-export const actions: Actions = {
+export const actions = {
 	ignore: async ({ request }) => {
 		const validation = await validateForm(request, FlagForm);
 		if (!validation.success) {
@@ -47,11 +46,12 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-				MATCH (n:Entry)<-[f:FLAG]-(u:User)
-				WHERE n.link = $link AND u.email = $email
-        DELETE f
-      `,
-					{ link: validation.data.link, email: validation.data.email }
+					UNWIND $selection AS selection
+					MATCH (n:Entry)<-[f:FLAG]-(u:User)
+					WHERE n.link = selection.link AND u.email = selection.email
+					DELETE f
+		  `,
+					{ selection: validation.data.selection }
 				);
 			});
 			return { unflag: true };
@@ -73,12 +73,14 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
-				MATCH (n:Entry)-[:FEEDBACK]->(f:Feedback)
-				WHERE n.link = $link
-				DETACH DELETE n
-				DETACH DELETE f
-      `,
-					{ link: validation.data.link }
+					UNWIND $selection AS selection
+						MATCH (n:Entry)
+						WHERE n.link = selection.link
+						OPTIONAL MATCH (n)-[:FEEDBACK]->(f:Feedback)
+						DETACH DELETE n
+						DETACH DELETE f
+					`,
+					{ selection: validation.data.selection }
 				);
 			});
 			return { flag: true };

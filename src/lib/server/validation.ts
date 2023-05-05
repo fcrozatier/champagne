@@ -27,8 +27,24 @@ const UrlSchema = z
 	.refine((str) => !str.includes('playlist'), { message: 'Playlists are not allowed' });
 
 export const FlagForm = z.object({
-	link: UrlSchema,
-	email: EmailSchema
+	selection: z.string().transform((val, ctx) => {
+		try {
+			return z
+				.array(
+					z.object({
+						link: UrlSchema,
+						email: EmailSchema
+					})
+				)
+				.parse(JSON.parse(val));
+		} catch {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom
+			});
+
+			return z.NEVER;
+		}
+	})
 });
 export const PasswordForm = z.object({
 	password: z.string()
