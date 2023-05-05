@@ -28,7 +28,7 @@ export const load: PageServerLoad = async (event) => {
 				`
 				MATCH (n:Entry)
 				WHERE n.category = $category
-				WITH count(*) as entries
+				WITH count(n) as entries
 				MATCH (n1:Entry)-[r:LOSES_TO]->(n2:Entry)
 				WHERE r.userToken = $token
 				AND n1.category = $category
@@ -83,20 +83,35 @@ export const load: PageServerLoad = async (event) => {
 		// in the current category
 		// not created by user
 		// not flagged by user
+		// not seen twice already
 		const notAssigned = await session.executeWrite((tx) => {
 			return tx.run<AssignedEntries>(
 				`
 				MATCH (u:User)
 				WHERE u.token = $token
-				OPTIONAL MATCH (u:User)-[:FLAG]->(n:Entry)
+				OPTIONAL MATCH (u)-[:FLAG]->(n:Entry)
 				WITH u, n
-				MATCH (u1:Creator)-[:CREATED]->(n1:Entry)-[r:NOT_ASSIGNED]-(n2:Entry)<-[:CREATED]-(u2:Creator)
+				MATCH (u1:Creator)-[:CREATED]->(n1:Entry)-[r:NOT_ASSIGNED]->(n2:Entry)<-[:CREATED]-(u2:Creator)
 				WHERE n1.category = $category
 				AND n2.category = $category
-				AND NOT u1.token = $token
-				AND NOT u2.token = $token
-				AND (n IS NULL OR NOT n1.number = n.number)
-				AND (n IS NULL OR NOT n2.number = n.number)
+				AND NOT u1 = u
+				AND NOT u2 = u
+				AND (n IS NULL OR NOT n1 = n)
+				AND (n IS NULL OR NOT n2 = n)
+				CALL {
+						WITH u, n1
+						OPTIONAL MATCH p = (u)-[:KNOWS]->(n1)
+						WITH count(p) AS knows1
+						WHERE knows1 < 2
+						RETURN knows1
+				}
+				CALL {
+						WITH u, n2
+						OPTIONAL MATCH p = (u)-[:KNOWS]->(n2)
+						WITH count(p) AS knows2
+						WHERE knows2 < 2
+						RETURN knows2
+				}
 				WITH r, n1, n2
 				LIMIT 1
 				DELETE r
@@ -124,7 +139,7 @@ export const load: PageServerLoad = async (event) => {
 		// in the current category
 		// not created by user
 		// not flagged by user
-		// not already voted for by user
+		// not already seen by user
 		const duplicate = await session.executeWrite((tx) => {
 			return tx.run<AssignedEntries>(
 				`
@@ -133,20 +148,37 @@ export const load: PageServerLoad = async (event) => {
 				WITH s.value AS step
 				MATCH (u:User)
 				WHERE u.token = $token
-				OPTIONAL MATCH (u:User)-[:FLAG]->(n:Entry)
+				OPTIONAL MATCH (u)-[:FLAG]->(n:Entry)
 				WITH u, n, step
-				MATCH (u1:Creator)-[:CREATED]->(n1:Entry)-[r:LOSES_TO]-(n2:Entry)<-[:CREATED]-(u2:Creator)
+				MATCH (u1:Creator)-[:CREATED]->(n1:Entry)-[:LOSES_TO]-(n2:Entry)<-[:CREATED]-(u2:Creator)
 				WHERE n1.category = $category
 				AND n2.category = $category
-				AND NOT u1.token = u.token
-				AND NOT u2.token = u.token
-				AND (n IS NULL OR NOT n1.number = n.number)
-				AND (n IS NULL OR NOT n2.number = n.number)
-				WITH n1, n2, u, step
-				MATCH p = (n1)-[r]->(n2)
-				WITH n1, n2, u, step, collect(r) as relations
-				WHERE size(relations) <= step
-				AND none(relation IN relations WHERE relation.userToken = u.token)
+				AND NOT u1 = u
+				AND NOT u2 = u
+				AND (n IS NULL OR NOT n1 = n)
+				AND (n IS NULL OR NOT n2 = n)
+				CALL {
+						WITH u, n1
+						OPTIONAL MATCH p = (u)-[:KNOWS]->(n1)
+						WITH count(p) AS knows1
+						WHERE knows1 < 2
+						RETURN knows1
+				}
+				CALL {
+						WITH u, n2
+						OPTIONAL MATCH p = (u)-[:KNOWS]->(n2)
+						WITH count(p) AS knows2
+						WHERE knows2 < 2
+						RETURN knows2
+				}
+				CALL {
+					WITH step, u, n1, n2
+					MATCH p = (n1)-[r:LOSES_TO|ASSIGNED]-(n2)
+					WITH u, step, collect(r) as relations
+					WHERE size(relations) <= step
+					AND none(relation IN relations WHERE relation.userToken = u.token)
+					RETURN relations
+				}
 				WITH n1, n2
 				LIMIT 1
 				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
@@ -307,12 +339,15 @@ export const actions: Actions = {
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
+				MATCH (u:User)
+				WHERE u.token = $token
+				WITH u
 				MATCH (e1:Entry)-[a:ASSIGNED]-(e2:Entry)
 				WHERE e1.number = $losingEntryNumber AND e1.category = $category
 				AND e2.number = $winningEntryNumber AND e2.category = $category
 				AND a.userToken = $token
 				DELETE a
-				CREATE (e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)
+				CREATE (u)-[:KNOWS]->(e1)-[r:LOSES_TO {userToken: $token, timestamp: timestamp()}]->(e2)<-[:KNOWS]-(u)
 				WITH e1, e2
 
 				CALL apoc.do.when($losingFeedback <> '', '
