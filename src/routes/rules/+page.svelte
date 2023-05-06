@@ -23,9 +23,9 @@
 
 		<li>It has to be about math.</li>
 		<p>
-			Here we mean "math" very broadly, and more applied topics like physics or computer science are
-			abundantly welcome. It just has to be the case that a viewer/reader might come away knowing
-			something mathematical they didn't before.
+			Here we mean &laquo; math &raquo; very broadly, and more applied topics like physics or
+			computer science are abundantly welcome. It just has to be the case that a viewer/reader might
+			come away knowing something mathematical they didn't before.
 		</p>
 		<p>
 			The topic could be at any level, whether that's basic math for young children or higher-level
