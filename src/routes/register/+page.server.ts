@@ -34,15 +34,17 @@ export const actions = {
 			}
 
 			// Email deliverability validation
-			const emailValidation = await Promise.all(
-				[...users].map(async ({ email }) => await validateEmail(email))
-			);
-			if (emailValidation.some((x) => x === null)) {
-				return fail(400, { invalid: true });
-			}
-			const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
-			if (undeliverable) {
-				return fail(400, { undeliverable: undeliverable.address });
+			if (!dev) {
+				const emailValidation = await Promise.all(
+					[...users].map(async ({ email }) => await validateEmail(email))
+				);
+				if (emailValidation.some((x) => x === null)) {
+					return fail(400, { invalid: true });
+				}
+				const undeliverable = emailValidation.find((x) => x?.result !== 'deliverable');
+				if (undeliverable) {
+					return fail(400, { undeliverable: undeliverable.address });
+				}
 			}
 
 			// Save data
