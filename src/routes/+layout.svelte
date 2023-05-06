@@ -61,7 +61,7 @@
 			href="https://github.com/fcrozatier/champagne"
 			class="inline-flex items-center gap-3"
 			target="_blank"
-			><Icon name="github" /> Champagne
+			><Icon name="github" width="1.5rem" /> Champagne
 		</a>
 		<a href="/gdpr"> GDPR </a>
 		<a href="/rules"> Rules </a>
