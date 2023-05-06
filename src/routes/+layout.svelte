@@ -38,9 +38,12 @@
 			<a href="/admin">Admin</a>
 		{/if}
 
-		<span class="ml-auto mr-4 inline-block">
-			<a href="https://discord.gg/WZvZMVsXXR" target="_blank">
-				<Icon class=" fill-gray-800 hover:fill-[#5865f2]" name="discord" width="1.2rem" />
+		<span class="navbar-end ml-auto mr-4">
+			<a title="Substack" href="https://3blue1brown.substack.com/" target="_blank">
+				<Icon class="fill-gray-800 px-3 hover:fill-[#f35300]" name="substack" width="3rem" />
+			</a>
+			<a title="Discord" href="https://discord.gg/WZvZMVsXXR" target="_blank">
+				<Icon class="fill-gray-800 px-3 hover:fill-[#5865f2]" name="discord" width="3rem" />
 			</a>
 		</span>
 	</nav>
