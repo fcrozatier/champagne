@@ -116,7 +116,7 @@
 				}}
 			>
 				<div class="form-control max-w-md">
-					<span class="label-text capitalize"> I am a </span>
+					<span class="label-text"> I am a </span>
 					{#each userTypes as type, i}
 						<label for="user-type-{i}" class="label cursor-pointer justify-start gap-2">
 							<input
@@ -171,7 +171,7 @@
 								/>
 								<button
 									type="button"
-									class="btn-outline btn-xs btn-circle btn opacity-80"
+									class="btn-outline btn-circle btn-xs btn opacity-80"
 									on:click={() => {
 										otherContributors.splice(i, 1);
 										otherContributors = otherContributors;
@@ -184,7 +184,7 @@
 						Add contributor
 						<button
 							type="button"
-							class="btn-outline btn-sm btn-circle btn opacity-80"
+							class="btn-outline btn-circle btn-sm btn opacity-80"
 							on:click={addContributor}
 						>
 							+</button
