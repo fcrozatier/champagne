@@ -171,7 +171,7 @@
 								/>
 								<button
 									type="button"
-									class="btn-outline btn-circle btn-xs btn opacity-80"
+									class="btn-outline btn-xs btn-circle btn opacity-80"
 									on:click={() => {
 										otherContributors.splice(i, 1);
 										otherContributors = otherContributors;
@@ -184,7 +184,7 @@
 						Add contributor
 						<button
 							type="button"
-							class="btn-outline btn-circle btn-sm btn opacity-80"
+							class="btn-outline btn-sm btn-circle btn opacity-80"
 							on:click={addContributor}
 						>
 							+</button
@@ -249,6 +249,7 @@
 							class="textarea-bordered textarea text-base"
 							minlength="10"
 							maxlength="500"
+							rows="5"
 							bind:value={description}
 							required
 						/>
