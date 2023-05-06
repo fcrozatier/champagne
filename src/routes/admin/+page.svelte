@@ -7,14 +7,23 @@
 
 <article class="layout-prose">
 	<h2>Admin area</h2>
+	<h3>Setup</h3>
 	<ul class="space-y-4">
 		<li><a href="/admin/testdb">Test db connection</a></li>
 		<li><a href="/admin/db-setup">Add db constraints and background job</a></li>
 		{#if dev}
 			<li><a href="/admin/fixtures">Add db fixtures (dev mode)</a></li>
 		{/if}
-		<li><a href="/admin/flagged">View flagged entries</a></li>
-		<li><a href="/admin/feedbacks">Review feedbacks</a></li>
+	</ul>
+
+	<h3>Review</h3>
+	<ul>
+		<li><a href="/admin/flagged">Flags</a></li>
+		<li><a href="/admin/feedbacks">Feedbacks</a></li>
+	</ul>
+
+	<h3>Manage</h3>
+	<ul>
 		{#if data.isAdmin}
 			<li><a href="/admin/analytics">Graph analytics</a></li>
 			<li><a href="/admin/swap">Swap entries</a></li>
