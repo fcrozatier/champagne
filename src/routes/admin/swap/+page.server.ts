@@ -1,8 +1,8 @@
 import { fail, type Actions } from '@sveltejs/kit';
 import { EmailForm, SwapSchema, validateForm } from '$lib/server/validation';
 import { driver, type Entry } from '$lib/server/neo4j';
-import { toNativeTypes, YOUTUBE_EMBEDDABLE } from '$lib/utils';
-import { saveThumbnail } from '$lib/server/s3';
+import { normalizeYoutubeLink, toNativeTypes, YOUTUBE_EMBEDDABLE } from '$lib/utils';
+import { deleteThumbnail, saveThumbnail } from '$lib/server/s3';
 import { Neo4jError } from 'neo4j-driver';
 
 let ID: 'find' | 'swap';
@@ -42,6 +42,7 @@ export const actions = {
 			await session.close();
 		}
 	},
+
 	swap: async ({ request }) => {
 		ID = 'swap';
 		const validation = await validateForm(request, SwapSchema);
@@ -54,38 +55,69 @@ export const actions = {
 		const session = driver.session();
 
 		try {
-			const { thumbnail, ...restData } = validation.data;
-			const thumbnailKey = Buffer.from(restData.link).toString('base64') + '.webp';
-			console.log('thumbnailKey:', thumbnailKey);
+			const { thumbnail, link, ...restData } = validation.data;
+			const thumbnailKey = Buffer.from(link).toString('base64') + '.webp';
+
+			// Normalize youtube links
+			let normalizedLink = link;
+			if (YOUTUBE_EMBEDDABLE.test(link)) {
+				normalizedLink = normalizeYoutubeLink(link);
+			}
 
 			const params = {
+				link: normalizedLink,
 				...restData,
 				thumbnailKey
 			};
 
+			// Create temporary node because of uniqueness constraint
+			// Remove feedbacks
+			// Remove comparisons and rebind them on temporary node
+			// Add other creators
+			// Remove old entry
+			// Turn temporary node into :Entry
 			await session.executeWrite((tx) => {
 				return tx.run(
 					`
 					MATCH (u:Creator)-[:CREATED]->(n:Entry)
 					WHERE u.email = $params.email
-					CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
-					SET entry.number = n.number
-					WITH n, entry
-					MATCH (v:Creator)-[:CREATED]->(n)
-					OPTIONAL MATCH (n)-[r:NOT_ASSIGNED|ASSIGNED|LOSES_TO]-(m:Entry)
+					CREATE (u)-[:CREATED]->(t:Temp {number: n.number, title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
+					WITH u, n, t
+					CALL {
+						WITH n
+						OPTIONAL MATCH (f:Feedback)<-[:FEEDBACK]-(n)
+						DETACH DELETE f
+					}
+					CALL {
+						WITH n, t
+						OPTIONAL MATCH (n)-[r:NOT_ASSIGNED|ASSIGNED|LOSES_TO]-(m:Entry)
+						CALL apoc.do.when(m IS NOT NULL, '
+							CREATE (t)-[:NOT_ASSIGNED]->(m)
+						', '', {}) YIELD value
+						RETURN value
+					}
+					CALL {
+						WITH u, n, t
+						OPTIONAL MATCH (c:Creator)-[:CREATED]-(n)
+						WHERE c <> u
+						CALL apoc.do.when(c IS NOT NULL, '
+							CREATE (c)-[:CREATED]->(t)
+						', '', {}) YIELD value
+						RETURN value
+					}
+					WITH n, t
+					LIMIT 1
 					DETACH DELETE n
-					MERGE (v)-[:CREATED]->(entry)
-					MERGE (entry)-[:NOT_ASSIGNED]->(m)
+					SET t:Entry
+					REMOVE t:Temp
 					`,
 					{ params }
 				);
 			});
 
-			if (!YOUTUBE_EMBEDDABLE.test(restData.link)) {
-				if (!thumbnail) {
-					return fail(400, { thumbnailRequired: true });
-				}
-
+			if (thumbnail && !YOUTUBE_EMBEDDABLE.test(link)) {
+				const oldKey = Buffer.from(validation.data.oldLink).toString('base64') + '.webp';
+				await deleteThumbnail(oldKey);
 				await saveThumbnail(thumbnail, thumbnailKey);
 			}
 		} catch (error) {

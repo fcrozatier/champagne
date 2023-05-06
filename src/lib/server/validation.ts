@@ -135,7 +135,8 @@ export const SwapSchema = z.object({
 	title: TitleSchema,
 	description: DescriptionSchema,
 	link: UrlSchema,
-	thumbnail: ThumbnailSchema
+	oldLink: UrlSchema,
+	thumbnail: z.optional(ThumbnailSchema)
 });
 
 export const FlagSchema = z.object({

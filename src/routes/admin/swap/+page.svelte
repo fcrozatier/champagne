@@ -3,22 +3,18 @@
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import { categories } from '$lib/config.js';
 	import { page } from '$app/stores';
-	import { YOUTUBE_EMBEDDABLE } from '$lib/utils.js';
-	import { afterUpdate } from 'svelte';
+	import { YOUTUBE_EMBEDDABLE, voteOpen } from '$lib/utils.js';
 
 	export let form;
 
-	let email = '';
-
 	$: entry = form?.entry as EntryProperties;
 
+	let email = '';
 	let link = '';
 
-	afterUpdate(() => {
-		if (entry?.link && !link) {
-			link = entry.link;
-		}
-	});
+	function updateLink(e: Event) {
+		link = (e.target as HTMLInputElement).value;
+	}
 </script>
 
 <article class="layout-prose">
@@ -36,7 +32,7 @@
 			};
 		}}
 	>
-		<div class="form-control max-w-xs">
+		<div class="form-control max-w-sm">
 			<label for="email"><span class="label-text">Creator email</span></label>
 			<input id="email" type="email" class="input-bordered input" name="email" bind:value={email} />
 		</div>
@@ -63,27 +59,34 @@
 				};
 			}}
 		>
-			<div class="form-control max-w-xs">
-				<label for="category" class="label">
-					<span class="label-text"> Category </span>
-				</label>
-				<select
-					id="category"
-					name="category"
-					class="select-bordered select w-full"
-					value={entry.category}
-					required
-				>
-					{#each categories as category}
-						<option value={category}>{category}</option>
-					{/each}
-				</select>
+			{#if voteOpen()}
+				<p>The category cannot be changed as the vote is open</p>
+				<input type="hidden" name="category" value={entry.category} />
+			{/if}
+			<div class="form-control max-w-md">
+				<span class="label-text"> Category </span>
+				{#each categories as category, i}
+					<label for="category-{i}" class="label cursor-pointer justify-start gap-2">
+						<input
+							id="category-{i}"
+							class="radio"
+							type="radio"
+							name="category"
+							value={category}
+							checked={category === entry.category}
+							required
+							disabled={voteOpen()}
+						/>
+						<span class="label-text capitalize"> {category} </span>
+					</label>
+				{/each}
+
 				{#if form?.ID === 'swap' && form?.fieldErrors?.category}
 					<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
 				{/if}
 			</div>
 
-			<div class="form-control max-w-xs">
+			<div class="form-control max-w-sm">
 				<label for="title" class="label">
 					<span class="label-text">Title</span>
 				</label>
@@ -100,7 +103,7 @@
 				{/if}
 			</div>
 
-			<div class="form-control max-w-xs">
+			<div class="form-control max-w-sm">
 				<label for="description" class="label">
 					<span class="label-text">Short description</span>
 				</label>
@@ -108,7 +111,9 @@
 					id="description"
 					name="description"
 					class="textarea-bordered textarea text-base"
+					minlength="10"
 					maxlength="500"
+					rows="10"
 					value={entry.description}
 					required
 				/>
@@ -117,7 +122,7 @@
 				{/if}
 			</div>
 
-			<div class="form-control max-w-xs">
+			<div class="form-control max-w-sm">
 				<label for="link" class="label">
 					<span class="label-text"> Link </span>
 				</label>
@@ -127,7 +132,9 @@
 					name="link"
 					placeholder="https://"
 					class="input-bordered input w-full"
-					bind:value={link}
+					value={entry.link}
+					on:input={updateLink}
+					required
 				/>
 				{#if form?.ID === 'swap' && form?.fieldErrors?.link}
 					<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
@@ -136,29 +143,30 @@
 				{/if}
 			</div>
 
-			{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
-				<div class="form-control max-w-xs">
-					<label for="thumbnail" class="label">
-						<span class="label-text">Thumbnail</span>
-						<span class="label-text-alt">Recommended ratio 16:9</span>
-					</label>
-					<input
-						id="thumbnail"
-						type="file"
-						accept="image/*"
-						name="thumbnail"
-						class="file-input input-bordered"
-						required
-					/>
-					{#if form?.ID === 'swap' && form?.fieldErrors?.thumbnail}
-						<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
-					{:else if form?.thumbnailRequired}
-						<span class="block text-error">A thumbnail is required</span>
-					{/if}
-				</div>
-			{/if}
+			{#key link}
+				{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
+					<p>Optional thumbnail: if not provided, the old one will be used</p>
+					<div class="form-control max-w-sm">
+						<label for="thumbnail" class="label">
+							<span class="label-text">Thumbnail</span>
+							<span class="label-text-alt">Recommended ratio 16:9</span>
+						</label>
+						<input
+							id="thumbnail"
+							type="file"
+							accept="image/*"
+							name="thumbnail"
+							class="file-input input-bordered"
+						/>
+						{#if form?.ID === 'swap' && form?.fieldErrors?.thumbnail}
+							<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
+						{/if}
+					</div>
+				{/if}
+			{/key}
 
-			<input type="hidden" name="email" value={email} />
+			<input type="hidden" name="oldLink" value={entry.link} />
+			<input type="hidden" name="email" bind:value={email} />
 
 			{#if form?.fieldErrors || $page.status !== 200}
 				<p class="block text-error">Something went wrong. Please try again</p>
@@ -166,8 +174,8 @@
 			<div>
 				<p>
 					<strong>
-						Swapping will create a new entry replacing the old one, and will remove all current
-						votes for this entry.
+						Swapping will create a new entry replacing the old one, and will delete all the previous
+						votes and feedbacks.
 					</strong>
 				</p>
 				<button class="btn-error btn block">Swap entries</button>
