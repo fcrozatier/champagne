@@ -8,6 +8,7 @@
 	import { browser, dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	import { webVitals } from '$lib/vitals.js';
+	import Banner from '../lib/components/Banner.svelte';
 
 	export let data: LayoutData;
 
@@ -48,11 +49,7 @@
 		</span>
 	</nav>
 
-	<div class="alert alert-error mx-auto max-w-2xl text-sm">
-		The Peer Review website is currently undergoing a beta test. If you would like to help with the
-		test, please submit your favorite 3blue1brown video or blog post as an entry and participate in
-		each phase of the competition!
-	</div>
+	<Banner test={true} />
 
 	<main class="prose mb-40 mt-8 max-w-full">
 		<h1 class="text-center">{COMPETITION_FULL_NAME}</h1>
