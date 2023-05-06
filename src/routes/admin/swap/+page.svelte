@@ -4,13 +4,14 @@
 	import { categories } from '$lib/config.js';
 	import { page } from '$app/stores';
 	import { YOUTUBE_EMBEDDABLE, voteOpen } from '$lib/utils.js';
+	import { PUBLIC_S3_BUCKET, PUBLIC_S3_ENDPOINT } from '$env/static/public';
 
 	export let form;
 
 	$: entry = form?.entry as EntryProperties;
 
 	let email = '';
-	let link = '';
+	let link: string | undefined = undefined;
 
 	function updateLink(e: Event) {
 		link = (e.target as HTMLInputElement).value;
@@ -32,7 +33,7 @@
 			};
 		}}
 	>
-		<div class="form-control max-w-sm">
+		<div class="form-control max-w-md">
 			<label for="email"><span class="label-text">Creator email</span></label>
 			<input id="email" type="email" class="input-bordered input" name="email" bind:value={email} />
 		</div>
@@ -86,7 +87,7 @@
 				{/if}
 			</div>
 
-			<div class="form-control max-w-sm">
+			<div class="form-control max-w-md">
 				<label for="title" class="label">
 					<span class="label-text">Title</span>
 				</label>
@@ -103,7 +104,7 @@
 				{/if}
 			</div>
 
-			<div class="form-control max-w-sm">
+			<div class="form-control max-w-md">
 				<label for="description" class="label">
 					<span class="label-text">Short description</span>
 				</label>
@@ -122,7 +123,7 @@
 				{/if}
 			</div>
 
-			<div class="form-control max-w-sm">
+			<div class="form-control max-w-md">
 				<label for="link" class="label">
 					<span class="label-text"> Link </span>
 				</label>
@@ -144,9 +145,11 @@
 			</div>
 
 			{#key link}
-				{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
-					<p>Optional thumbnail: if not provided, the old one will be used</p>
-					<div class="form-control max-w-sm">
+				{#if !YOUTUBE_EMBEDDABLE.test(link ?? entry.link)}
+					{#if !link || link === entry.link}
+						<p>Optional thumbnail: if not provided the old thumbnail will be used</p>
+					{/if}
+					<div class="form-control max-w-md">
 						<label for="thumbnail" class="label">
 							<span class="label-text">Thumbnail</span>
 							<span class="label-text-alt">Recommended ratio 16:9</span>
@@ -157,6 +160,7 @@
 							accept="image/*"
 							name="thumbnail"
 							class="file-input input-bordered"
+							required={!!link && link !== entry.link}
 						/>
 						{#if form?.ID === 'swap' && form?.fieldErrors?.thumbnail}
 							<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
@@ -164,6 +168,35 @@
 					</div>
 				{/if}
 			{/key}
+
+			<div>
+				<p>Current thumbnail</p>
+				{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
+					{@const youtubeLink = entry.link.match(YOUTUBE_EMBEDDABLE)?.[1]}
+					<iframe
+						class="max-w-full rounded-lg"
+						width="480"
+						height="270"
+						src={`https://www.youtube.com/embed/${youtubeLink}`}
+						title="YouTube video player"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+					/>
+				{:else}
+					<a href={entry.link} target="_blank">
+						<img
+							class="my-0 max-w-full rounded-lg"
+							src={`https://${PUBLIC_S3_BUCKET}.${PUBLIC_S3_ENDPOINT.replace('https://', '')}/${
+								entry.thumbnail
+							}`}
+							alt="thumbnail"
+							width="480"
+							height="270"
+						/>
+					</a>
+				{/if}
+			</div>
 
 			<input type="hidden" name="oldLink" value={entry.link} />
 			<input type="hidden" name="email" bind:value={email} />

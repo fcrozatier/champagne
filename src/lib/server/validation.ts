@@ -136,7 +136,10 @@ export const SwapSchema = z.object({
 	description: DescriptionSchema,
 	link: UrlSchema,
 	oldLink: UrlSchema,
-	thumbnail: z.optional(ThumbnailSchema)
+	thumbnail: z
+		.instanceof(File)
+		.refine((file) => file.size === 0)
+		.or(ThumbnailSchema)
 });
 
 export const FlagSchema = z.object({

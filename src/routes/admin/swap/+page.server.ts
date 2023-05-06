@@ -48,6 +48,7 @@ export const actions = {
 		const validation = await validateForm(request, SwapSchema);
 
 		if (!validation.success) {
+			console.log(validation.error.flatten());
 			return fail(400, { ID, ...validation.error.flatten() });
 		}
 
@@ -57,6 +58,7 @@ export const actions = {
 		try {
 			const { thumbnail, link, ...restData } = validation.data;
 			const thumbnailKey = Buffer.from(link).toString('base64') + '.webp';
+			console.log('thumbnailKey:', thumbnailKey);
 
 			// Normalize youtube links
 			let normalizedLink = link;
@@ -81,8 +83,8 @@ export const actions = {
 					`
 					MATCH (u:Creator)-[:CREATED]->(n:Entry)
 					WHERE u.email = $params.email
-					CREATE (u)-[:CREATED]->(t:Temp {number: n.number, title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
-					WITH u, n, t
+					CREATE (t:Temp {number: n.number, title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
+					WITH n, t
 					CALL {
 						WITH n
 						OPTIONAL MATCH (f:Feedback)<-[:FEEDBACK]-(n)
@@ -93,17 +95,13 @@ export const actions = {
 						OPTIONAL MATCH (n)-[r:NOT_ASSIGNED|ASSIGNED|LOSES_TO]-(m:Entry)
 						CALL apoc.do.when(m IS NOT NULL, '
 							CREATE (t)-[:NOT_ASSIGNED]->(m)
-						', '', {}) YIELD value
-						RETURN value
+						', '', {m:m, t:t}) YIELD value as comparisons
+						RETURN comparisons
 					}
 					CALL {
-						WITH u, n, t
-						OPTIONAL MATCH (c:Creator)-[:CREATED]-(n)
-						WHERE c <> u
-						CALL apoc.do.when(c IS NOT NULL, '
-							CREATE (c)-[:CREATED]->(t)
-						', '', {}) YIELD value
-						RETURN value
+						WITH n, t
+						MATCH (c:Creator)-[:CREATED]->(n)
+						CREATE (c)-[:CREATED]->(t)
 					}
 					WITH n, t
 					LIMIT 1
@@ -115,7 +113,7 @@ export const actions = {
 				);
 			});
 
-			if (thumbnail && !YOUTUBE_EMBEDDABLE.test(link)) {
+			if (thumbnail && thumbnail.size !== 0 && !YOUTUBE_EMBEDDABLE.test(link)) {
 				const oldKey = Buffer.from(validation.data.oldLink).toString('base64') + '.webp';
 				await deleteThumbnail(oldKey);
 				await saveThumbnail(thumbnail, thumbnailKey);
