@@ -81,10 +81,6 @@
 						<span class="label-text capitalize"> {category} </span>
 					</label>
 				{/each}
-
-				{#if form?.ID === 'swap' && form?.fieldErrors?.category}
-					<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
-				{/if}
 			</div>
 
 			<div class="form-control max-w-md">
@@ -99,9 +95,6 @@
 					value={entry.title}
 					required
 				/>
-				{#if form?.ID === 'swap' && form?.fieldErrors?.title}
-					<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
-				{/if}
 			</div>
 
 			<div class="form-control max-w-md">
@@ -118,9 +111,6 @@
 					value={entry.description}
 					required
 				/>
-				{#if form?.ID === 'swap' && form?.fieldErrors?.description}
-					<span class="block text-error">{form.fieldErrors.description.join(', ')}</span>
-				{/if}
 			</div>
 
 			<div class="form-control max-w-md">
@@ -137,9 +127,7 @@
 					on:input={updateLink}
 					required
 				/>
-				{#if form?.ID === 'swap' && form?.fieldErrors?.link}
-					<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
-				{:else if form?.ID === 'swap' && form?.linkExists}
+				{#if form?.ID === 'swap' && form?.linkExists}
 					<span class="block text-error">entry already registered</span>
 				{/if}
 			</div>
@@ -162,9 +150,6 @@
 							class="file-input input-bordered"
 							required={!!link && link !== entry.link}
 						/>
-						{#if form?.ID === 'swap' && form?.fieldErrors?.thumbnail}
-							<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
-						{/if}
 					</div>
 				{/if}
 			{/key}
@@ -201,9 +186,6 @@
 			<input type="hidden" name="oldLink" value={entry.link} />
 			<input type="hidden" name="email" bind:value={email} />
 
-			{#if form?.fieldErrors || $page.status !== 200}
-				<p class="block text-error">Something went wrong. Please try again</p>
-			{/if}
 			<div>
 				<p>
 					<strong>
@@ -211,7 +193,13 @@
 						votes and feedbacks.
 					</strong>
 				</p>
-				<button class="btn-error btn block">Swap entries</button>
+				<p>
+					<button class="btn-error btn block">Swap entries</button>
+					{#if $page.status !== 200}
+						<p class="text-error">Something went wrong. Please try again</p>
+						<span class="text-error">{form?.error?.format()}</span>
+					{/if}
+				</p>
 			</div>
 		</form>
 	{/if}

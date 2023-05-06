@@ -49,7 +49,7 @@ export const actions = {
 
 		if (!validation.success) {
 			console.log(validation.error.flatten());
-			return fail(400, { ID, ...validation.error.flatten() });
+			return fail(400, { ID, error: validation.error });
 		}
 
 		// Save data
@@ -85,24 +85,17 @@ export const actions = {
 					WHERE u.email = $params.email
 					CREATE (t:Temp {number: n.number, title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
 					WITH n, t
-					CALL {
-						WITH n
-						OPTIONAL MATCH (f:Feedback)<-[:FEEDBACK]-(n)
-						DETACH DELETE f
-					}
-					CALL {
-						WITH n, t
-						OPTIONAL MATCH (n)-[r:NOT_ASSIGNED|ASSIGNED|LOSES_TO]-(m:Entry)
-						CALL apoc.do.when(m IS NOT NULL, '
-							CREATE (t)-[:NOT_ASSIGNED]->(m)
-						', '', {m:m, t:t}) YIELD value as comparisons
-						RETURN comparisons
-					}
-					CALL {
-						WITH n, t
-						MATCH (c:Creator)-[:CREATED]->(n)
-						CREATE (c)-[:CREATED]->(t)
-					}
+					LIMIT 1
+					OPTIONAL MATCH (f:Feedback)<-[:FEEDBACK]-(n)
+					DETACH DELETE f
+					WITH n, t
+					LIMIT 1
+					OPTIONAL MATCH (n)-[r:NOT_ASSIGNED|ASSIGNED|LOSES_TO]-(m:Entry)
+					CREATE (t)-[:NOT_ASSIGNED]->(m)
+					WITH n, t
+					LIMIT 1
+					MATCH (c:Creator)-[:CREATED]->(n)
+					CREATE (c)-[:CREATED]->(t)
 					WITH n, t
 					LIMIT 1
 					DETACH DELETE n
@@ -125,7 +118,7 @@ export const actions = {
 			) {
 				console.log(error.message);
 
-				if (error.message.includes('link')) {
+				if (error.message.includes('EntryLinkUnique')) {
 					return fail(422, { linkExists: true });
 				}
 			}
