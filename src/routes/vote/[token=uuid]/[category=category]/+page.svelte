@@ -45,6 +45,8 @@
 	{:else if data.stopVote}
 		<div class="layout-prose">
 			<p class="text-success">Thank you for participating!</p>
+
+			<NewVote {page} displayCategories="others-only" />
 		</div>
 	{:else}
 		<form

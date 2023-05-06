@@ -2,17 +2,20 @@
 	import { categories } from '$lib/config';
 
 	export let page;
+	export let displayCategories: 'all' | 'others-only' = 'all';
 </script>
 
 <!-- Force reload to grab a new pair of entries -->
-<p>
-	<a
-		class="btn-lg btn"
-		href={`/vote/${$page.params.token}/${$page.params.category}`}
-		data-sveltekit-reload>New vote</a
-	>
-</p>
-<p>Or change category:</p>
+{#if displayCategories !== 'others-only'}
+	<p>
+		<a
+			class="btn-lg btn"
+			href={`/vote/${$page.params.token}/${$page.params.category}`}
+			data-sveltekit-reload>New vote</a
+		>
+	</p>
+	<p>Or change category:</p>
+{/if}
 <p class="flex">
 	{#each categories as category}
 		{#if category !== $page.params.category}
