@@ -39,7 +39,7 @@
 		{/if}
 
 		<span class="ml-auto mr-4 inline-block">
-			<a href="https://discord.gg/WZvZMVsXXR">
+			<a href="https://discord.gg/WZvZMVsXXR" target="_blank">
 				<Icon class=" fill-gray-800 hover:fill-[#5865f2]" name="discord" width="1.2rem" />
 			</a>
 		</span>
@@ -57,7 +57,10 @@
 	</main>
 
 	<footer class="mt-auto flex flex-wrap justify-center gap-20 p-4">
-		<a href="https://github.com/fcrozatier/champagne" class="inline-flex items-center gap-3"
+		<a
+			href="https://github.com/fcrozatier/champagne"
+			class="inline-flex items-center gap-3"
+			target="_blank"
 			><Icon name="github" /> Champagne
 		</a>
 		<a href="/gdpr"> GDPR </a>

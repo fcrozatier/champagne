@@ -23,7 +23,8 @@
 	<p>
 		Your personal data is only used in order to send and retrieve your vote link. Data about your
 		entry is used on the voting platform and can be used elsewhere on <a
-			href="https://3blue1brown.com">3blue1brown.com</a
+			href="https://3blue1brown.com"
+			target="_blank">3blue1brown.com</a
 		>
 	</p>
 	<p>

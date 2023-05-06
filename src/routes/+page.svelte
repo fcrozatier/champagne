@@ -61,9 +61,9 @@
 
 <article class="layout-prose">
 	<p>
-		The <a href="https://www.3blue1brown.com/blog/some1">{COMPETITION_FULL_NAME}</a> (SoME) is an
-		annual competition to foster the creation of excellent math content online. On this page, you
-		can sign up as either a creator or judge for the {listFormatter.format(categories)} categories.
+		The <a href="https://www.3blue1brown.com/blog/some1" target="_blank">{COMPETITION_FULL_NAME}</a>
+		(SoME) is an annual competition to foster the creation of excellent math content online. On this
+		page, you can sign up as either a creator or judge for the {listFormatter.format(categories)} categories.
 	</p>
 	<h2>Organization</h2>
 	<p>The competition has three phases:</p>
