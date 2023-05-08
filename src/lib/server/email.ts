@@ -64,6 +64,7 @@ export async function sendTemplate() {
 	await mg.messages.create(DOMAIN, {
 		from: 'SoME <some@3blue1brown.com>',
 		to: `newsletter@${DOMAIN}`,
+		subject: `The Summer of Math vote is starting soon`,
 		template: 'token_reminder'
 	});
 }
