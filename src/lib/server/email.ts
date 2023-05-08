@@ -1,7 +1,7 @@
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import { DOMAIN, MAILGUN_API_KEY, ORIGIN } from '$env/static/private';
-import { COMPETITION_FULL_NAME } from '../config';
+import { COMPETITION_FULL_NAME, templates, type TemplateName } from '$lib/config';
 
 const mailgun = new Mailgun(formData);
 
@@ -48,5 +48,23 @@ export async function sendRegistrationEmail(to: string, token: string) {
 		subject: `${COMPETITION_FULL_NAME} registration`,
 		html: registrationEmailHtml.replace('%user.token%', token).replace('%domain%', ORIGIN),
 		text: registrationEmailTxt.replace('%user.token%', token).replace('%domain%', ORIGIN)
+	});
+}
+
+export async function addToMailingList(email: string, token: string) {
+	await mg.lists.members.createMember(`newsletter@${DOMAIN}`, {
+		address: email,
+		subscribed: 'yes',
+		vars: JSON.stringify({ token }),
+		upsert: 'yes' // update recipient if already subscribed
+	});
+}
+
+export async function sendTemplate(template_name: TemplateName) {
+	await mg.messages.create(DOMAIN, {
+		from: 'SoME <some@3blue1brown.com>',
+		to: `newsletter@${DOMAIN}`,
+		subject: templates[template_name],
+		template: template_name
 	});
 }

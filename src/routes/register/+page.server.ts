@@ -4,7 +4,7 @@ import { normalizeYoutubeLink, registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
-import { sendRegistrationEmail, validateEmail } from '$lib/server/email';
+import { addToMailingList, sendRegistrationEmail, validateEmail } from '$lib/server/email';
 import { dev } from '$app/environment';
 import { saveThumbnail } from '$lib/server/s3';
 
@@ -106,13 +106,17 @@ export const actions = {
 						);
 					});
 				}
+				console.log('should send email');
 				if (!dev) {
 					try {
 						for (const user of users) {
+							console.log('Adding to mailing list');
+							await addToMailingList(user.email, user.token);
+							console.log('Sending email');
 							await sendRegistrationEmail(user.email, user.token);
 						}
-					} catch (error) {
-						console.error('Cannot send email');
+					} catch (e) {
+						console.error('Cannot send email', e);
 					}
 				}
 				return {
