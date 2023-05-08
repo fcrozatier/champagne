@@ -1,7 +1,7 @@
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import { DOMAIN, MAILGUN_API_KEY, ORIGIN } from '$env/static/private';
-import { COMPETITION_FULL_NAME } from '../config';
+import { COMPETITION_FULL_NAME, templates, type TemplateName } from '$lib/config';
 
 const mailgun = new Mailgun(formData);
 
@@ -60,11 +60,11 @@ export async function addToMailingList(email: string, token: string) {
 	});
 }
 
-export async function sendTemplate() {
+export async function sendTemplate(template_name: TemplateName) {
 	await mg.messages.create(DOMAIN, {
 		from: 'SoME <some@3blue1brown.com>',
 		to: `newsletter@${DOMAIN}`,
-		subject: `The Summer of Math vote is starting soon`,
-		template: 'token_reminder'
+		subject: templates[template_name],
+		template: template_name
 	});
 }

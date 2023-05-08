@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { categories } from '$lib/config';
+import { categories, templateNames } from '$lib/config';
 import { MAX_IMG_SIZE } from './config';
 
 const SHARP_IMAGE_INPUT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -153,6 +153,10 @@ export const EdgesSchema = z.array(
 		edges: z.array(z.array(z.number()))
 	})
 );
+
+export const EmailTemplateSchema = z.object({
+	template_name: z.enum(templateNames)
+});
 
 /**
  * Generic schema validation function to be used in actions
