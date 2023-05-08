@@ -60,8 +60,9 @@ export async function addToMailingList(email: string, token: string) {
 	});
 }
 
-export async function sendTemplate(template_name: TemplateName) {
-	await mg.messages.create(DOMAIN, {
+export function sendTemplate(template_name: TemplateName) {
+	// Fire and forget
+	mg.messages.create(DOMAIN, {
 		from: 'SoME <some@3blue1brown.com>',
 		to: `newsletter@${DOMAIN}`,
 		subject: templates[template_name],
