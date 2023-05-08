@@ -55,6 +55,15 @@ export async function addToMailingList(email: string, token: string) {
 	await mg.lists.members.createMember(`newsletter@${DOMAIN}`, {
 		address: email,
 		subscribed: 'yes',
-		vars: JSON.stringify({ token })
+		vars: JSON.stringify({ token }),
+		upsert: 'yes' // update recipient if already subscribed
+	});
+}
+
+export async function sendTemplate() {
+	await mg.messages.create(DOMAIN, {
+		from: 'SoME <some@3blue1brown.com>',
+		to: `newsletter@${DOMAIN}`,
+		template: 'token_reminder'
 	});
 }

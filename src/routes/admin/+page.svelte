@@ -27,6 +27,7 @@
 		{#if data.isAdmin}
 			<li><a href="/admin/analytics">Graph analytics</a></li>
 			<li><a href="/admin/swap">Swap entries</a></li>
+			<li><a href="/admin/mailing">Send email</a></li>
 			<li><a href="/admin/rank">Rank entries</a></li>
 		{/if}
 	</ul>
