@@ -2,6 +2,7 @@ import { sendTemplate } from '$lib/server/email';
 import type { Actions } from '@sveltejs/kit';
 import { fail } from '@sveltejs/kit';
 import { EmailTemplateSchema, validateForm } from '$lib/server/validation';
+import { dev } from '$app/environment';
 
 export const actions: Actions = {
 	default: async ({ request }) => {
@@ -12,8 +13,10 @@ export const actions: Actions = {
 				return fail(400, validation.error.flatten());
 			}
 
-			// Fire and forget
-			sendTemplate(validation.data.template_name);
+			if (!dev) {
+				// Fire and forget
+				sendTemplate(validation.data.template_name);
+			}
 
 			return { success: true };
 		} catch (e) {
