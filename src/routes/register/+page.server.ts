@@ -4,7 +4,7 @@ import { normalizeYoutubeLink, registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
-import { sendRegistrationEmail, validateEmail } from '$lib/server/email';
+import { addToMailingList, sendRegistrationEmail, validateEmail } from '$lib/server/email';
 import { dev } from '$app/environment';
 import { saveThumbnail } from '$lib/server/s3';
 
@@ -109,6 +109,7 @@ export const actions = {
 				if (!dev) {
 					try {
 						for (const user of users) {
+							await addToMailingList(user.email, user.token);
 							await sendRegistrationEmail(user.email, user.token);
 						}
 					} catch (error) {

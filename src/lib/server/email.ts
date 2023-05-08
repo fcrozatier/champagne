@@ -50,3 +50,11 @@ export async function sendRegistrationEmail(to: string, token: string) {
 		text: registrationEmailTxt.replace('%user.token%', token).replace('%domain%', ORIGIN)
 	});
 }
+
+export async function addToMailingList(email: string, token: string) {
+	await mg.lists.members.createMember(DOMAIN, {
+		address: email,
+		subscribed: 'yes',
+		vars: JSON.stringify({ token })
+	});
+}
