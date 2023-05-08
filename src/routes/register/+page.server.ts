@@ -106,10 +106,13 @@ export const actions = {
 						);
 					});
 				}
+				console.log('should send email');
 				if (!dev) {
 					try {
 						for (const user of users) {
+							console.log('Adding to mailing list');
 							await addToMailingList(user.email, user.token);
+							console.log('Sending email');
 							await sendRegistrationEmail(user.email, user.token);
 						}
 					} catch (e) {
