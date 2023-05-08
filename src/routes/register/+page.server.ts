@@ -112,8 +112,8 @@ export const actions = {
 							await addToMailingList(user.email, user.token);
 							await sendRegistrationEmail(user.email, user.token);
 						}
-					} catch (error) {
-						console.error('Cannot send email');
+					} catch (e) {
+						console.error('Cannot send email', e);
 					}
 				}
 				return {
