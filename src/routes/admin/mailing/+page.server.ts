@@ -10,11 +10,13 @@ export const actions: Actions = {
 			const validation = await validateForm(request, EmailTemplateSchema);
 
 			if (!validation.success) {
+				console.log(validation.error.flatten());
 				return fail(400, validation.error.flatten());
 			}
 
 			if (!dev) {
 				// Fire and forget
+				console.log('send template email');
 				sendTemplate(validation.data.template_name);
 			}
 

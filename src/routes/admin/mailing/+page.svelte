@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
-	import { templates } from '$lib/config';
+	import { templateNames } from '$lib/config';
 
 	let selected: string[] = [];
 </script>
@@ -8,11 +9,20 @@
 <article class="layout-prose">
 	<h2>Send a message to the mailing list</h2>
 
-	<form>
+	<form
+		use:enhance={({ submitter }) => {
+			submitter?.setAttribute('disabled', 'on');
+
+			return async ({ update }) => {
+				await update();
+				submitter?.removeAttribute('disabled');
+			};
+		}}
+	>
 		<p>Choose a message to send</p>
 
 		<div class="form-control">
-			{#each Object.keys(templates) as template_name, i}
+			{#each templateNames as template_name, i}
 				<label for="template-{i}" class="label cursor-pointer justify-start gap-2">
 					<input
 						id="template-{i}"
