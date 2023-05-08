@@ -52,7 +52,7 @@ export async function sendRegistrationEmail(to: string, token: string) {
 }
 
 export async function addToMailingList(email: string, token: string) {
-	await mg.lists.members.createMember(DOMAIN, {
+	await mg.lists.members.createMember(`newsletter@${DOMAIN}`, {
 		address: email,
 		subscribed: 'yes',
 		vars: JSON.stringify({ token })
