@@ -134,7 +134,7 @@
 					on:click={() => {
 						personalLinkDialog.showModal();
 					}}
-					>Email me my personal link
+					>Resend me my personal link
 				</button>
 			</p>
 		{/if}

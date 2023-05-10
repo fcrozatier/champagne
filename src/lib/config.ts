@@ -11,6 +11,9 @@ export const userTypes = ['creator', 'judge'] as const;
 
 export const listFormatter = new Intl.ListFormat('en', { type: 'disjunction', style: 'short' });
 
+/**
+ * Batch sending templates only
+ */
 export const templateNames = ['token_reminder'] as const;
 
 /**
@@ -21,7 +24,8 @@ export const emailTemplates = {
 		subject: `${COMPETITION_FULL_NAME} vote is starting soon`,
 		variables: ['token']
 	},
-	registration: { subject: `${COMPETITION_FULL_NAME} registration`, variables: ['token'] }
-} satisfies Record<string, { subject: string; variables?: string[] }>;
+	registration: { subject: `${COMPETITION_FULL_NAME} registration`, variables: ['token'] },
+	resend_token: { subject: 'Here is your link', variables: ['token'] }
+} as const;
 
 export type TemplateName = keyof typeof emailTemplates;
