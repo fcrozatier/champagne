@@ -12,11 +12,16 @@ export const userTypes = ['creator', 'judge'] as const;
 export const listFormatter = new Intl.ListFormat('en', { type: 'disjunction', style: 'short' });
 
 export const templateNames = ['token_reminder'] as const;
-export type TemplateName = keyof typeof templates;
 
 /**
  * The value is the template email subject
  */
-export const templates = {
-	token_reminder: 'The Summer of Math vote is starting soon'
-} as const;
+export const emailTemplates = {
+	token_reminder: {
+		subject: `${COMPETITION_FULL_NAME} vote is starting soon`,
+		variables: ['token']
+	},
+	registration: { subject: `${COMPETITION_FULL_NAME} registration`, variables: ['token'] }
+} satisfies Record<string, { subject: string; variables?: string[] }>;
+
+export type TemplateName = keyof typeof emailTemplates;
