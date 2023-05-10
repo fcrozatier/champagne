@@ -1,8 +1,10 @@
 import formData from 'form-data';
 import Mailgun from 'mailgun.js';
-import { DOMAIN, MAILGUN_API_KEY, ORIGIN } from '$env/static/private';
-import { COMPETITION_FULL_NAME, templates, type TemplateName } from '$lib/config';
+import { DOMAIN, MAILGUN_API_KEY } from '$env/static/private';
+import { emailTemplates, type TemplateName } from '$lib/config';
+import type { MailgunMessageData } from 'mailgun.js/interfaces/Messages';
 
+const from = 'SoME <some@3blue1brown.com>';
 const mailgun = new Mailgun(formData);
 
 export const mg = mailgun.client({ username: 'api', key: MAILGUN_API_KEY });
@@ -27,30 +29,6 @@ export const validateEmail = async (email: string) => {
 	}
 };
 
-const registrationEmailHtml = Object.values(
-	import.meta.glob('./registrationEmail.html', {
-		as: 'raw',
-		eager: true
-	})
-)[0];
-
-const registrationEmailTxt = Object.values(
-	import.meta.glob('./registrationEmail.txt', {
-		as: 'raw',
-		eager: true
-	})
-)[0];
-
-export async function sendRegistrationEmail(to: string, token: string) {
-	await mg.messages.create(DOMAIN, {
-		from: 'SoME <some@3blue1brown.com>',
-		to,
-		subject: `${COMPETITION_FULL_NAME} registration`,
-		html: registrationEmailHtml.replace('%user.token%', token).replace('%domain%', ORIGIN),
-		text: registrationEmailTxt.replace('%user.token%', token).replace('%domain%', ORIGIN)
-	});
-}
-
 export async function addToMailingList(email: string, token: string) {
 	await mg.lists.members.createMember(`newsletter@${DOMAIN}`, {
 		address: email,
@@ -60,11 +38,36 @@ export async function addToMailingList(email: string, token: string) {
 	});
 }
 
-export async function sendTemplate(template_name: TemplateName) {
+export async function sendEmail<T extends TemplateName>(
+	to: string,
+	template: T,
+	variables?: Record<(typeof emailTemplates)[T]['variables'][number], string>
+) {
+	const { subject } = emailTemplates[template];
+
+	const data = {
+		from,
+		to,
+		subject,
+		template
+	} satisfies MailgunMessageData;
+
+	if (variables) {
+		for (const [key, value] of Object.entries(variables)) {
+			Object.assign(data, { [`v:${key}`]: value });
+		}
+	}
+
+	if (subject) {
+		await mg.messages.create(DOMAIN, data);
+	}
+}
+
+export async function sendTemplate(template: TemplateName) {
 	await mg.messages.create(DOMAIN, {
-		from: 'SoME <some@3blue1brown.com>',
+		from,
 		to: `newsletter@${DOMAIN}`,
-		subject: templates[template_name],
-		template: template_name
+		subject: emailTemplates[template].subject,
+		template
 	});
 }

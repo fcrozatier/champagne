@@ -1,6 +1,8 @@
 import { driver } from '$lib/server/neo4j';
 import { fail, type Actions } from '@sveltejs/kit';
 import { EmailForm, validateForm } from '$lib/server/validation';
+import { dev } from '$app/environment';
+import { sendEmail } from '../lib/server/email';
 
 export const actions: Actions = {
 	resend_link: async ({ request }) => {
@@ -29,12 +31,14 @@ export const actions: Actions = {
 
 			if (!user?.records?.length) {
 				return fail(400, { emailInvalid: true });
-			} else {
-				const token = user.records[0].get('token');
-				// TODO email
-				console.log(`Your personal link is /vote/${token}`);
-				return { success: true };
 			}
+			const token = user.records[0].get('token');
+
+			console.log(`Your personal link is /vote/${token}`);
+			if (!dev) {
+				await sendEmail(validation.data.email, 'resend_token', { token });
+			}
+			return { success: true };
 		} catch (error) {
 			console.log(error);
 			return fail(400, { error: true });
