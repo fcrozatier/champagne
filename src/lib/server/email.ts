@@ -43,6 +43,13 @@ export async function sendEmail<T extends TemplateName>(
 	variables?: Record<(typeof emailTemplates)[T]['variables'][number], string>
 ) {
 	const { subject } = emailTemplates[template];
+	const messageVariables = new Map();
+
+	if (variables) {
+		for (const [key, value] of Object.entries(variables)) {
+			messageVariables.set(`v:${key}`, value);
+		}
+	}
 
 	if (subject) {
 		await mg.messages.create(DOMAIN, {
@@ -50,8 +57,7 @@ export async function sendEmail<T extends TemplateName>(
 			to,
 			subject,
 			template,
-			// 'recipient-variables': JSON.stringify(variables)
-			'v:token': '1234'
+			...messageVariables
 		});
 	}
 }

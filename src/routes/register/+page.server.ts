@@ -111,7 +111,7 @@ export const actions: Actions = {
 					try {
 						for (const user of users) {
 							await addToMailingList(user.email, user.token);
-							await sendEmail(user.email, 'registration', { toke: user.token });
+							await sendEmail(user.email, 'registration', { token: user.token });
 						}
 					} catch (e) {
 						console.error('Cannot send email', e);
