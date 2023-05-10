@@ -2,6 +2,7 @@ import formData from 'form-data';
 import Mailgun from 'mailgun.js';
 import { DOMAIN, MAILGUN_API_KEY } from '$env/static/private';
 import { emailTemplates, type TemplateName } from '$lib/config';
+import type { MailgunMessageData } from 'mailgun.js/interfaces/Messages';
 
 const from = 'SoME <some@3blue1brown.com>';
 const mailgun = new Mailgun(formData);
@@ -43,22 +44,22 @@ export async function sendEmail<T extends TemplateName>(
 	variables?: Record<(typeof emailTemplates)[T]['variables'][number], string>
 ) {
 	const { subject } = emailTemplates[template];
-	const messageVariables = new Map();
+
+	const data = {
+		from,
+		to,
+		subject,
+		template
+	} satisfies MailgunMessageData;
 
 	if (variables) {
 		for (const [key, value] of Object.entries(variables)) {
-			messageVariables.set(`v:${key}`, value);
+			Object.assign(data, { [`v:${key}`]: value });
 		}
 	}
 
 	if (subject) {
-		await mg.messages.create(DOMAIN, {
-			from,
-			to,
-			subject,
-			template,
-			...messageVariables
-		});
+		await mg.messages.create(DOMAIN, data);
 	}
 }
 
