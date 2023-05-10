@@ -50,7 +50,8 @@ export async function sendEmail<T extends TemplateName>(
 			to,
 			subject,
 			template,
-			't:variables': JSON.stringify(variables)
+			// 'recipient-variables': JSON.stringify(variables)
+			'v:token': '1234'
 		});
 	}
 }
