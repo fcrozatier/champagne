@@ -25,7 +25,7 @@ export const emailTemplates = {
 		variables: ['token']
 	},
 	registration: { subject: `${COMPETITION_FULL_NAME} registration`, variables: ['token'] },
-	resend_token: { subject: 'Here is your link', variables: ['token'] }
+	resend_token: { subject: `Your link for the ${COMPETITION_FULL_NAME}`, variables: ['token'] }
 } as const;
 
 export type TemplateName = keyof typeof emailTemplates;
