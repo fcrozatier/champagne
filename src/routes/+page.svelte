@@ -71,8 +71,7 @@
 
 <article class="layout-prose">
 	<p>
-		The <a href=https://www.3blue1brown.com/blog/some1> {COMPETITION_FULL_NAME} </a>
-		(SoME) is an annual competition to foster the creation of excellent math content online. 
+		The {COMPETITION_FULL_NAME} (SoME) is an annual competition to foster the creation of excellent math content online. 
 		If you would like to register for this competition as either an entrant or a judge, please use the registration button below and fill out the appropriate form.
 		Note that you may only register as an entrant during the official registration phase, but you can register at a judge during the voting phase as well.
 		If the registration phase has passed, please follow the instructions on this page for either voting or receiving feedback.
