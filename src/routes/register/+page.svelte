@@ -92,7 +92,7 @@
 				automatically be signed up as a judge as well.
 			</li>
 			<li>
-				Please read the <a href="/rules"><u>rules and judging criteria</u></a> before submitting your
+				Please read the <a href="/#rules"><u>rules and judging criteria</u></a> before submitting your
 				entry.
 			</li>
 		</ul>

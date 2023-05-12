@@ -170,8 +170,8 @@
 				comments.
 			</p>
 			<p>
-				If an entry is inappropriate or does not follow the <a href="/rules">rules</a> you can flag it
-				and we will review it manually.
+				If an entry is inappropriate or does not follow the <a href="/#rules">rules</a> you can flag
+				it and we will review it manually.
 			</p>
 		</section>
 	{/if}
