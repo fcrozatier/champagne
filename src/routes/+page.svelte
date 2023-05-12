@@ -106,10 +106,6 @@
 		{#if !PUBLIC_REGISTRATION_START}
 			<p>The competition has not started yet.</p>
 			<p>Stay tuned for the announcement of phase 1!</p>
-		{:else}
-			<p>
-				The competition will start <Time datetime={PUBLIC_REGISTRATION_START} />
-			</p>
 		{/if}
 	{/if}
 
