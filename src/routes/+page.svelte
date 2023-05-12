@@ -18,18 +18,28 @@
 		PUBLIC_VOTE_START
 	} from '$env/static/public';
 
-	const phases = [registrationOpen(), voteOpen(), resultsAvailable()];
-
-	const descriptions = [
-		'Register as a creator or judge',
-		'Vote for the best contributions',
-		'Results and feedback'
-	];
-
-	const dates = [
-		[PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END],
-		[PUBLIC_VOTE_START, PUBLIC_VOTE_END],
-		[PUBLIC_RESULTS_AVAILABLE]
+	const phases = [
+		{
+			title: 'Register as a creator or judge',
+			description:
+				'Participants all work on their projects. Most of the activity during this phase happens on Discord, where many people share partial progress, find collaborators, and ask questions.',
+			isOpen: registrationOpen(),
+			dates: [PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END]
+		},
+		{
+			title: 'Vote for the best contributions',
+			description:
+				"Peer review! Everyone, whether or not they've submitted an entry, can participate. You'll be successively shown two entries and asked to vote on which is best and to optionally provide feedback (it's actually a ton of fun). In many ways, this is the heart of the event, and in past years this phase has been what jump-started meaningful exposure for many entries.",
+			isOpen: voteOpen(),
+			dates: [PUBLIC_VOTE_START, PUBLIC_VOTE_END]
+		},
+		{
+			title: 'Results and feedback',
+			description:
+				'A selection of judges drawn from the math communication community will select winners and honorable mentions from among other top 100 surfaced in the peer review. Winners will be featured in a 3blue1brown video, and awarded $1,000 each, along with the coveted golden pi creature.',
+			isOpen: resultsAvailable(),
+			dates: [PUBLIC_RESULTS_AVAILABLE]
+		}
 	];
 
 	const dateFormat = {
@@ -65,28 +75,29 @@
 		(SoME) is an annual competition to foster the creation of excellent math content online. On this
 		page, you can sign up as either a creator or judge for the {listFormatter.format(categories)} categories.
 	</p>
-	<h2>Organization</h2>
+	<h2>Timeline</h2>
 	<p>The competition has three phases:</p>
 	<ul>
-		{#each descriptions as description, i}
-			<li class={phases[i] ? 'marker:text-green-500' : ''}>
+		{#each phases as phase, i}
+			<li class="{phase.isOpen ? 'marker:text-green-500' : ''} space-y-0">
 				<p>
-					<span class="font-semibold">Phase {i + 1} </span>
-					<span class="flex items-center gap-2">
-						{description}
-						{#if phases[i]}
-							<span class="badge-success badge">current</span>
+					<span class="flex items-center gap-2 font-semibold">
+						Phase {i + 1}:
+						{phase.title}
+						{#if phase.isOpen}
+							<span class="badge badge-success">current</span>
 						{/if}
 					</span>
 					<span class="text-sm text-gray-500"
-						>{#if dates[i].length > 1}
-							From <Time datetime={dates[i][0]} options={dateFormat} /> to
-							<Time datetime={dates[i][1]} options={dateFormat} />
+						>{#if phase.dates.length > 1}
+							From <Time datetime={phase.dates[0]} options={dateFormat} /> to
+							<Time datetime={phase.dates[1]} options={dateFormat} />
 						{:else}
-							From <Time datetime={dates[i][0]} options={dateFormat} />
+							From <Time datetime={phase.dates[0]} options={dateFormat} />
 						{/if}</span
 					>
 				</p>
+				<p class="text-sm">{phase.description}</p>
 			</li>
 		{/each}
 	</ul>
