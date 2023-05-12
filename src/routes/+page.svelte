@@ -71,9 +71,10 @@
 
 <article class="layout-prose">
 	<p>
-		The {COMPETITION_FULL_NAME}
-		(SoME) is an annual competition to foster the creation of excellent math content online. On this
-		page, you can sign up as either a creator or judge for the {listFormatter.format(categories)} categories.
+		The {COMPETITION_FULL_NAME} (SoME) is an annual competition to foster the creation of excellent math content online. 
+		If you would like to register for this competition as either an entrant or a judge, please use the registration button below and fill out the appropriate form.
+		Note that you may only register as an entrant during the official registration phase, but you can register at a judge during the voting phase as well.
+		If the registration phase has passed, please follow the instructions on this page for either voting or receiving feedback.
 	</p>
 	<h2>Timeline</h2>
 	<p>The competition has three phases:</p>
