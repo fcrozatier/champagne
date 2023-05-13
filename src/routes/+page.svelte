@@ -162,36 +162,37 @@
 			<a class="font-thin text-white" href="https://www.3blue1brown.com/blog/some2">here</a>
 		</p>
 	</div>
-	<div class="carousel-center carousel rounded-box mx-auto mt-20 max-w-prose snap-always">
-		{#each winners as winner, i}
-			<div id="item-{i + 1}" class="carousel-item relative flex w-3/4 justify-center">
-				{#if YOUTUBE_EMBEDDABLE.test(winner)}
-					<iframe
-						width="480"
-						height="270"
-						class="mx-10 rounded-lg"
-						src={winner}
-						title="YouTube video player"
-						frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-						allowfullscreen
-					/>
-				{:else}
-					<a href={winner} target="_blank" class="cursor-pointer">
+	<div class="mx-4">
+		<div
+			class="scrollbar rounded-box mx-auto mt-20 flex max-w-prose snap-x snap-proximity snap-always gap-10 overflow-auto pb-4"
+		>
+			{#each winners as winner, i}
+				<div id="item-{i + 1}" class="snap-center">
+					{#if YOUTUBE_EMBEDDABLE.test(winner)}
 						<iframe
-							width="480"
-							height="270"
-							class="mx-10 rounded-lg"
+							width="420"
+							class="aspect-video rounded-lg"
 							src={winner}
-							title="Winner website"
+							title="YouTube video player"
 							frameborder="0"
-							allow="accelerometer; clipboard-write; encrypted-media; gyroscope;"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 							allowfullscreen
 						/>
-					</a>
-				{/if}
-			</div>
-		{/each}
+					{:else}
+						<a href={winner} target="_blank" class="cursor-pointer">
+							<iframe
+								width="420"
+								class="aspect-video rounded-lg"
+								src={winner}
+								title="Winner website"
+								frameborder="0"
+								allow="accelerometer; clipboard-write; encrypted-media; gyroscope;"
+							/>
+						</a>
+					{/if}
+				</div>
+			{/each}
+		</div>
 	</div>
 </section>
 
