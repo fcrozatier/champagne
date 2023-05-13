@@ -35,57 +35,55 @@ dialog::backdrop {
 details {
 	@apply py-4;
 	border-block: 1px solid theme(borderColor.DEFAULT);
+}
+details[open] > summary::after {
+	transform: rotate(-135deg);
+	top: 10px;
+}
 
-	&[open] > summary::after {
-		transform: rotate(-135deg);
-		top: 10px;
-	}
-
-	& + details {
-		border-top: none;
-	}
+details + details {
+	border-top: none;
 }
 
 summary {
 	@apply relative cursor-pointer select-none list-none;
 	--outline-width: 0;
+}
+summary:hover::before {
+	background-color: theme(colors.gray.200);
+}
 
-	&:hover::before {
-		background-color: theme(colors.gray.200);
-	}
+summary:focus-visible::before {
+	background-color: theme(colors.gray.200);
+	outline: 1px solid theme(colors.gray.500);
+	outline-offset: 2px;
+}
 
-	&:focus-visible::before {
-		background-color: theme(colors.gray.200);
-		outline: 1px solid theme(colors.gray.500);
-		outline-offset: 2px;
-	}
-
-	&::before,
-	&::after {
-		--bg-size: 28px;
-		position: absolute;
-		content: '';
-	}
-	&::before {
-		top: -2px;
-		right: 0;
-		border-radius: 50%;
-		background-color: theme(colors.gray.100);
-		width: var(--bg-size);
-		height: var(--bg-size);
-		transition: var(--outline-offset-transition);
-	}
-	&::after {
-		--arrow-size: 8px;
-		top: 7px;
-		right: calc((var(--bg-size) - var(--arrow-size)) / 2);
-		transition: transform 100ms ease-out;
-		transform: rotate(45deg);
-		border-right: 2px solid theme(colors.gray.500);
-		border-bottom: 2px solid theme(colors.gray.500);
-		width: var(--arrow-size);
-		height: var(--arrow-size);
-	}
+summary::before,
+summary::after {
+	--bg-size: 28px;
+	position: absolute;
+	content: '';
+}
+summary::before {
+	top: -2px;
+	right: 0;
+	border-radius: 50%;
+	background-color: theme(colors.gray.100);
+	width: var(--bg-size);
+	height: var(--bg-size);
+	transition: var(--outline-offset-transition);
+}
+summary::after {
+	--arrow-size: 8px;
+	top: 7px;
+	right: calc((var(--bg-size) - var(--arrow-size)) / 2);
+	transition: transform 100ms ease-out;
+	transform: rotate(45deg);
+	border-right: 2px solid theme(colors.gray.500);
+	border-bottom: 2px solid theme(colors.gray.500);
+	width: var(--arrow-size);
+	height: var(--arrow-size);
 }
 
 .layout-prose {
