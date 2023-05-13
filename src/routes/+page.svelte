@@ -165,6 +165,7 @@
 	<div class="mx-4">
 		<div
 			class="scrollbar rounded-box mx-auto mt-20 flex max-w-prose snap-x snap-proximity snap-always gap-10 overflow-auto pb-4"
+			style:--scrollbar-thumb="var(--light-gold)"
 		>
 			{#each winners as winner, i}
 				<div id="item-{i + 1}" class="snap-center">
