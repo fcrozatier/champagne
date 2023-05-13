@@ -86,6 +86,29 @@ summary::after {
 	height: var(--arrow-size);
 }
 
+.scrollbar {
+	--track: var(--scrollbar-track, black);
+	--thumb: var(--scrollbar-thumb, white);
+
+	overflow: auto;
+	/* Firefox */
+	scrollbar-color: var(--thumb) var(--track);
+	scrollbar-width: thin;
+	/* Chrome, Edge, Safari */
+}
+.scrollbar::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+.scrollbar::-webkit-scrollbar-track {
+	background: var(--track);
+}
+.scrollbar::-webkit-scrollbar-thumb {
+	background-color: var(--thumb);
+	border-radius: theme('borderRadius.md');
+	border: 2px solid var(--track);
+}
+
 .layout-prose {
 	@apply mx-auto max-w-prose px-8;
 }
