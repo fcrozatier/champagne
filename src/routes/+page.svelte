@@ -80,7 +80,7 @@
 
 <article class="layout-prose pb-20">
 	<p class=" mb-16 text-center text-3xl font-light">
-		A fun way to discover excellent math content, and for creators a means to be discovered.
+		A fun way to discover and create math content.
 	</p>
 	<p>
 		The {COMPETITION_FULL_NAME} ({COMPETITION_SHORT_NAME}) is an annual competition to foster the
@@ -154,7 +154,9 @@
 
 <section class="text-ligh bg-black pb-32 pt-20 text-center" style="color: var(--light-gold);">
 	<div class="mx-auto max-w-prose">
-		<h2 class="my-0 text-5xl font-black" style="color: var(--light-gold);">Last year's edition</h2>
+		<h2 class="my-0 text-5xl font-black" style="color: var(--light-gold);">
+			Last year's competition
+		</h2>
 		<p class="mt-8 font-thin tracking-wide">
 			Discover the 5 winners of the last edition. <br />
 
