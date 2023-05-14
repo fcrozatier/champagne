@@ -97,7 +97,7 @@
 						Phase {i + 1}:
 						{phase.title}
 						{#if phase.isOpen}
-							<span class="badge badge-success">current</span>
+							<span class="badge-success badge">current</span>
 						{/if}
 					</span>
 					<span class="text-sm text-gray-500"
@@ -174,6 +174,7 @@
 							frameborder="0"
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 							allowfullscreen
+							loading="lazy"
 						/>
 					{:else}
 						<a href={winner} target="_blank" class="cursor-pointer">
@@ -184,6 +185,7 @@
 								title="Winner website"
 								frameborder="0"
 								allow="accelerometer; clipboard-write; encrypted-media; gyroscope;"
+								loading="lazy"
 							/>
 						</a>
 					{/if}
