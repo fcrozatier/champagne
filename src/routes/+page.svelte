@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		registrationOpen,
-		resultsAvailable,
-		competitionStarted,
-		voteOpen,
-		YOUTUBE_EMBEDDABLE
-	} from '$lib/utils';
+	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions';
@@ -171,7 +165,7 @@
 		>
 			{#each winners as winner, i}
 				<div id="item-{i + 1}" class="snap-center">
-					{#if YOUTUBE_EMBEDDABLE.test(winner)}
+					{#if /youtube/.test(winner)}
 						<iframe
 							width="420"
 							class="aspect-video rounded-lg"
