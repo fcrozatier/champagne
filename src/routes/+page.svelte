@@ -97,7 +97,7 @@
 						Phase {i + 1}:
 						{phase.title}
 						{#if phase.isOpen}
-							<span class="badge-success badge">current</span>
+							<span class="badge badge-success">current</span>
 						{/if}
 					</span>
 					<span class="text-sm text-gray-500"
@@ -146,16 +146,20 @@
 	{/if}
 </article>
 
-<section class="text-ligh bg-black pb-32 pt-20 text-center" style="color: var(--light-gold);">
+<section class="text-ligh bg-black pb-32 pt-20 text-center" style:color="var(--light-gold)">
 	<div class="mx-auto max-w-prose">
-		<h2 class="my-0 text-5xl font-black" style="color: var(--light-gold);">
+		<h2 class="my-0 text-5xl font-black" style:color="var(--light-gold)">
 			Last year's competition
 		</h2>
-		<p class="mt-8 font-thin tracking-wide">
+		<p class="mt-8 font-extralight tracking-wider">
 			Discover the 5 winners of the last edition. <br />
 
 			The 20 honorable mentions as well as the full list of entries is available
-			<a class="font-thin text-white" href="https://www.3blue1brown.com/blog/some2">here</a>
+			<a
+				class="font-extralight text-white"
+				style:color="var(--light-gold)"
+				href="https://www.3blue1brown.com/blog/some2">here</a
+			>
 		</p>
 	</div>
 	<div class="mx-4">
