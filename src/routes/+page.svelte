@@ -146,7 +146,7 @@
 	{/if}
 </article>
 
-<section class="text-ligh bg-black pb-32 pt-20 text-center" style:color="var(--light-gold)">
+<section class="text-ligh bg-black/95 pb-32 pt-20 text-center" style:color="var(--light-gold)">
 	<div class="mx-auto max-w-prose">
 		<h2 class="my-0 text-5xl font-black" style:color="var(--light-gold)">
 			Last year's competition
