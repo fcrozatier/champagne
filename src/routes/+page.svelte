@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen, phaseOpen } from '$lib/utils';
+	import {
+		registrationOpen,
+		resultsAvailable,
+		competitionStarted,
+		voteOpen,
+		phaseOpen
+	} from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions';
@@ -92,7 +98,7 @@
 						Phase {i + 1}:
 						{phase.title}
 						{#if phase.isOpen}
-							<span class="badge badge-success">current</span>
+							<span class="badge-success badge">current</span>
 						{/if}
 					</span>
 					<span class="text-sm text-gray-500"

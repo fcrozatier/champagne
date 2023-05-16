@@ -1,8 +1,7 @@
 .DS_Store
 node_modules
-/build
-/.svelte-kit
-/package
+.svelte-kit
+.vercel
 .env
 .env.*
 !.env.example
@@ -12,3 +11,6 @@ node_modules
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+# Python
+.pytest_cache
