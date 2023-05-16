@@ -24,7 +24,7 @@
 		{
 			title: 'Register as a creator or judge',
 			description:
-				'Participants all work on their projects. Most of the activity during this phase happens on Discord, where many people share partial progress, find collaborators, and ask questions.',
+				'Participants all work on their projects. Most of the activity during this phase happens on <a href="https://discord.gg/WZvZMVsXXR" target="_blank">Discord</a>, where many people share partial progress, find collaborators, and ask questions.',
 			isOpen: phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END),
 			dates: [PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END]
 		},
@@ -110,7 +110,7 @@
 						{/if}</span
 					>
 				</div>
-				<p class="text-sm">{phase.description}</p>
+				<p class="text-sm">{@html phase.description}</p>
 				{#if phase.isOpen}
 					<p class="mt-6">
 						{#if i === 0}
@@ -188,6 +188,7 @@
 								alt="Winner thumbnail"
 								width="420"
 								class="aspect-video rounded-lg"
+								loading="lazy"
 							/>
 						</a>
 					{/if}
