@@ -164,12 +164,12 @@
 	</div>
 	<div class="mx-4">
 		<div
-			class="scrollbar rounded-box mx-auto mt-20 flex max-w-prose snap-x snap-proximity snap-always gap-10 overflow-x-scroll pb-4"
+			class="scrollbar mx-auto flex max-w-prose snap-x snap-proximity snap-always items-center gap-10 overflow-x-scroll pb-2"
 			style:--scrollbar-thumb="var(--light-gold)"
 		>
-			{#each winners as winner, i}
-				<div id="item-{i + 1}" class="snap-center">
-					{#if /youtube/.test(winner)}
+			{#each winners as winner}
+				<div class="snap-center">
+					{#if winner.includes('youtube')}
 						<iframe
 							width="420"
 							class="aspect-video rounded-lg"
@@ -181,15 +181,12 @@
 							loading="lazy"
 						/>
 					{:else}
-						<a href={winner} target="_blank" class="cursor-pointer">
-							<iframe
+						<a href={winner} target="_blank" class="inline-block w-[420px]">
+							<img
+								src="/img/winner.webp"
+								alt="Winner thumbnail"
 								width="420"
 								class="aspect-video rounded-lg"
-								src={winner}
-								title="Winner website"
-								frameborder="0"
-								allow="accelerometer; clipboard-write; encrypted-media; gyroscope;"
-								loading="lazy"
 							/>
 						</a>
 					{/if}
