@@ -12,6 +12,7 @@
 		PUBLIC_VOTE_END,
 		PUBLIC_VOTE_START
 	} from '$env/static/public';
+	import Icon from '../lib/components/Icon.svelte';
 
 	const phases = [
 		{
@@ -73,20 +74,14 @@
 </svelte:head>
 
 <article class="layout-prose pb-20">
-	<p class=" mb-16 text-center text-3xl font-light">
-		A fun way to discover and create math content.
-	</p>
+	<p class=" mb-16 text-center text-3xl font-light">Discover and create new math content.</p>
 	<p>
 		The {COMPETITION_FULL_NAME} ({COMPETITION_SHORT_NAME}) is an annual competition to foster the
-		creation of excellent math content online.
+		creation of excellent math content online. You can participate as either a creator or judge.
+		Five winners will be selected to receive $1,000 and a golden pi creature, and twenty honorable
+		mentions will receive $500 each. <a href="#rules">Learn more</a>
 	</p>
-	<p>
-		If you would like to register for this competition as either an entrant or a judge, please use
-		the registration button below and fill out the appropriate form. Note that you may only register
-		as an entrant during the official registration phase, but you can register at a judge during the
-		voting phase as well. If the registration phase has passed, please follow the instructions on
-		this page for either voting or receiving feedback.
-	</p>
+
 	<h2 class="mb-6 text-4xl font-black">Timeline</h2>
 	<p>The competition has three phases:</p>
 	<ul class="-ml-7 list-outside">
@@ -243,6 +238,19 @@
 	</details>
 	<details>
 		<summary>
+			<div class="text-xl font-medium">When is the registration deadline?</div>
+		</summary>
+		<p>
+			Creators can register until
+			<Time datetime={PUBLIC_REGISTRATION_END} />.
+		</p>
+		<p>
+			If you want to participate as a judge you can register at any time, even after the vote has
+			open.
+		</p>
+	</details>
+	<details>
+		<summary>
 			<div class="text-xl font-medium">Does it has to be in english?</div>
 		</summary>
 		<p>It has to be available in English: subtitles or translation are needed.</p>
@@ -313,6 +321,17 @@
 			minute view.
 		</p>
 	</details>
+</section>
+
+<section class="mt-20 pt-10">
+	<h2 class="text-center text-2xl font-light">
+		Prizes and operations for this contest have been generously funded by
+	</h2>
+	<div class="flex justify-center">
+		<a href="https://www.janestreet.com/" target="_blank">
+			<Icon class="opacity-10" name="janeStreet" width="18rem" height="5rem" />
+		</a>
+	</div>
 </section>
 
 <dialog class="mb-auto" bind:this={personalLinkDialog}>
