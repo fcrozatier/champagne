@@ -66,6 +66,7 @@ export const actions: Actions = {
 						users,
 						link: normalizedLink,
 						...restData,
+						group: users.length > 1,
 						thumbnailKey
 					};
 
@@ -75,7 +76,7 @@ export const actions: Actions = {
 							MATCH (n:Entry)
 							WHERE n.category = $params.category
 							WITH count(n) as number
-							CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
+							CREATE (entry:Entry {title: $params.title, description: $params.description, category: $params.category, link: $params.link, group: $params.group, thumbnail: $params.thumbnailKey})
 							SET entry.number = number
 							WITH *
 							UNWIND $params.users AS creator
