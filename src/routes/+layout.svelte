@@ -64,7 +64,6 @@
 			><Icon name="github" width="1.5rem" /> Champagne
 		</a>
 		<a href="/gdpr"> GDPR </a>
-		<!-- <a href="/rules"> Rules </a> -->
 		<a href="/contact"> Contact </a>
 	</footer>
 </div>

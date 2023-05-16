@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		registrationOpen,
-		resultsAvailable,
-		competitionStarted,
-		voteOpen,
-		phaseOpen
-	} from '$lib/utils';
+	import { resultsAvailable, competitionStarted, voteOpen, phaseOpen } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions';
