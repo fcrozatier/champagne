@@ -5,6 +5,8 @@
 	import { COMPETITION_SHORT_NAME, categories, userTypes } from '$lib/config';
 	import type { Snapshot } from './$types';
 	import { tick } from 'svelte';
+	import Time from '$lib/components/Time.svelte';
+	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
 
 	export let form;
 
@@ -74,8 +76,10 @@
 		<h2>Register for the competition</h2>
 		<h3>Creators</h3>
 		<p>
-			If you are a creator, fill the form below to register your entry for the voting phase. As a
-			creator you are automatically registered as a judge as well.
+			The registration deadline is <strong><Time datetime={PUBLIC_REGISTRATION_END} /></strong>.
+		</p>
+		<p>
+			As a creator you are automatically registered as a judge as well, no extra step is required.
 		</p>
 		<h3>Judges</h3>
 		<p>
@@ -85,7 +89,7 @@
 		<ul>
 			<li>
 				You can only register one entry per person/group for the competition; however, you may
-				submit multiple entries if you are a part of different (unique) groups.
+				submit multiple entries if you are a part of different groups.
 			</li>
 			<li>
 				You should not register both as a creator and as a judge. If you are a creator, you will
