@@ -40,7 +40,7 @@
 		{/if}
 
 		<span class="navbar-end ml-auto mr-4 flex gap-2">
-			<a title="Substack" href="https://3blue1brown.substack.com/" target="_blank">
+			<a title="Substack" href="https://summerofmathexposition.substack.com/" target="_blank">
 				<Icon class="fill-gray-800 px-2 hover:fill-[#f35300]" name="substack" width="2.5rem" />
 			</a>
 			<a title="Discord" href="https://discord.gg/WZvZMVsXXR" target="_blank">
