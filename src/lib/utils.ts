@@ -22,7 +22,7 @@ export function competitionStarted() {
 	return now > start;
 }
 
-function phaseOpen(startDate: string, endDate: string) {
+export function phaseOpen(startDate: string, endDate: string) {
 	if (!startDate || !endDate) return false;
 
 	const now = new Date();

@@ -101,261 +101,260 @@
 			</li>
 		</ul>
 
-		{#if new Date() > new Date(PUBLIC_VOTE_END)}
-			<p>
-				<strong>Registration is now closed</strong>
-			</p>
-		{:else}
-			<form
-				method="post"
-				enctype="multipart/form-data"
-				use:enhance={({ submitter, data }) => {
-					data.append('others', JSON.stringify(otherContributors));
-					submitter?.setAttribute('disabled', 'on');
+		<form
+			method="post"
+			enctype="multipart/form-data"
+			use:enhance={({ submitter, data }) => {
+				data.append('others', JSON.stringify(otherContributors));
+				submitter?.setAttribute('disabled', 'on');
 
-					return async ({ update }) => {
-						await update();
-						submitter?.removeAttribute('disabled');
-					};
-				}}
-			>
-				<div class="form-control max-w-md">
-					<span class="label-text"> I am a </span>
-					{#each userTypes as type, i}
-						<label for="user-type-{i}" class="label cursor-pointer justify-start gap-2">
-							<input
-								id="user-type-{i}"
-								class="radio"
-								type="radio"
-								bind:group={userType}
-								name="userType"
-								value={type}
-								required
-								disabled={type === 'creator' && new Date() > new Date(PUBLIC_REGISTRATION_END)}
-							/>
-							<span class="label-text capitalize"> {type} </span>
+				return async ({ update }) => {
+					await update();
+					submitter?.removeAttribute('disabled');
+				};
+			}}
+		>
+			<div class="form-control max-w-md">
+				<span class="label-text"> I am a </span>
+				{#each userTypes as type, i}
+					{@const disabled = type === 'creator' && !registrationOpen()}
+					<label
+						for="user-type-{i}"
+						class={`label ${
+							disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+						} justify-start gap-2`}
+						title={disabled ? 'Deadline passed' : userType}
+					>
+						<input
+							id="user-type-{i}"
+							class="radio"
+							type="radio"
+							bind:group={userType}
+							name="userType"
+							value={type}
+							required
+							{disabled}
+						/>
+						<span class="label-text capitalize"> {type} </span>
+					</label>
+				{/each}
+
+				{#if form?.fieldErrors?.userType}
+					<span class="text-error">{form.fieldErrors.userType.join(', ')}</span>
+				{/if}
+			</div>
+
+			<div class="form-control max-w-md">
+				<label for="email" class="label">
+					<span class="label-text"> Email </span>
+				</label>
+				<input
+					id="email"
+					type="email"
+					name="email"
+					placeholder="john@gmail.com"
+					class="input-bordered input w-full"
+					bind:value={email}
+					required
+				/>
+				{#if form?.fieldErrors?.email}
+					<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
+				{/if}
+			</div>
+			{#if userType === 'creator'}
+				{#each otherContributors as _, i}
+					<div class="form-control max-w-md">
+						<label for="email-{i}" class="label">
+							<span class="label-text">Email {i + 2}</span>
 						</label>
-					{/each}
+						<div class="flex items-center gap-2">
+							<input
+								id="email-{i}"
+								type="email"
+								name="email_{i}"
+								class="input-bordered input w-full"
+								bind:value={otherContributors[i]}
+								required
+							/>
+							<button
+								type="button"
+								class="btn-outline btn-xs btn-circle btn opacity-80"
+								on:click={() => {
+									otherContributors.splice(i, 1);
+									otherContributors = otherContributors;
+								}}>&cross;</button
+							>
+						</div>
+					</div>
+				{/each}
+				<p class="flex items-center gap-2 text-sm text-gray-500">
+					Add contributor
+					<button
+						type="button"
+						class="btn-outline btn-sm btn-circle btn opacity-80"
+						on:click={addContributor}
+					>
+						+</button
+					>
+				</p>
+			{/if}
+			{#if form?.emailExists}
+				<span class="block text-error">email already registered: {form.emailExists}</span>
+			{:else if form?.undeliverable}
+				<span class="block text-error"
+					>undeliverable email{otherContributors.length > 0 ? ': ' + form.undeliverable : ''}</span
+				>
+			{/if}
 
-					{#if form?.fieldErrors?.userType}
-						<span class="text-error">{form.fieldErrors.userType.join(', ')}</span>
+			{#if userType === 'creator'}
+				<div class="form-control max-w-md">
+					<label for="category" class="label">
+						<span class="label-text"> Category </span>
+					</label>
+					<select
+						id="category"
+						name="category"
+						class="select-bordered select w-full"
+						bind:value={category}
+						required
+					>
+						{#each categories as category}
+							<option value={category}>{category}</option>
+						{/each}
+					</select>
+					{#if form?.fieldErrors?.category}
+						<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
 					{/if}
 				</div>
 
 				<div class="form-control max-w-md">
-					<label for="email" class="label">
-						<span class="label-text"> Email </span>
+					<label for="title" class="label">
+						<span class="label-text">Title</span>
 					</label>
 					<input
-						id="email"
-						type="email"
-						name="email"
-						placeholder="john@gmail.com"
+						id="title"
+						type="text"
+						name="title"
 						class="input-bordered input w-full"
-						bind:value={email}
+						bind:value={title}
 						required
 					/>
-					{#if form?.fieldErrors?.email}
-						<span class="block text-error">{form.fieldErrors.email.join(', ')}</span>
+					{#if form?.fieldErrors?.title}
+						<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
 					{/if}
 				</div>
-				{#if userType === 'creator'}
-					{#each otherContributors as _, i}
-						<div class="form-control max-w-md">
-							<label for="email-{i}" class="label">
-								<span class="label-text">Email {i + 2}</span>
-							</label>
-							<div class="flex items-center gap-2">
-								<input
-									id="email-{i}"
-									type="email"
-									name="email_{i}"
-									class="input-bordered input w-full"
-									bind:value={otherContributors[i]}
-									required
-								/>
-								<button
-									type="button"
-									class="btn-outline btn-xs btn-circle btn opacity-80"
-									on:click={() => {
-										otherContributors.splice(i, 1);
-										otherContributors = otherContributors;
-									}}>&cross;</button
-								>
-							</div>
-						</div>
-					{/each}
-					<p class="flex items-center gap-2 text-sm text-gray-500">
-						Add contributor
-						<button
-							type="button"
-							class="btn-outline btn-sm btn-circle btn opacity-80"
-							on:click={addContributor}
-						>
-							+</button
-						>
-					</p>
-				{/if}
-				{#if form?.emailExists}
-					<span class="block text-error">email already registered: {form.emailExists}</span>
-				{:else if form?.undeliverable}
-					<span class="block text-error"
-						>undeliverable email{otherContributors.length > 0
-							? ': ' + form.undeliverable
-							: ''}</span
-					>
-				{/if}
-
-				{#if userType === 'creator'}
-					<div class="form-control max-w-md">
-						<label for="category" class="label">
-							<span class="label-text"> Category </span>
-						</label>
-						<select
-							id="category"
-							name="category"
-							class="select-bordered select w-full"
-							bind:value={category}
-							required
-						>
-							{#each categories as category}
-								<option value={category}>{category}</option>
-							{/each}
-						</select>
-						{#if form?.fieldErrors?.category}
-							<span class="block text-error">{form.fieldErrors.category.join(', ')}</span>
-						{/if}
-					</div>
-
-					<div class="form-control max-w-md">
-						<label for="title" class="label">
-							<span class="label-text">Title</span>
-						</label>
-						<input
-							id="title"
-							type="text"
-							name="title"
-							class="input-bordered input w-full"
-							bind:value={title}
-							required
-						/>
-						{#if form?.fieldErrors?.title}
-							<span class="block text-error">{form.fieldErrors.title.join(', ')}</span>
-						{/if}
-					</div>
-
-					<div class="form-control max-w-md">
-						<label for="description" class="label">
-							<span class="label-text">Short description</span>
-						</label>
-						<textarea
-							id="description"
-							name="description"
-							class="textarea-bordered textarea text-base"
-							minlength="10"
-							maxlength="500"
-							rows="5"
-							bind:value={description}
-							required
-						/>
-						<div class="label">
-							<span class="label-text-alt text-error">
-								{#if form?.fieldErrors?.description}
-									{form.fieldErrors.description.join(', ')}
-								{/if}
-							</span>
-							<span class="label-text-alt">{description.length}/500</span>
-						</div>
-					</div>
-
-					<div class="form-control max-w-md">
-						<label for="link" class="label">
-							<span class="label-text"> Link </span>
-						</label>
-						<input
-							id="link"
-							type="url"
-							name="link"
-							placeholder="https://"
-							class="input-bordered input w-full"
-							bind:value={link}
-						/>
-						{#if form?.fieldErrors?.link}
-							<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
-						{:else if form?.linkExists}
-							<span class="block text-error">entry already registered</span>
-						{/if}
-					</div>
-
-					{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
-						<div class="form-control max-w-md">
-							<label for="thumbnail" class="label">
-								<span class="label-text">Thumbnail</span>
-								<span class="label-text-alt">Recommended ratio 16:9</span>
-							</label>
-							<input
-								id="thumbnail"
-								type="file"
-								accept="image/*"
-								name="thumbnail"
-								class="file-input input-bordered"
-								required
-							/>
-							{#if form?.fieldErrors?.thumbnail}
-								<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
-							{:else if form?.thumbnailRequired}
-								<span class="block text-error">A thumbnail is required</span>
-							{/if}
-						</div>
-					{/if}
-				{/if}
 
 				<div class="form-control max-w-md">
-					<label for="rules" class="label justify-normal gap-4">
-						<input id="rules" type="checkbox" name="rules" class="checkbox" required />
-						<span class="label-text">
-							I've read the <a href="/rules">rules</a> of the competition
-						</span>
+					<label for="description" class="label">
+						<span class="label-text">Short description</span>
 					</label>
-					{#if form?.fieldErrors?.rules}
-						<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
+					<textarea
+						id="description"
+						name="description"
+						class="textarea-bordered textarea text-base"
+						minlength="10"
+						maxlength="500"
+						rows="5"
+						bind:value={description}
+						required
+					/>
+					<div class="label">
+						<span class="label-text-alt text-error">
+							{#if form?.fieldErrors?.description}
+								{form.fieldErrors.description.join(', ')}
+							{/if}
+						</span>
+						<span class="label-text-alt">{description.length}/500</span>
+					</div>
+				</div>
+
+				<div class="form-control max-w-md">
+					<label for="link" class="label">
+						<span class="label-text"> Link </span>
+					</label>
+					<input
+						id="link"
+						type="url"
+						name="link"
+						placeholder="https://"
+						class="input-bordered input w-full"
+						bind:value={link}
+					/>
+					{#if form?.fieldErrors?.link}
+						<span class="block text-error">{form.fieldErrors.link.join(', ')} </span>
+					{:else if form?.linkExists}
+						<span class="block text-error">entry already registered</span>
 					{/if}
 				</div>
 
-				{#if userType === 'creator'}
+				{#if link && !YOUTUBE_EMBEDDABLE.test(link)}
 					<div class="form-control max-w-md">
-						<label for="copyright" class="label items-start justify-normal gap-4">
-							<input id="copyright" type="checkbox" name="copyright" class="checkbox" required />
-							<span class="label-text">
-								I have permission to use all material (music, video clips, images, software, etc.)
-								within my entry for commercial purposes. I have not used any Creative Commons
-								Non-Commercial or copyrighted work unless I have explicit permission from the
-								copyright holder to use their material. If I have used Creative Commons BY work, I
-								have provided appropriate attribution. If I have used Creative Commons Share-Alike,
-								I have made sure my entry is also licensed under a Creative Commons license.
-							</span>
+						<label for="thumbnail" class="label">
+							<span class="label-text">Thumbnail</span>
+							<span class="label-text-alt">Recommended ratio 16:9</span>
 						</label>
-						{#if form?.fieldErrors?.copyright}
-							<span class="block text-error">{form.fieldErrors.copyright.join(', ')} </span>
+						<input
+							id="thumbnail"
+							type="file"
+							accept="image/*"
+							name="thumbnail"
+							class="file-input input-bordered"
+							required
+						/>
+						{#if form?.fieldErrors?.thumbnail}
+							<span class="block text-error">{form.fieldErrors.thumbnail.join(', ')} </span>
+						{:else if form?.thumbnailRequired}
+							<span class="block text-error">A thumbnail is required</span>
 						{/if}
 					</div>
 				{/if}
+			{/if}
 
-				{#if form?.fieldErrors || $page.status !== 200}
-					<p class="block text-error">
-						Something went wrong. {form?.invalid
-							? 'Please try again later'
-							: 'Please correct the highlighted fields above'}
-					</p>
+			<div class="form-control max-w-md">
+				<label for="rules" class="label justify-normal gap-4">
+					<input id="rules" type="checkbox" name="rules" class="checkbox" required />
+					<span class="label-text">
+						I've read the <a href="/rules">rules</a> of the competition
+					</span>
+				</label>
+				{#if form?.fieldErrors?.rules}
+					<span class="block text-error">{form.fieldErrors.rules.join(', ')} </span>
 				{/if}
-				<p>
-					<button class="btn block">Register</button>
+			</div>
+
+			{#if userType === 'creator'}
+				<div class="form-control max-w-md">
+					<label for="copyright" class="label items-start justify-normal gap-4">
+						<input id="copyright" type="checkbox" name="copyright" class="checkbox" required />
+						<span class="label-text">
+							I have permission to use all material (music, video clips, images, software, etc.)
+							within my entry for commercial purposes. I have not used any Creative Commons
+							Non-Commercial or copyrighted work unless I have explicit permission from the
+							copyright holder to use their material. If I have used Creative Commons BY work, I
+							have provided appropriate attribution. If I have used Creative Commons Share-Alike, I
+							have made sure my entry is also licensed under a Creative Commons license.
+						</span>
+					</label>
+					{#if form?.fieldErrors?.copyright}
+						<span class="block text-error">{form.fieldErrors.copyright.join(', ')} </span>
+					{/if}
+				</div>
+			{/if}
+
+			{#if form?.fieldErrors || $page.status !== 200}
+				<p class="block text-error">
+					Something went wrong. {form?.invalid
+						? 'Please try again later'
+						: 'Please correct the highlighted fields above'}
 				</p>
-				<p class="text-sm">
-					<a href="/gdpr">Privacy policy</a>
-				</p>
-			</form>
-		{/if}
+			{/if}
+			<p>
+				<button class="btn block">Register</button>
+			</p>
+			<p class="text-sm">
+				<a href="/gdpr">Privacy policy</a>
+			</p>
+		</form>
 	{/if}
 </article>
 

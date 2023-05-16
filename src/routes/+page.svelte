@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen } from '$lib/utils';
+	import { registrationOpen, resultsAvailable, competitionStarted, voteOpen, phaseOpen } from '$lib/utils';
 	import Time from '$lib/components/Time.svelte';
 	import type { ActionData, PageData } from './$types';
 	import { clickOutside } from '$lib/actions';
@@ -19,7 +19,7 @@
 			title: 'Register as a creator or judge',
 			description:
 				'Participants all work on their projects. Most of the activity during this phase happens on Discord, where many people share partial progress, find collaborators, and ask questions.',
-			isOpen: registrationOpen(),
+			isOpen: phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END),
 			dates: [PUBLIC_REGISTRATION_START, PUBLIC_REGISTRATION_END]
 		},
 		{
@@ -141,7 +141,7 @@
 	{/if}
 </article>
 
-<section class="text-ligh bg-black/95 pb-32 pt-20 text-center" style:color="var(--light-gold)">
+<section class="text-ligh bg-black/95 pb-32 pt-24 text-center" style:color="var(--light-gold)">
 	<div class="mx-auto max-w-prose">
 		<h2 class="my-0 text-5xl font-black" style:color="var(--light-gold)">
 			Last year's competition
@@ -191,7 +191,7 @@
 	</div>
 </section>
 
-<section id="rules" class="layout-prose">
+<section id="rules" class="layout-prose pt-8">
 	<h2 class="mb-16 text-4xl font-black">How it works</h2>
 
 	<details>
@@ -323,7 +323,7 @@
 	</details>
 </section>
 
-<section class="mt-20 pt-10">
+<section class="mt-10 pt-10">
 	<h2 class="text-center text-2xl font-light">
 		Prizes and operations for this contest have been generously funded by
 	</h2>

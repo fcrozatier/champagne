@@ -1,23 +1,23 @@
 import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { normalizeYoutubeLink, YOUTUBE_EMBEDDABLE } from '$lib/utils';
+import { normalizeYoutubeLink, phaseOpen, registrationOpen, YOUTUBE_EMBEDDABLE } from '$lib/utils';
 import { driver } from '$lib/server/neo4j';
 import { Neo4jError } from 'neo4j-driver';
 import { RegistrationSchema, validateForm } from '$lib/server/validation';
 import { addToMailingList, sendEmail, validateEmail } from '$lib/server/email';
 import { dev } from '$app/environment';
 import { saveThumbnail } from '$lib/server/s3';
-import { PUBLIC_REGISTRATION_END, PUBLIC_VOTE_END } from '$env/static/public';
+import { PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END } from '$env/static/public';
 
 export const load: PageServerLoad = () => {
-	if (new Date() > new Date(PUBLIC_VOTE_END)) {
+	if (!phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END)) {
 		throw error(403, 'The registration phase is not open');
 	}
 };
 
 export const actions: Actions = {
 	default: async ({ request }) => {
-		if (new Date() > new Date(PUBLIC_VOTE_END)) {
+		if (!phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END)) {
 			return fail(422, { invalid: true });
 		}
 
@@ -53,7 +53,7 @@ export const actions: Actions = {
 
 			try {
 				if (validation.data.userType === 'creator') {
-					if (new Date() > new Date(PUBLIC_REGISTRATION_END)) {
+					if (!registrationOpen()) {
 						return fail(422, { invalid: true });
 					}
 
