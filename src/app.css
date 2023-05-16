@@ -9,7 +9,6 @@
 html,
 body {
 	background-color: var(--light-gold);
-	scroll-behavior: smooth;
 	-webkit-font-smoothing: antialiased;
 }
 
