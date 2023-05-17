@@ -42,7 +42,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each flagged as entry, i}
+				{#each flagged as entry}
 					<tr class="px-6">
 						<td class="flex items-center"
 							><input

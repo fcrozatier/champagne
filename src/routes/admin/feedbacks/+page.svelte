@@ -37,7 +37,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each feedbacks as feedback, _}
+				{#each feedbacks as feedback}
 					<tr class="px-6">
 						<td class="flex items-center"
 							><input

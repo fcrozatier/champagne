@@ -6,7 +6,7 @@
 	import type { Snapshot } from './$types';
 	import { tick } from 'svelte';
 	import Time from '$lib/components/Time.svelte';
-	import { PUBLIC_REGISTRATION_END, PUBLIC_VOTE_END, PUBLIC_VOTE_START } from '$env/static/public';
+	import { PUBLIC_REGISTRATION_END } from '$env/static/public';
 
 	export let form;
 
