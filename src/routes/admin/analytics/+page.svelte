@@ -85,9 +85,9 @@
 		<form
 			method="post"
 			action="?/pairing"
-			use:enhance={({ data, submitter }) => {
+			use:enhance={({ formData, submitter }) => {
 				submitter?.setAttribute('disabled', 'on');
-				data.append('edges', JSON.stringify(edges));
+				formData.append('edges', JSON.stringify(edges));
 
 				return async ({ update }) => {
 					await update();

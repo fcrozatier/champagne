@@ -15,10 +15,10 @@
 
 	<form
 		method="post"
-		use:enhance={({ data }) => {
+		use:enhance={({ formData }) => {
 			const buttons = document.querySelectorAll('button');
 			buttons.forEach((b) => b.setAttribute('disabled', 'on'));
-			data.append('selection', JSON.stringify(selected));
+			formData.append('selection', JSON.stringify(selected));
 
 			return async ({ update }) => {
 				await update();
