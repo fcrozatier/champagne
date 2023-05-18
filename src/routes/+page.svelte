@@ -16,7 +16,7 @@
 
 	const phases = [
 		{
-			title: 'Register as a creator or judge',
+			title: 'Join the competition',
 			description:
 				'Participants all work on their projects. Most of the activity during this phase happens on <a href="https://discord.gg/WZvZMVsXXR" target="_blank">Discord</a>, where many people share partial progress, find collaborators, and ask questions.',
 			isOpen: phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END),
@@ -109,7 +109,7 @@
 					<p class="mt-6">
 						{#if i === 0}
 							<a class="btn" href="/register"
-								>Go to registration page <span class="ml-4 inline-block">&rarr;</span></a
+								>Join in <span class="ml-2 inline-block">&rarr;</span></a
 							>
 						{:else if i === 1}
 							{#if data.token}

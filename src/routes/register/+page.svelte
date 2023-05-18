@@ -83,13 +83,13 @@
 		</p>
 		<h3>Judges</h3>
 		<p>
-			If you don't want to register an entry you can still help out in the voting phase as a judge.
+			If you don't want to submit an entry you can still help out in the voting phase as a judge.
 		</p>
 		<h3>Important Notes:</h3>
 		<ul>
 			<li>
-				You can only register one entry per person/group for the competition; however, you may
-				submit multiple entries if you are a part of different groups.
+				You can only submit one entry per person/group for the competition; however, you may submit
+				multiple entries if you are a part of different groups.
 			</li>
 			<li>
 				You should not register both as a creator and as a judge. If you are a creator, you will
@@ -349,7 +349,11 @@
 				</p>
 			{/if}
 			<p>
-				<button class="btn block">Register</button>
+				{#if userType === 'judge'}
+					<button class="btn block">Register</button>
+				{:else if userType === 'creator'}
+					<button class="btn block">Submit</button>
+				{/if}
 			</p>
 			<p class="text-sm">
 				<a href="/gdpr">Privacy policy</a>
