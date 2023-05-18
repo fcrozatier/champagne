@@ -50,7 +50,7 @@
 </script>
 
 <svelte:head>
-	<title>Register &middot; {COMPETITION_SHORT_NAME}</title>
+	<title>Join &middot; {COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
 <article class="layout-prose">
@@ -73,7 +73,7 @@
 		{/if}
 		<p>See you in the voting phase!</p>
 	{:else}
-		<h2>Register for the competition</h2>
+		<h2>Join the competition</h2>
 		<h3>Creators</h3>
 		<p>
 			The registration deadline is <strong><Time datetime={PUBLIC_REGISTRATION_END} /></strong>.

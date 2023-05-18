@@ -16,7 +16,7 @@
 
 	const phases = [
 		{
-			title: 'Join the competition',
+			title: 'Join the competition as a participant or judge',
 			description:
 				'Participants all work on their projects. Most of the activity during this phase happens on <a href="https://discord.gg/WZvZMVsXXR" target="_blank">Discord</a>, where many people share partial progress, find collaborators, and ask questions.',
 			isOpen: phaseOpen(PUBLIC_REGISTRATION_START, PUBLIC_VOTE_END),
