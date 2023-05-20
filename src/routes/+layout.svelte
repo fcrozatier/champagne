@@ -7,7 +7,7 @@
 	import { BETA_TEST, COMPETITION_FULL_NAME } from '$lib/config';
 	import { browser, dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
-	import { webVitals } from '$lib/vitals.js';
+	import { webVitals } from '$lib/vitals';
 	import Banner from '../lib/components/Banner.svelte';
 
 	export let data: LayoutData;
