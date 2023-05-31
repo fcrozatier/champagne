@@ -13,7 +13,7 @@ import type { Category } from '$lib/config';
 	RETURN data
  *
 	2. Save the file as JSON
-	3. Clean the file, only keep the data content
+	3. Clean the file, only keep the "data" xml value
 	4. Change file extension to .xml
 	5. Clean the xml by replacing \" by "
 	6. Import in python
