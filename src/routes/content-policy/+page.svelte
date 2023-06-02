@@ -201,7 +201,104 @@
 	<p>
 		We are happy to discuss this further on <a href="https://discord.gg/48ygmYHau7">discord</a>
 	</p>
-	<h4>Notes</h4>
+	<h3>Examples of appropriate usage</h3>
+	<p>
+		Though we ask all participants to avoid using AI in their entries (and also flag any
+		AI-generated entries in the Peer Review), there are a few ways in which AI can be unambiguously
+		used in SoME3. Namely, if AI is used at any part of the creative process besides in the final
+		submission or if the AI work is being used as in Fair Use.
+	</p>
+	<h4>Using it as part of a creative workflow</h4>
+	<p>
+		It is totally fine to use AI as part of a creative workflow if no AI-generated media is present
+		in the final submission for SoME3.
+	</p>
+	<p>Here are some specific examples:</p>
+	<ul>
+		<li>
+			Let’s say you are making a video on the Hausdorff distance and are unsure of whether your
+			script adequately explains the concept. You then ask ChatGPT for the key take-aways of your
+			script to male sure your key-points are coming across. This is totally OK because you are
+			using ChatGPT as a “second opinion” on the topic.
+		</li>
+		<li>
+			Let’s say you are writing a blog post, but are unsure of what visuals to use in this case. You
+			then ask Dalle to sketch up some ideas, which you then use as inspiration for your own visuals
+			later on. This is also totally OK as long as you do not use the Dalle output in your final
+			post. If you do decide to use the Dalle visuals in your post, then make sure you are using
+			them in Fair Use (outlined below)
+		</li>
+	</ul>
+	<h4>Using it in Fair Use</h4>
+	<p>
+		Let’s apply the Fair Use guidelines from the Copyrighted Material section above for specific
+		cases of AI-generated media you would like to use for SoME3.
+	</p>
+	<p>Totally OK:</p>
+	<ul>
+		<li>
+			<p>
+				Using an AI-generated image in your video by <b>comparing it to hand-drawn</b> art or
+				<b> using it as justification for a broader narrative </b> such as supplementary material to
+				explain some mathematical concept.
+			</p>
+			<p>
+				Specific example: let’s say you are making a video on eigenvalues and you ask Dalle to
+				generate a “generic human face” and compare that to a paper you found on <a
+					href="https://en.wikipedia.org/wiki/Eigenface#:~:text=An%20eigenface%20(%2F%CB%88a%C9%AA%C9%A1,Alex%20Pentland%20in%20face%20classification.)"
+					>eigenfaces</a
+				>. This is totally fine because you are comparing and contrasting Dalle’s output to a known
+				concept in computer graphics as a way to better explain eigenvalues
+			</p>
+		</li>
+		<li>
+			<p>
+				Using ChatGPT to generate a paragraph in your script and explaining <b
+					>any inaccuracies you might have found.</b
+				>
+			</p>
+			<p>
+				Specific example: let’s say you are writing a blog post on determinants and you ask ChatGPT
+				“What is a determinant.” You then incorporate this into your blog post as a way of
+				showcasing what “most people” think about determinants and how your blog is going to change
+				their perspective. This is totally fine because you are expressly using ChatGPT’s output in
+				a broader narrative.
+			</p>
+		</li>
+	</ul>
+	<p>
+		Totally <em>not</em> OK:
+	</p>
+	<ul>
+		<li>
+			<p>
+				Using an AI-generated image in your video as “visual flair” to make a section of your video
+				more visually interesting.
+			</p>
+			<p>
+				Specific example: You have a few seconds in your video where you are just “talking to the
+				camera” without anything visual on screen and are afraid people are going to click off
+				because of it. To fix this, you ask Dalle to generate an image on your topic and show that
+				instead. This is totally not ok because you are not addressing the image or using it in a
+				broader narrative.
+			</p>
+		</li>
+		<li>
+			<p>
+				Using ChatGPT to generate a paragraph in your script and pretending that <em>you</em> wrote it.
+			</p>
+			<p>
+				Specific example: You do not know how to write the introduction to your blog post or video
+				and ask ChatGPT to do it for you. This is totally <em>not</em> ok because you are pretending
+				the output of ChatGPT is your own work without delineating it from your other content.
+			</p>
+		</li>
+	</ul>
+	<p>
+		So here’s a general rule of thumb: If you are using AI and your audience cannot tell what part
+		of your submission was made by AI, then you are not using it under fair use.
+	</p>
+	<h3>Notes</h3>
 	<ol class="text-sm">
 		<li id="note-1">
 			<p>
@@ -312,101 +409,4 @@
 			</ul>
 		</li>
 	</ol>
-	<h3>Examples of appropriate usage</h3>
-	<p>
-		Though we ask all participants to avoid using AI in their entries (and also flag any
-		AI-generated entries in the Peer Review), there are a few ways in which AI can be unambiguously
-		used in SoME3. Namely, if AI is used at any part of the creative process besides in the final
-		submission or if the AI work is being used as in Fair Use.
-	</p>
-	<h4>Using it as part of a creative workflow</h4>
-	<p>
-		It is totally fine to use AI as part of a creative workflow if no AI-generated media is present
-		in the final submission for SoME3.
-	</p>
-	<p>Here are some specific examples:</p>
-	<ul>
-		<li>
-			Let’s say you are making a video on the Hausdorff distance and are unsure of whether your
-			script adequately explains the concept. You then ask ChatGPT for the key take-aways of your
-			script to male sure your key-points are coming across. This is totally OK because you are
-			using ChatGPT as a “second opinion” on the topic.
-		</li>
-		<li>
-			Let’s say you are writing a blog post, but are unsure of what visuals to use in this case. You
-			then ask Dalle to sketch up some ideas, which you then use as inspiration for your own visuals
-			later on. This is also totally OK as long as you do not use the Dalle output in your final
-			post. If you do decide to use the Dalle visuals in your post, then make sure you are using
-			them in Fair Use (outlined below)
-		</li>
-	</ul>
-	<h4>Using it in Fair Use</h4>
-	<p>
-		Let’s apply the Fair Use guidelines from the Copyrighted Material section above for specific
-		cases of AI-generated media you would like to use for SoME3.
-	</p>
-	<p>Totally OK:</p>
-	<ul>
-		<li>
-			<p>
-				Using an AI-generated image in your video by <b>comparing it to hand-drawn</b> art or
-				<b> using it as justification for a broader narrative </b> such as supplementary material to
-				explain some mathematical concept.
-			</p>
-			<p>
-				Specific example: let’s say you are making a video on eigenvalues and you ask Dalle to
-				generate a “generic human face” and compare that to a paper you found on <a
-					href="https://en.wikipedia.org/wiki/Eigenface#:~:text=An%20eigenface%20(%2F%CB%88a%C9%AA%C9%A1,Alex%20Pentland%20in%20face%20classification.)"
-					>eigenfaces</a
-				>. This is totally fine because you are comparing and contrasting Dalle’s output to a known
-				concept in computer graphics as a way to better explain eigenvalues
-			</p>
-		</li>
-		<li>
-			<p>
-				Using ChatGPT to generate a paragraph in your script and explaining <b
-					>any inaccuracies you might have found.</b
-				>
-			</p>
-			<p>
-				Specific example: let’s say you are writing a blog post on determinants and you ask ChatGPT
-				“What is a determinant.” You then incorporate this into your blog post as a way of
-				showcasing what “most people” think about determinants and how your blog is going to change
-				their perspective. This is totally fine because you are expressly using ChatGPT’s output in
-				a broader narrative.
-			</p>
-		</li>
-	</ul>
-	<p>
-		Totally <em>not</em> OK:
-	</p>
-	<ul>
-		<li>
-			<p>
-				Using an AI-generated image in your video as “visual flair” to make a section of your video
-				more visually interesting.
-			</p>
-			<p>
-				Specific example: You have a few seconds in your video where you are just “talking to the
-				camera” without anything visual on screen and are afraid people are going to click off
-				because of it. To fix this, you ask Dalle to generate an image on your topic and show that
-				instead. This is totally not ok because you are not addressing the image or using it in a
-				broader narrative.
-			</p>
-		</li>
-		<li>
-			<p>
-				Using ChatGPT to generate a paragraph in your script and pretending that <em>you</em> wrote it.
-			</p>
-			<p>
-				Specific example: You do not know how to write the introduction to your blog post or video
-				and ask ChatGPT to do it for you. This is totally <em>not</em> ok because you are pretending
-				the output of ChatGPT is your own work without delineating it from your other content.
-			</p>
-		</li>
-	</ul>
-	<p>
-		So here’s a general rule of thumb: If you are using AI and your audience cannot tell what part
-		of your submission was made by AI, then you are not using it under fair use.
-	</p>
 </article>
