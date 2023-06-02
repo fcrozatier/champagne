@@ -2,7 +2,12 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { YOUTUBE_EMBEDDABLE, registrationOpen } from '$lib/utils';
-	import { COMPETITION_SHORT_NAME, categories, userTypes } from '$lib/config';
+	import {
+		COMPETITION_FULL_NAME,
+		COMPETITION_SHORT_NAME,
+		categories,
+		userTypes
+	} from '$lib/config';
 	import type { Snapshot } from './$types';
 	import { tick } from 'svelte';
 	import Time from '$lib/components/Time.svelte';
@@ -327,12 +332,16 @@
 					<label for="copyright" class="label items-start justify-normal gap-4">
 						<input id="copyright" type="checkbox" name="copyright" class="checkbox" required />
 						<span class="label-text">
-							I have permission to use all material (music, video clips, images, software, etc.)
-							within my entry for commercial purposes. I have not used any Creative Commons
-							Non-Commercial or copyrighted work unless I have explicit permission from the
-							copyright holder to use their material. If I have used Creative Commons BY work, I
-							have provided appropriate attribution. If I have used Creative Commons Share-Alike, I
-							have made sure my entry is also licensed under a Creative Commons license.
+							I have permission to use all material contained in my submission for the {COMPETITION_FULL_NAME}.
+							<ul class="relative right-6 list-outside">
+								<li>
+									<a href="/content-policy#fair-use"
+										>Copyrighted material policy and fair use guidelines</a
+									>
+								</li>
+								<li><a href="/content-policy#cc">Creative Commons guidelines</a></li>
+								<li><a href="/content-policy#ai">AI policy</a></li>
+							</ul>
 						</span>
 					</label>
 					{#if form?.fieldErrors?.copyright}
