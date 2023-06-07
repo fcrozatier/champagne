@@ -359,9 +359,9 @@
 			{/if}
 			<p>
 				{#if userType === 'judge'}
-					<button class="btn block">Register</button>
+					<button class="btn-primary btn block"> Register </button>
 				{:else if userType === 'creator'}
-					<button class="btn block">Submit</button>
+					<button class="btn-primary btn block"> Submit </button>
 				{/if}
 			</p>
 			<p class="text-sm">

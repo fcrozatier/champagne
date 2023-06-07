@@ -28,7 +28,7 @@
 			class="input-bordered input w-full max-w-xs"
 			required
 		/>
-		<button type="submit" class="btn ml-1">Login </button>
+		<button type="submit" class="btn-primary btn ml-1">Login </button>
 		{#if form?.invalid}
 			<p class="block text-error">something went wrong.</p>
 		{/if}

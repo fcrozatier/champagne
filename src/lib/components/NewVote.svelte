@@ -9,7 +9,7 @@
 {#if displayCategories !== 'others-only'}
 	<p>
 		<a
-			class="btn-lg btn"
+			class="btn-primary btn-lg btn"
 			href={`/vote/${$page.params.token}/${$page.params.category}`}
 			data-sveltekit-reload>New vote</a
 		>

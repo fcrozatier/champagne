@@ -38,7 +38,7 @@
 			<input id="email" type="email" class="input-bordered input" name="email" bind:value={email} />
 		</div>
 		<div>
-			<button class="btn">Find</button>
+			<button class="btn-primary btn">Find</button>
 			{#if form?.creatorNotFound}
 				<p class="text-error">Creator not found</p>
 			{/if}

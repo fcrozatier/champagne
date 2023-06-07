@@ -1,6 +1,3 @@
-const typography = require('@tailwindcss/typography');
-const daisyui = require('daisyui');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	mode: 'jit',
@@ -12,13 +9,21 @@ module.exports = {
 			}
 		}
 	},
-	plugins: [typography, daisyui],
+	plugins: [require('@tailwindcss/typography'), require('daisyui')],
 	daisyui: {
 		themes: [
 			{
-				light: {
-					...require('daisyui/src/colors/themes')['[data-theme=light]'],
-					'base-content': '#09090b'
+				mytheme: {
+					primary: '#2b3440',
+					secondary: '#f000b8',
+					accent: '#1dcdbc',
+					neutral: '#2b3440',
+					'base-100': '#ffffff',
+					info: '#3abff8',
+					success: '#36d399',
+					warning: '#fbbd23',
+					error: '#f87272',
+					'base-content': 'black'
 				}
 			}
 		]

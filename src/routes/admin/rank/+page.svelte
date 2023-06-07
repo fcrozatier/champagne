@@ -29,7 +29,7 @@
 		>
 			<div class="flex gap-4">
 				{#each categories as category}
-					<button class="btn" type="submit" name="category" value={category}
+					<button class="btn-primary btn" type="submit" name="category" value={category}
 						>Rank {category}s</button
 					>
 				{/each}

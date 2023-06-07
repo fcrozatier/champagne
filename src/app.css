@@ -86,6 +86,10 @@ summary::after {
 	height: var(--arrow-size);
 }
 
+.btn-primary {
+	@apply text-white
+}
+
 .scrollbar {
 	--track: var(--scrollbar-track, black);
 	--thumb: var(--scrollbar-thumb, white);

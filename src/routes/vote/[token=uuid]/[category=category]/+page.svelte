@@ -106,7 +106,7 @@
 
 						<button
 							type="button"
-							class="btn-outline btn-error btn-xs btn"
+							class="btn-error btn-outline btn-xs btn"
 							on:click={() => {
 								flagEntry = entry;
 								flagDialog.showModal();
@@ -134,7 +134,7 @@
 					{/each}
 				</div>
 				<p>
-					<button type="submit" class="btn-md btn">Vote for this entry</button>
+					<button type="submit" class="btn-primary btn-md btn">Vote for this entry</button>
 				</p>
 				{#if form?.id === 'VOTE' && form.rateLimitError}
 					<p class="text-error">
@@ -213,7 +213,7 @@
 			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
 				>Cancel</button
 			>
-			<button type="submit" class="btn-outline btn-error btn">Flag </button>
+			<button type="submit" class="btn-error btn-outline btn">Flag </button>
 			{#if form?.id === 'FLAG' && form?.flagFail}
 				<p class="text-error">Something went wrong.</p>
 			{/if}

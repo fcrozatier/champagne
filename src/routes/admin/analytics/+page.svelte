@@ -94,7 +94,7 @@
 				};
 			}}
 		>
-			<button class="btn" disabled={computing}>Create pairings</button>
+			<button class="btn-primary btn" disabled={computing}>Create pairings</button>
 			{#if $page.status !== 200}
 				<p class="text-error">Something went wrong</p>
 			{/if}

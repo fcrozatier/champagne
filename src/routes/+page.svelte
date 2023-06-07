@@ -92,7 +92,7 @@
 						Phase {i + 1}:
 						{phase.title}
 						{#if phase.isOpen}
-							<span class="badge-success badge">current</span>
+							<span class="badge badge-success">current</span>
 						{/if}
 					</span>
 					<span class="text-sm text-gray-500"
@@ -108,12 +108,12 @@
 				{#if phase.isOpen}
 					<p class="mt-6">
 						{#if i === 0}
-							<a class="btn" href="/register"
+							<a class="btn-primary btn" href="/register"
 								>Join in <span class="ml-2 inline-block">&rarr;</span></a
 							>
 						{:else if i === 1}
 							{#if data.token}
-								<a class="btn" href="/vote/{data.token}">Vote</a>
+								<a class="btn-primary btn" href="/vote/{data.token}">Vote</a>
 							{:else}
 								<button
 									type="button"
@@ -125,7 +125,7 @@
 								</button>
 							{/if}
 						{:else if i === 2}
-							<a class="btn" href="/feedback/{data.token}">See feedbacks</a>
+							<a class="btn-primary btn" href="/feedback/{data.token}">See feedbacks</a>
 						{/if}
 					</p>
 				{/if}
@@ -366,7 +366,7 @@
 
 		<p class="flex gap-4">
 			<button type="button" class="btn-outline btn" on:click={closeDialog}>Close</button>
-			<button type="submit" class="btn">Send email</button>
+			<button type="submit" class="btn-primary btn">Send email</button>
 		</p>
 		{#if form?.error || form?.emailInvalid}
 			<span class="text-error">Something went wrong.</span>
