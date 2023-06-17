@@ -27,6 +27,7 @@
 		"eslint": "^8.42.0",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-plugin-svelte": "^2.30.0",
+		"mdsvex": "^0.10.6",
 		"postcss": "^8.4.24",
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.1",
@@ -41,7 +42,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.347.1",
+		"@aws-sdk/client-s3": "^3.347.0",
 		"@vercel/analytics": "^1.0.1",
 		"bcrypt": "^5.1.0",
 		"form-data": "^4.0.0",
