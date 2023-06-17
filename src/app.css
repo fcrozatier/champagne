@@ -87,7 +87,7 @@ summary::after {
 }
 
 .btn-primary {
-	@apply text-white
+	@apply text-white;
 }
 
 .scrollbar {

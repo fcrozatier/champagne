@@ -64,6 +64,7 @@
 			><Icon name="github" width="1.5rem" /> Champagne
 		</a>
 		<a href="/gdpr"> GDPR </a>
+		<a href="/content-policy"> Content Policy </a>
 		<a href="/contact"> Contact </a>
 	</footer>
 </div>
