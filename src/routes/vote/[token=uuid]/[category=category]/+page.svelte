@@ -111,7 +111,7 @@
 								flagEntry = entry;
 								flagDialog.showModal();
 							}}
-							>Flag this entry
+							>Report problem
 						</button>
 					</div>
 				{/each}
@@ -193,11 +193,16 @@
 			};
 		}}
 	>
-		<h2 class="mt-0">You're about to flag an entry</h2>
-		<p class="text-gray-700">
-			Please provide a reason why this entry is inappropriate and should be flagged. This will be
-			reviewed by admins.
-		</p>
+		<h2 class="mt-0">Is there something wrong?</h2>
+		<p class="text-gray-700">You can report an entry if:</p>
+		<ul>
+			<li>it is inappropriate / suspicious</li>
+
+			<li>it does not respect the rules</li>
+
+			<li>you cannot proceed (wrong platform etc.)</li>
+		</ul>
+		<p>In any case please provide a reason. The entry will be reviewed by admins.</p>
 		<span class="capitalize">{flagEntry?.title}</span>
 		<label for="reason" class="label">Reason</label>
 		<input
@@ -213,7 +218,7 @@
 			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
 				>Cancel</button
 			>
-			<button type="submit" class="btn-error btn-outline btn">Flag </button>
+			<button type="submit" class="btn-error btn-outline btn">Report </button>
 			{#if form?.id === 'FLAG' && form?.flagFail}
 				<p class="text-error">Something went wrong.</p>
 			{/if}
