@@ -13,22 +13,8 @@ def random_cycle(size):
 
     if size == 0 or size == 1:
         return []
-
-    items = list(range(size))
-
-    i = len(items) - 1
-    while i > 1:
-        k = np.random.randint(1, i + 1)
-        items[k], items[i] = items[i], items[k]
-        i -= 1
-
-    return items
-
-
-def sort_tuple(tuple):
-    """Returns the tuple (a,b) if a < b and (b,a) otherwise"""
-
-    return tuple if min(tuple) == tuple[0] else (tuple[1], tuple[0])
+    else:
+        return np.concatenate(np.random.permutation(size - 1), [size - 1])
 
 
 def expander_from_cycles(k, N):
@@ -57,7 +43,7 @@ def expander_from_cycles(k, N):
             cycle = random_cycle(N)
 
             cycle_edges = [*list(pairwise(cycle)), (cycle[-1], cycle[0])]
-            cycle_edges_sorted = list(map(sort_tuple, cycle_edges))
+            cycle_edges_sorted = list(map(lambda x: tuple(sorted(x)), cycle_edges))
             edges_copy = set([*edges, *cycle_edges_sorted])
 
             if len(edges_copy) == len(edges) + N:
