@@ -13,8 +13,16 @@ def random_cycle(size):
 
     if size == 0 or size == 1:
         return []
-    else:
-        return np.concatenate(np.random.permutation(size - 1), [size - 1])
+
+    items = list(range(size))
+
+    i = len(items) - 1
+    while i > 1:
+        k = np.random.randint(1, i + 1)
+        items[k], items[i] = items[i], items[k]
+        i -= 1
+
+    return items
 
 
 def expander_from_cycles(k, N):
