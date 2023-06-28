@@ -20,7 +20,7 @@ page should (hopefully) help you navigate a bit.
 <h3 id="fair-use">On Copyrighted material and Fair Use</h3>
 
 **In general, you are not allowed to use copyrighted material in the Summer of Math Exposition
-without permission; however, you can still use the content in such a way that it falls under <a href="https://support.google.com/legal/answer/4558992" target="_blank">fair use</a>.**
+without permission; however, you can still use the content in such a way that it falls under [fair](https://support.google.com/legal/answer/4558992).**
 
 What does this mean? Well…
 
@@ -66,7 +66,7 @@ copyright law.
 **In general, you are permitted to use any material licensed under Creative Commons or Public
 Domain; however, there are some restrictions to keep in mind.**
 
-<a href="https://creativecommons.org/about/cclicenses/" target="_blank">Creative Commons</a> (CC) licensing is a bit confusing, but is generally for material that is meant to be reused in other copyrighted work. That said, the creator of CC work is <em>still the copyright holder</em> and still has rights, they are simply sharing some of those rights with others to re-use or distribute their work as well.
+[Creative Commons](https://creativecommons.org/about/cclicenses/) (CC) licensing is a bit confusing, but is generally for material that is meant to be reused in other copyrighted work. That said, the creator of CC work is <em>still the copyright holder</em> and still has rights, they are simply sharing some of those rights with others to re-use or distribute their work as well.
 
 Let’s talk about what this means
 
@@ -80,7 +80,7 @@ nice to credit the creator of the material somewhere.
 This is (probably) the most common CC license and the only one allowed to choose by default on
 youtube (more information on that in the “How to license CC work on youtube” section below).
 This license simply means you need to provide attribution to the original content creator when
-using CC-BY work. A good guide on how to do this can be found <a href="https://creativecommons.org/use-remix/" target="_blank" >here</a>
+using CC-BY work. A good guide on how to do this can be found [here](https://creativecommons.org/use-remix/)
 
 ### CC-NC: Creative Commons Non-Commercial
 
@@ -171,7 +171,7 @@ allow people to potentially use software illegally in this competition. Once mor
 the books, we will have a clearer idea of how AI can be used in content creation. For now,
 because it’s a gray area, we are dancing around it for this competition.
 
-We are happy to discuss this further on <a href="https://discord.gg/48ygmYHau7" target="_blank">discord</a>
+We are happy to discuss this further on [discord](https://discord.gg/48ygmYHau7)
 
 ### Examples of appropriate usage
 
@@ -194,7 +194,7 @@ Totally OK:
 
 -   Using an AI-generated image in your video by **comparing it to hand-drawn** art or **using it as justification for a broader narrative** such as supplementary material to explain some mathematical concept.
 
-	Specific example: let’s say you are making a video on eigenvalues and you ask Dalle to generate a “generic human face” and compare that to a paper you found on <a href="https://en.wikipedia.org/wiki/Eigenface" target="_blank">eigenfaces</a>. This is totally fine because you are comparing and contrasting Dalle’s output to a known concept in computer graphics as a way to better explain eigenvalues
+	Specific example: let’s say you are making a video on eigenvalues and you ask Dalle to generate a “generic human face” and compare that to a paper you found on [eigenfaces](https://en.wikipedia.org/wiki/Eigenface). This is totally fine because you are comparing and contrasting Dalle’s output to a known concept in computer graphics as a way to better explain eigenvalues
 
 -   Using ChatGPT to generate a paragraph in your script and explaining **any inaccuracies you might have found.**
 
@@ -228,24 +228,16 @@ So here’s a general rule of thumb: If you are using AI and your audience canno
 <ul>
 	<li>
 		There is a very interesting discussion about why copyright cannot be extended to non-human
-		entities with the <a target="_blank" href="https://en.wikipedia.org/wiki/Monkey_selfie_copyright_dispute"
-			>Monkey selfie copyright dispute</a
-		>
-		where a nature photographer managed to get a few monkeys to take a selfie of itself but neither
+		entities with the [Monkey selfie copyright dispute](https://en.wikipedia.org/wiki/Monkey_selfie_copyright_dispute) where a nature photographer managed to get a few monkeys to take a selfie of itself but neither
 		the monkey nor the photographer were granted copyright of the image(s), and instead they were
-		immediately put in the public domain. Also (because it’s interesting), the court case is
-		<a target="_blank" href="https://www.lexisnexis.com/community/casebrief/p/casebrief-naruto-v-slater">
-			Naruto vs Slater
-		</a>
+		immediately put in the public domain. Also (because it’s interesting), the court case is	[Naruto vs Slater](https://www.lexisnexis.com/community/casebrief/p/casebrief-naruto-v-slater)
 	</li>
 	<li>
 		It is not particularly likely that AI generated art will always be in the public domain.
 		It only falls there for now while we wait on actual legislation.
 	</li>
 	<li>
-		<a target="_blank" href="https://www.trustinsights.ai/blog/2022/10/ai-and-copyright-law-how-copyright-applies-to-ai-generated-content/"
-			>Here</a
-		> is an interview with an attorney supporting this opinion (but note that it’s not binding
+		[Here](https://www.trustinsights.ai/blog/2022/10/ai-and-copyright-law-how-copyright-applies-to-ai-generated-content/) is an interview with an attorney supporting this opinion (but note that it’s not binding
 		legal advice)
 	</li>
 </ul>
@@ -265,34 +257,24 @@ So here’s a general rule of thumb: If you are using AI and your audience canno
 		who have had their art used in generative AI models without their consent
 		<ol style="list-style-type: lower-roman">
 			<li>
-				<a target="_blank" href="https://githubcopilotlitigation.com/">https://githubcopilotlitigation.com/</a
-				>: This is a class-action lawsuit against Microsoft, Github, and OpenAI claiming that
+				[https://githubcopilotlitigation.com/](https://githubcopilotlitigation.com/): This is a class-action lawsuit against Microsoft, Github, and OpenAI claiming that
 				Github Copilot has violated the copyright of each user’s software repository.
 			</li>
 			<li>
-				GettyImages has sued Stability AI twice (in the <a target="_blank" href="https://fingfx.thomsonreuters.com/gfx/legaldocs/byvrlkmwnve/GETTY%20IMAGES%20AI%20LAWSUIT%20complaint.pdf"
-					>US</a
-				>
-				and in the
-				<a target="_blank" href="https://newsroom.gettyimages.com/en/getty-images/getty-images-statement"
-					>UK</a
-				>) for using their images in their AI models. Note that they can make the claim that
+				GettyImages has sued Stability AI twice (in the [US](https://fingfx.thomsonreuters.com/gfx/legaldocs/byvrlkmwnve/GETTY%20IMAGES%20AI%20LAWSUIT%20complaint.pdf)
+				and in the [UK](https://newsroom.gettyimages.com/en/getty-images/getty-images-statement)
+				) for using their images in their AI models. Note that they can make the claim that
 				the AI output is “substantially similar” because the GettyImages watermark regularly
 				appears on generated images
 			</li>
 			<li>
-				Individual <a target="_blank" href="https://www.theverge.com/2023/1/16/23557098/generative-ai-art-copyright-legal-lawsuit-stable-diffusion-midjourney-deviantart"
-					>artists have also come forward</a
-				> to file lawsuits against several companies
+				Individual [artists have also come forward](https://www.theverge.com/2023/1/16/23557098/generative-ai-art-copyright-legal-lawsuit-stable-diffusion-midjourney-deviantart) to file lawsuits against several companies
 			</li>
 		</ol>
 	</li>
 	<li>
 		Though AI has been trained on copyrighted data, it <em>might</em> be considered fair use
-		as in the case of
-		<a target="_blank" href="https://en.wikipedia.org/wiki/Authors_Guild,_Inc._v._Google,_Inc"
-			>The Author’s Guild v. Google</a
-		>. Because the scanned data was not made publicly available.
+		as in the case of [The Author’s Guild v. Google](https://en.wikipedia.org/wiki/Authors_Guild,_Inc._v._Google,_Inc). Because the scanned data was not made publicly available.
 	</li>
 </ul>
 </li>
@@ -300,20 +282,14 @@ So here’s a general rule of thumb: If you are using AI and your audience canno
 <b>AI when creating art that is the “mental conception” of the user:</b> As of March 15th,
 2023 the US Copyright Office has stated that some AI generated work may be copyrighted if (and
 only if) the output from the AI reflects the author's own "mental conception." This was
-further enforced on May 11th with a
-<a target="_blank" href="https://public-inspection.federalregister.gov/2023-05321.pdf">new policy statement</a
->. Things to consider:
+further enforced on May 11th with a [new policy statement](https://public-inspection.federalregister.gov/2023-05321.pdf). Things to consider:
 <ul>
 	<li>
-		Note that the US Copyright Office <a target="_blank" href="https://tmsnrt.rs/3keyPot"
-			>rejected the copyright</a
-		> of an AI-generated comic book, but accepted the copyright of the text and arrangement of
+		Note that the US Copyright Office [rejected the copyright](https://tmsnrt.rs/3keyPot) of an AI-generated comic book, but accepted the copyright of the text and arrangement of
 		images.
 	</li>
 	<li>
-		It is <a target="_blank" href="https://venturebeat.com/ai/generative-ai-output-could-be-eligible-for-copyright-protection-but-theres-a-catch/"
-			>unclear</a
-		> how much a human must interact with the generative models to claim copyright.
+		It is [unclear](https://venturebeat.com/ai/generative-ai-output-could-be-eligible-for-copyright-protection-but-theres-a-catch/) how much a human must interact with the generative models to claim copyright.
 	</li>
 	<li>
 		For this competition, we simply note that there is a high bar to clear if the user of an
