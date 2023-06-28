@@ -49,6 +49,7 @@
 		"mailgun.js": "^9.0.1",
 		"neo4j-driver": "^5.9.0",
 		"pyodide": "^0.23.2",
+		"rehype-target-plugin": "^1.0.0",
 		"sharp": "^0.32.1",
 		"unist-util-visit": "^4.1.2",
 		"web-vitals": "^3.3.2",

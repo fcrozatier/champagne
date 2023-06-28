@@ -1,22 +1,7 @@
 import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 import { mdsvex } from 'mdsvex';
-import { visit } from 'unist-util-visit';
-
-function rehypeTargetBlank() {
-	return (tree) => {
-		visit(tree, 'element', (node) => {
-			if (node.tagName === 'a' && node.properties && typeof node.properties.href === 'string') {
-				const url = node.properties.href;
-				const isExternal = /^http/.test(url);
-
-				if (isExternal) {
-					node.properties.target = '_blank';
-				}
-			}
-		});
-	};
-}
+import rehypeTargetBlank from 'rehype-anchor-target';
 
 /**
  * @type {import('mdsvex').MdsvexOptions}
