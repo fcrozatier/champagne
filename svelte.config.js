@@ -1,7 +1,7 @@
 import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 import { mdsvex } from 'mdsvex';
-import rehypeTargetBlank from 'rehype-anchor-target';
+import rehypeTargetBlank from 'rehype-target-plugin';
 
 /**
  * @type {import('mdsvex').MdsvexOptions}
