@@ -106,7 +106,7 @@
 
 						<button
 							type="button"
-							class="btn-error btn-outline btn-xs btn"
+							class="btn-outline btn-error btn-xs btn"
 							on:click={() => {
 								flagEntry = entry;
 								flagDialog.showModal();
@@ -218,7 +218,7 @@
 			<button type="button" class="btn-outline btn" on:click={() => flagDialog.close()}
 				>Cancel</button
 			>
-			<button type="submit" class="btn-error btn-outline btn">Report </button>
+			<button type="submit" class="btn-outline btn-error btn">Report </button>
 			{#if form?.id === 'FLAG' && form?.flagFail}
 				<p class="text-error">Something went wrong.</p>
 			{/if}

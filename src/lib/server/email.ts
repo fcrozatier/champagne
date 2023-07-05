@@ -3,7 +3,6 @@ import Mailgun, { type MailgunMessageData } from 'mailgun.js';
 import { DOMAIN, MAILGUN_API_KEY } from '$env/static/private';
 import { emailTemplates, type TemplateName } from '$lib/config';
 
-
 const from = 'SoME <some@3blue1brown.com>';
 const mailgun = new Mailgun(formData);
 
