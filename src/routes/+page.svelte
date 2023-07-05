@@ -104,6 +104,7 @@
 						{/if}</span
 					>
 				</div>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				<p class="text-sm">{@html phase.description}</p>
 				{#if phase.isOpen}
 					<p class="mt-6">
