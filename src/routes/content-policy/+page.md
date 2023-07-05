@@ -226,8 +226,7 @@ of AI in art. Things to consider:
 
       1. [https://githubcopilotlitigation.com/](https://githubcopilotlitigation.com/): This is a class-action lawsuit against Microsoft, Github, and OpenAI claiming that Github Copilot has violated the copyright of each user’s software repository.
 
-      1. GettyImages has sued Stability AI twice (in the [US](https://fingfx.thomsonreuters.com/gfx/legaldocs/byvrlkmwnve/GETTY%20IMAGES%20AI%20LAWSUIT%20complaint.pdf) and in the [UK](https://newsroom.gettyimages.com/en/getty-images/getty-images-statement)
-  ) for using their images in their AI models. Note that they can make the claim that the AI output is “substantially similar” because the GettyImages watermark regularly appears on generated images
+      1. GettyImages has sued Stability AI twice, in the [US](https://fingfx.thomsonreuters.com/gfx/legaldocs/byvrlkmwnve/GETTY%20IMAGES%20AI%20LAWSUIT%20complaint.pdf) and in the [UK](https://newsroom.gettyimages.com/en/getty-images/getty-images-statement), for using their images in their AI models. Note that they can make the claim that the AI output is “substantially similar” because the GettyImages watermark regularly appears on generated images
 
       1. Individual [artists have also come forward](https://www.theverge.com/2023/1/16/23557098/generative-ai-art-copyright-legal-lawsuit-stable-diffusion-midjourney-deviantart) to file lawsuits against several companies
 
