@@ -235,7 +235,7 @@ of AI in art. Things to consider:
 </li>
 <li id="note-3">
 <b>AI when creating art that is the “mental conception” of the user:</b> As of March 15th, 2023 the US Copyright Office has stated that some AI generated work may be copyrighted if (and
-only if) the output from the AI reflects the author's own "mental conception." This was further enforced on May 11th with a [new policy statement](https://public-inspection.federalregister.gov/2023-05321.pdf). Things to consider:
+only if) the output from the AI reflects the author's own "mental conception." This was further enforced on May 11th with a <a href="https://public-inspection.federalregister.gov/2023-05321.pdf" target="_blank">new policy statement</a>. Things to consider:
 
 - Note that the US Copyright Office [rejected the copyright](https://tmsnrt.rs/3keyPot) of an AI-generated comic book, but accepted the copyright of the text and arrangement of images.
 
