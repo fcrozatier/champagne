@@ -3,6 +3,7 @@ import { EmailForm, SwapSchema, validateForm } from '$lib/server/validation';
 import { driver, type Entry } from '$lib/server/neo4j';
 import { normalizeYoutubeLink, toNativeTypes, YOUTUBE_EMBEDDABLE } from '$lib/utils';
 import { deleteThumbnail, saveThumbnail } from '$lib/server/s3';
+import { voteOpen } from '$lib/utils';
 import { Neo4jError } from 'neo4j-driver';
 
 let ID: 'find' | 'swap';
@@ -72,15 +73,33 @@ export const actions = {
 				thumbnailKey
 			};
 
-			// Create temporary node because of uniqueness constraint
-			// Remove feedbacks
-			// Remove comparisons and rebind them on temporary node
-			// Add other creators
-			// Remove old entry
-			// Turn temporary node into :Entry
-			await session.executeWrite((tx) => {
-				return tx.run(
-					`
+			if (!voteOpen()) {
+				// Since the vote is note open
+				// We can just edit the node
+				await session.executeWrite((tx) => {
+					return tx.run(
+						`
+					MATCH (u:Creator)-[:CREATED]->(n:Entry)
+					WHERE u.email = $params.email
+					SET n.title = $params.title,
+						n.description = $params.description,
+						n.category = $params.category,
+						n.link = $params.link,
+						n.thumbnail = $params.thumbnailKey
+					`,
+						{ params }
+					);
+				});
+			} else {
+				// Create temporary node because of uniqueness constraint
+				// Remove feedbacks
+				// Remove comparisons and rebind them on temporary node
+				// Add other creators
+				// Remove old entry
+				// Turn temporary node into :Entry
+				await session.executeWrite((tx) => {
+					return tx.run(
+						`
 					MATCH (u:Creator)-[:CREATED]->(n:Entry)
 					WHERE u.email = $params.email
 					CREATE (t:Temp {number: n.number, title: $params.title, description: $params.description, category: $params.category, link: $params.link, thumbnail: $params.thumbnailKey})
@@ -102,9 +121,10 @@ export const actions = {
 					SET t:Entry
 					REMOVE t:Temp
 					`,
-					{ params }
-				);
-			});
+						{ params }
+					);
+				});
+			}
 
 			if (thumbnail && thumbnail.size !== 0 && !YOUTUBE_EMBEDDABLE.test(link)) {
 				const oldKey = Buffer.from(validation.data.oldLink).toString('base64') + '.webp';
