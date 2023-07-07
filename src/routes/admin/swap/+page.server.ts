@@ -49,8 +49,8 @@ export const actions = {
 		const validation = await validateForm(request, SwapSchema);
 
 		if (!validation.success) {
-			console.log(validation.error.flatten());
-			return fail(400, { ID, error: validation.error });
+			const { fieldErrors: errors } = validation.error.flatten();
+			return fail(400, { ID, errors });
 		}
 
 		// Save data
@@ -143,7 +143,7 @@ export const actions = {
 				}
 			}
 			console.log(error);
-			return fail(500, { invalid: true });
+			return fail(500, { invalid: true, error_message: error.message });
 		} finally {
 			await session.close();
 		}

@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import type { EntryProperties } from '$lib/server/neo4j';
 	import { categories } from '$lib/config.js';
-	import { page } from '$app/stores';
 	import { YOUTUBE_EMBEDDABLE, voteOpen } from '$lib/utils.js';
 	import { PUBLIC_S3_BUCKET, PUBLIC_S3_ENDPOINT } from '$env/static/public';
 
@@ -195,12 +194,18 @@
 				</p>
 				<p>
 					<button class="btn-error btn block">Swap entries</button>
-					{#if $page.status !== 200}
-						<p class="text-error">Something went wrong. Please try again</p>
-						<span class="text-error">{form?.error?.format()}</span>
-					{/if}
 				</p>
 			</div>
 		</form>
+	{/if}
+	{#if form?.errors}
+		<p class="text-error">Something went wrong. Please try again</p>
+		{#each Object.entries(form.errors) as [key, value]}
+			<span class="text-error">{key}: {value}</span>
+		{/each}
+	{/if}
+	{#if form?.error_message}
+		<p class="text-error">Something went wrong. Please try again</p>
+		<span class="text-error">{form.error_message}</span>
 	{/if}
 </article>
