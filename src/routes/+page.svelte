@@ -266,6 +266,7 @@
 		<summary>
 			<div class="text-xl font-medium">Can I use copyrighted material?</div>
 		</summary>
+		<p>By registering as a creator you agree to the following copyright notice:</p>
 		<p class="indent-8 italic">
 		I have permission to use all material contained in my submission for the {COMPETITION_FULL_NAME}.
 		<ul class="relative right-6 list-outside">
