@@ -54,12 +54,17 @@
 	<h2>Copyright</h2>
 	<p>By registering as a creator you agree to the following copyright notice:</p>
 	<p class="indent-8 italic">
-		I have permission to use all material (music, video clips, images, software, etc.) within my
-		entry for commercial purposes. I have not used any Creative Commons Non-Commercial or
-		copyrighted work unless I have explicit permission from the copyright holder to use their
-		material. If I have used Creative Commons BY work, I have provided appropriate attribution. If I
-		have used Creative Commons Share-Alike, I have made sure my entry is also licensed under a
-		Creative Commons license.
+		I have permission to use all material contained in my submission for the {COMPETITION_FULL_NAME}.
+		<ul class="relative right-6 list-outside">
+			<li>
+				<a href="/content-policy#fair-use"
+					>Copyrighted material policy and fair use guidelines</a
+				>
+			</li>
+			<li><a href="/content-policy#cc">Creative Commons guidelines</a></li>
+			<li><a href="/content-policy#ai">AI policy</a></li>
+		</ul>
+
 	</p>
 	<p>
 		Exception: We have a standing agreement with Desmos that you may use this software in the
