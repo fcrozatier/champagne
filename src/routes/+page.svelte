@@ -268,18 +268,16 @@
 		</summary>
 		<p>By registering as a creator you agree to the following copyright notice:</p>
 		<p class="indent-8 italic">
-		I have permission to use all material contained in my submission for the {COMPETITION_FULL_NAME}.
-		<ul class="relative right-6 list-outside">
+			I have permission to use all material contained in my submission for the {COMPETITION_FULL_NAME}.
+		</p>
+		<ul>
 			<li>
-				<a href="/content-policy#fair-use"      
-					>Copyrighted material policy and fair use guidelines</a
-				>
-			</li>   
+				<a href="/content-policy#fair-use">Copyrighted material policy and fair use guidelines</a>
+			</li>
 			<li><a href="/content-policy#cc">Creative Commons guidelines</a></li>
 			<li><a href="/content-policy#ai">AI policy</a></li>
 		</ul>
 
-        </p>
 		<p>
 			Exception: We have a standing agreement with Desmos that you may use this software in the
 			competition.
