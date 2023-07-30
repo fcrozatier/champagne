@@ -24,7 +24,9 @@ dialog:not([open]) {
 
 dialog[open] {
 	--scale-from: 80%;
-	animation: scale-up 50ms ease-out, fade-in 100ms ease-out;
+	animation:
+		scale-up 50ms ease-out,
+		fade-in 100ms ease-out;
 	visibility: visible;
 }
 
