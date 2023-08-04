@@ -66,15 +66,18 @@ In addition, the Summer of Math Exposition provides a cash prize to several of t
 
 So let's break this down. Here is a list of software you can and cannot use for this competition:
 **Definitely ok:**
+
 - Any open source programming language (C, Python, Julia, etc). If some company somewhere is using the language to make money, then it stands to reason that you can as well.
 - Virtually any other open source software with a traditional license: MIT, BSD, Apache, GNU, etc). Note that if you use the GNU license, you must also license any derivative software as open source as well, but it is still permissible to use such code commercially.
 
 **Maybe ok:**
+
 - Software with restrictive licenses (forbidding commercial use) that you have a formal agreement with. Note that we have explicit permission to use the following tools for this competition:
-    - Geogebra
-    - Desmos
+  - Geogebra
+  - Desmos
 
 **Definitely not ok:**
+
 - Unlicensed software. This means the code is under copyright of the original author and cannot be used without some sort of copyright agreement.
 - Software with restrictive licensing (forbidding commercial use) without an agreement. Please ask the developer or ask us to contact a company for you.
 
