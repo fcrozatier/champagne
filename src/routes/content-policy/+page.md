@@ -57,6 +57,31 @@ huge pain.
 For the Summer of Math Exposition, just know that we will not consider entries which violate
 copyright law.
 
+<h2 id="software">On using specific software</h2>
+
+It is somewhat tricky to determine whether specific tools can be used for the Summer of Math Exposition and it largely depends on individual usage policies set by the individuals and companies developing the software, itself.
+The core problem is related to the commercial usage of specific intellectual property (the software).
+Simply put: if you use a piece of software to make a youtube video and then proceed to put advertisements on that video, you are using the software to make money, which constitutes commercial use.
+In addition, the Summer of Math Exposition provides a cash prize to several of the top entries, which means even non-video entries constitute commercial use.
+
+So let's break this down. Here is a list of software you can and cannot use for this competition:
+**Definitely ok:**
+- Any open source programming language (C, Python, Julia, etc). If some company somewhere is using the language to make money, then it stands to reason that you can as well.
+- Virtually any other open source software with a traditional license: MIT, BSD, Apache, GNU, etc). Note that if you use the GNU license, you must also license any derivative software as open source as well, but it is still permissible to use such code commercially.
+
+**Maybe ok:**
+- Software with restrictive licenses (forbidding commercial use) that you have a formal agreement with. Note that we have explicit permission to use the following tools for this competition:
+    - Geogebra
+    - Desmos
+
+**Definitely not ok:**
+- Unlicensed software. This means the code is under copyright of the original author and cannot be used without some sort of copyright agreement.
+- Software with restrictive licensing (forbidding commercial use) without an agreement. Please ask the developer or ask us to contact a company for you.
+
+Note that it's possible to use copyrighted software under fair use if you use the code as a point of criticism or parody in some way. For example, if your video is analyzing different strategies to do math visualization, you can use code with restrictive licenses to compare it to other codebases.
+
+Ultimately, just be careful and check the licenses of software before you use it.
+
 <h2 id="cc">On Creative Commons and Public Domain material</h2>
 
 **In general, you are permitted to use any material licensed under Creative Commons or Public
