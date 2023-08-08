@@ -77,6 +77,9 @@
 			</p>
 		{/if}
 		<p>See you in the voting phase!</p>
+	{:else if form?.update}
+		<h2>Thank you!</h2>
+		<p>Your entry was successfully updated</p>
 	{:else}
 		<h2>Join the competition</h2>
 		<h3>Creators</h3>

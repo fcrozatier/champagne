@@ -61,6 +61,15 @@ export const actions: Actions = {
 					const thumbnailKey = Buffer.from(link).toString('base64') + '.webp';
 					console.log('thumbnailKey:', thumbnailKey);
 
+					if (!YOUTUBE_EMBEDDABLE.test(link)) {
+						if (!thumbnail) {
+							return fail(400, { thumbnailRequired: true });
+						}
+						console.time('thumbnail');
+						await saveThumbnail(thumbnail, thumbnailKey);
+						console.timeEnd('thumbnail');
+					}
+
 					// Normalize youtube links
 					let normalizedLink = link;
 					if (YOUTUBE_EMBEDDABLE.test(link)) {
@@ -75,9 +84,43 @@ export const actions: Actions = {
 						thumbnailKey
 					};
 
-					await session.executeWrite((tx) => {
+					let update = false;
+					const oldEntry = await session.executeWrite((tx) => {
 						return tx.run(
 							`
+							MATCH (n:Entry)
+							WHERE n.link = $params.link
+							RETURN count(n) as update
+					`,
+							{ params }
+						);
+					});
+
+					if (oldEntry?.records?.length) {
+						update = true;
+					}
+
+					if (update) {
+						await session.executeWrite((tx) => {
+							return tx.run(
+								`
+							MATCH (n:Entry)
+							WHERE n.link = $params.link
+							SET n.category = $params.category
+							SET n.title = $params.title
+							SET n.description = $params.description
+							SET n.thumbnail = $params.thumbnailKey
+							RETURN n
+					`,
+								{ params }
+							);
+						});
+
+						return { update: true };
+					} else {
+						await session.executeWrite((tx) => {
+							return tx.run(
+								`
 							MATCH (n:Entry)
 							WHERE n.category = $params.category
 							WITH count(n) as number
@@ -87,17 +130,9 @@ export const actions: Actions = {
 							UNWIND $params.users AS creator
 							MERGE (:User:Creator {email: creator.email, token: creator.token})-[:CREATED]->(entry)
 					`,
-							{ params }
-						);
-					});
-
-					if (!YOUTUBE_EMBEDDABLE.test(link)) {
-						if (!thumbnail) {
-							return fail(400, { thumbnailRequired: true });
-						}
-						console.time('thumbnail');
-						await saveThumbnail(thumbnail, thumbnailKey);
-						console.timeEnd('thumbnail');
+								{ params }
+							);
+						});
 					}
 				} else {
 					await session.executeWrite((tx) => {
