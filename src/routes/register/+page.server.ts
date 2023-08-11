@@ -90,14 +90,16 @@ export const actions: Actions = {
 							`
 							MATCH (n:Entry)
 							WHERE n.link = $params.link
-							RETURN count(n) as update
+							RETURN count(n) = 1 as update
 					`,
 							{ params }
 						);
 					});
 
 					if (oldEntry?.records?.length) {
-						update = true;
+						if (oldEntry.records[0].get('update')) {
+							update = true;
+						}
 					}
 
 					if (update) {
