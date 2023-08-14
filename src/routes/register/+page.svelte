@@ -356,8 +356,10 @@
 			{#if form?.fieldErrors || $page.status !== 200}
 				<p class="block text-error">
 					Something went wrong. {form?.invalid
-						? 'Please try again later'
-						: 'Please correct the highlighted fields above'}
+						? 'Please correct the highlighted fields above'
+						: form?.network
+						? 'There was a network error. Please try again later'
+						: ''}
 				</p>
 			{/if}
 			<p>

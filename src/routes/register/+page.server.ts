@@ -182,13 +182,13 @@ export const actions: Actions = {
 					}
 				}
 				console.log(error);
-				return fail(500, { invalid: true });
+				return fail(500, { network: true });
 			} finally {
 				await session.close();
 			}
 		} catch (error) {
 			console.log(error);
-			return fail(500, { invalid: true });
+			return fail(500, { network: true });
 		}
 	}
 };
