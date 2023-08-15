@@ -6,11 +6,7 @@ const SHARP_IMAGE_INPUT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image
 
 export const CategorySchema = z.enum(categories);
 
-// Waiting for https://github.com/colinhacks/zod/pull/2157 or https://github.com/colinhacks/zod/pull/2274 to be merged
-const EmailSchema = z
-	.string()
-	.regex(/^([A-Z0-9_+-]+\.?)*[A-Z0-9_+-]@([A-Z0-9][A-Z0-9-]*\.)+[A-Z]{2,}$/i);
-// const EmailSchema = z.string().email();
+const EmailSchema = z.string().email();
 
 export const EmailForm = z.object({
 	email: EmailSchema
