@@ -65,18 +65,18 @@ Simply put: if you use a piece of software to make a youtube video and then proc
 In addition, the Summer of Math Exposition provides a cash prize to several of the top entries, which means even non-video entries constitute commercial use.
 
 So let's break this down. Here is a list of software you can and cannot use for this competition:
-**Definitely ok:**
+**Definitely OK:**
 
 - Any open source programming language (C, Python, Julia, etc). If some company somewhere is using the language to make money, then it stands to reason that you can as well.
 - Virtually any other open source software with a traditional license: MIT, BSD, Apache, GNU, etc). Note that if you use the GNU license, you must also license any derivative software as open source as well, but it is still permissible to use such code commercially.
 
-**Maybe ok:**
+**Maybe OK:**
 
 - Software with restrictive licenses (forbidding commercial use) that you have a formal agreement with. Note that we have explicit permission to use the following tools for this competition:
   - Geogebra
   - Desmos
 
-**Definitely not ok:**
+**Definitely not OK:**
 
 - Unlicensed software. This means the code is under copyright of the original author and cannot be used without some sort of copyright agreement.
 - Software with restrictive licensing (forbidding commercial use) without an agreement. Please ask the developer or ask us to contact a company for you.
@@ -167,6 +167,9 @@ This means that generative AI models (such as ChatGPT, Dalle, Midjourney, Stable
 should not be used to create any text, graphics, audio, or other media used in the final
 submission for the Summer of Math Exposition; however, such models can be used in any other stage of the creative process. The output of AI models _can_ also be used if it’s in a way that falls under Fair Use.
 
+Note that there are no restrictions on using AI voice banks or other tools where every person willingly contributed to the training data.
+For this contest, we are making a distinction between *general* AI and *generative* AI -- those that use some form of large language model, stable diffusion, etc.
+P
 This is a slightly nuanced issue, so we will provide our justification for this statement here, along with examples of appropriate usage.
 
 ### Justification
@@ -224,11 +227,11 @@ Totally _not_ OK:
 
 - Using an AI-generated image in your video as “visual flair” to make a section of your video more visually interesting.
 
-  Specific example: You have a few seconds in your video where you are just “talking to the camera” without anything visual on screen and are afraid people are going to click off because of it. To fix this, you ask Dalle to generate an image on your topic and show that instead. This is totally not ok because you are not addressing the image or using it in a broader narrative.
+  Specific example: You have a few seconds in your video where you are just “talking to the camera” without anything visual on screen and are afraid people are going to click off because of it. To fix this, you ask Dalle to generate an image on your topic and show that instead. This is totally not OK because you are not addressing the image or using it in a broader narrative.
 
 - Using ChatGPT to generate a paragraph in your script and pretending that _you_ wrote it.
 
-  Specific example: You do not know how to write the introduction to your blog post or video and ask ChatGPT to do it for you. This is totally _not_ ok because you are pretending the output of ChatGPT is your own work without delineating it from your other content.
+  Specific example: You do not know how to write the introduction to your blog post or video and ask ChatGPT to do it for you. This is totally _not_ OK because you are pretending the output of ChatGPT is your own work without delineating it from your other content.
 
 So here’s a general rule of thumb: If you are using AI and your audience cannot tell what part of your submission was made by AI, then you are not using it under fair use.
 
