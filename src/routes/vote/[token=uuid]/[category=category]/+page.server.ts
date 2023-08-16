@@ -1,6 +1,6 @@
 import { driver, type Entry, type User, type UserProperties } from '$lib/server/neo4j';
 import type { Integer } from 'neo4j-driver';
-import { toNativeTypes, voteOpen } from '$lib/utils';
+import { shuffleTuple, toNativeTypes, voteOpen } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { FlagSchema, validateForm, VoteSchema } from '$lib/server/validation';
@@ -75,7 +75,10 @@ export const load: PageServerLoad = async (event) => {
 			console.log('show user previously assigned entries');
 			// Return previously assigned entries
 			return {
-				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
+				entries: shuffleTuple([
+					toNativeTypes(row.get('n1').properties),
+					toNativeTypes(row.get('n2').properties)
+				])
 			};
 		}
 
@@ -130,7 +133,10 @@ export const load: PageServerLoad = async (event) => {
 			console.log('show user a pair of not yet assigned entries');
 			// Return new assigned entries
 			return {
-				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
+				entries: shuffleTuple([
+					toNativeTypes(row.get('n1').properties),
+					toNativeTypes(row.get('n2').properties)
+				])
 			};
 		}
 
@@ -196,7 +202,10 @@ export const load: PageServerLoad = async (event) => {
 			console.log('show user entries that where already compared');
 			// Return new assigned entries
 			return {
-				entries: [toNativeTypes(row.get('n1').properties), toNativeTypes(row.get('n2').properties)]
+				entries: shuffleTuple([
+					toNativeTypes(row.get('n1').properties),
+					toNativeTypes(row.get('n2').properties)
+				])
 			};
 		}
 

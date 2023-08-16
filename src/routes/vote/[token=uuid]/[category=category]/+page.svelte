@@ -5,7 +5,7 @@
 	import { clickOutside } from '$lib/actions';
 	import type { ActionData, PageData } from './$types';
 	import { PUBLIC_RATE_LIMIT, PUBLIC_S3_BUCKET } from '$env/static/public';
-	import { YOUTUBE_EMBEDDABLE, shuffleTuple } from '$lib/utils';
+	import { YOUTUBE_EMBEDDABLE } from '$lib/utils';
 	import { PUBLIC_S3_ENDPOINT } from '$env/static/public';
 	import NewVote from '$lib/components/NewVote.svelte';
 
@@ -15,7 +15,7 @@
 	let flagDialog: HTMLDialogElement;
 	let flagEntry: EntryProperties | null = null;
 
-	$: entries = shuffleTuple(data.entries) as [EntryProperties, EntryProperties];
+	$: entries = data.entries as [EntryProperties, EntryProperties];
 </script>
 
 <article>
@@ -63,7 +63,7 @@
 			}}
 		>
 			<div class="grid w-full justify-items-center gap-20 px-16 lg:grid-cols-[47%_47%]">
-				{#each entries as entry, i}
+				{#each entries as entry, i (i)}
 					<div>
 						<h3 class="capitalize">{entry.title}</h3>
 						{#if YOUTUBE_EMBEDDABLE.test(entry.link)}
