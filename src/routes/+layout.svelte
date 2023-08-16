@@ -8,7 +8,8 @@
 	import { browser, dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 	import { webVitals } from '$lib/vitals';
-	import Banner from '../lib/components/Banner.svelte';
+	import Banner from '$lib/components/Banner.svelte';
+	import Timer from '../lib/components/Timer.svelte';
 
 	export let data: LayoutData;
 
@@ -50,6 +51,7 @@
 	</nav>
 
 	<Banner test={BETA_TEST} />
+	<Timer show={true}></Timer>
 
 	<main class="prose mb-40 mt-8 max-w-full">
 		<h1 class="text-center">{COMPETITION_FULL_NAME}</h1>
