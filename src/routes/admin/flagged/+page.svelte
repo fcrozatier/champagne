@@ -39,7 +39,7 @@
 					>
 					<th>Entry</th>
 					<th>Reason</th>
-					<th>Creators</th>
+					<th class="mr-10">Creators</th>
 					<th>Reported by</th>
 				</tr>
 			</thead>
@@ -84,7 +84,7 @@
 <style>
 	tr {
 		display: grid;
-		grid-template-columns: auto 15rem 1fr 1fr auto;
+		grid-template-columns: auto 15rem 1fr auto auto;
 		gap: 1rem;
 		align-items: center;
 	}
