@@ -166,8 +166,8 @@
 				</li>
 			</ul>
 			<p>
-				Please feedback to each creator. Remember to be as constructive as possible in your
-				comments.
+				If possible, please provide feedback to each creator. Remember to be as constructive as
+				possible in your comments.
 			</p>
 			<p>
 				If an entry is inappropriate or does not follow the <a href="/#rules">rules</a> you can flag
