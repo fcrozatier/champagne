@@ -14,7 +14,7 @@ export const load: PageServerLoad = async () => {
 				MATCH (n:Entry)<-[f:FLAG]-(u:User)
 				WITH n, u, f
 				MATCH (c:Creator)-[:CREATED]->(n)
-				RETURN n, f.reason as reason, u.email as email, collect(c.email) as creators LIMIT 100
+				RETURN n, f.reason as reason, u.email as email, collect(DISTINCT c.email) as creators LIMIT 100
       `
 			);
 		});
