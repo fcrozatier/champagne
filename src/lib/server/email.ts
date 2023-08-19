@@ -65,7 +65,7 @@ export async function sendEmail<T extends TemplateName>(
 export async function sendTemplate(template: TemplateName) {
 	await mg.messages.create(DOMAIN, {
 		from,
-		to: `test@${DOMAIN}`,
+		to: `newsletter@${DOMAIN}`,
 		subject: emailTemplates[template].subject,
 		template
 	});
