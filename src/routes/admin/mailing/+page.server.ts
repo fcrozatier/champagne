@@ -17,7 +17,7 @@ export const actions: Actions = {
 			if (!dev) {
 				// Fire and forget
 				console.log('send template email');
-				sendTemplate(validation.data.template_name);
+				await sendTemplate(validation.data.template_name);
 			}
 
 			return { success: true };
