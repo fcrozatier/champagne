@@ -1,5 +1,5 @@
 import { driver, type Entry } from '$lib/server/neo4j';
-import { fail } from '@sveltejs/kit';
+import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { FlagForm, validateForm } from '$lib/server/validation';
 
@@ -33,7 +33,7 @@ export const load: PageServerLoad = async () => {
 	}
 };
 
-export const actions = {
+export const actions: Actions = {
 	ignore: async ({ request }) => {
 		const validation = await validateForm(request, FlagForm);
 		if (!validation.success) {
