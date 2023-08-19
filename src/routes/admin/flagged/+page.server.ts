@@ -9,10 +9,12 @@ export const load: PageServerLoad = async () => {
 	try {
 		// Get flagged entries
 		const res = await session.executeRead((tx) => {
-			return tx.run<{ n: Entry; reason: string; email: string }>(
+			return tx.run<{ n: Entry; reason: string; email: string; creators: string[] }>(
 				`
 				MATCH (n:Entry)<-[f:FLAG]-(u:User)
-				RETURN n, f.reason as reason, u.email as email LIMIT 100
+				WITH n, u, f
+				MATCH (c:Creator)-[:CREATED]->(n)
+				RETURN n, f.reason as reason, u.email as email, collect(c.email) as creators LIMIT 100
       `
 			);
 		});
@@ -22,7 +24,14 @@ export const load: PageServerLoad = async () => {
 			const entry = row.get('n');
 			const reason = row.get('reason');
 			const email = row.get('email');
-			flagged.push({ link: entry.properties.link, title: entry.properties.title, reason, email });
+			const creators = row.get('creators');
+			flagged.push({
+				link: entry.properties.link,
+				title: entry.properties.title,
+				reason,
+				email,
+				creators
+			});
 		}
 
 		return { flagged };

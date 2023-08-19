@@ -9,6 +9,7 @@
 		title: string;
 		reason: string;
 		email: string;
+		creators: string[];
 	}[];
 
 	let selected: { email: string; link: string }[] = [];
@@ -38,6 +39,7 @@
 					>
 					<th>Entry</th>
 					<th>Reason</th>
+					<th>Creators</th>
 					<th>Reported by</th>
 				</tr>
 			</thead>
@@ -55,6 +57,7 @@
 						>
 						<td><a class="capitalize" href={entry.link} target="_blank">{entry.title}</a></td>
 						<td><span class="">{entry.reason}</span></td>
+						<td><span class="">{entry.creators}</span></td>
 						<td><span class="">{entry.email}</span></td>
 					</tr>
 				{:else}
@@ -75,7 +78,7 @@
 <style>
 	tr {
 		display: grid;
-		grid-template-columns: auto 15rem 1fr auto;
+		grid-template-columns: auto 15rem 1fr 1fr auto;
 		gap: 1rem;
 		align-items: center;
 	}
