@@ -57,7 +57,13 @@
 						>
 						<td><a class="capitalize" href={entry.link} target="_blank">{entry.title}</a></td>
 						<td><span class="">{entry.reason}</span></td>
-						<td><span class="">{entry.creators}</span></td>
+						<td
+							><div class="grid">
+								{#each entry.creators as creator}
+									<span>{creator}</span>
+								{/each}
+							</div></td
+						>
 						<td><span class="">{entry.email}</span></td>
 					</tr>
 				{:else}
