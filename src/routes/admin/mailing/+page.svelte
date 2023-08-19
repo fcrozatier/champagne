@@ -10,6 +10,7 @@
 	<h2>Send a message to the mailing list</h2>
 
 	<form
+		method="post"
 		use:enhance={({ submitter }) => {
 			submitter?.setAttribute('disabled', 'on');
 
