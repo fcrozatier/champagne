@@ -100,7 +100,7 @@
 							From <Time datetime={phase.dates[0]} options={dateFormat} /> to
 							<Time datetime={phase.dates[1]} options={dateFormat} />
 						{:else}
-							From <Time datetime={phase.dates[0]} options={dateFormat} />
+							Before <Time datetime={phase.dates[0]} options={dateFormat} />
 						{/if}</span
 					>
 				</div>
