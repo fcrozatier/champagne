@@ -58,7 +58,7 @@
 						<td><a class="capitalize" href={entry.link} target="_blank">{entry.title}</a></td>
 						<td><span class="">{entry.reason}</span></td>
 						<td
-							><div class="grid">
+							><div class="grid justify-items-end">
 								{#each entry.creators as creator}
 									<span>{creator}</span>
 								{/each}
