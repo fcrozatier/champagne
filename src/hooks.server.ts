@@ -1,4 +1,4 @@
-import { redirect, type Handle, error } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 import { TokenSchema } from '$lib/server/validation';
 import { compare } from 'bcrypt';
 import { ADMIN_PASSWORD } from '$env/static/private';
@@ -11,10 +11,10 @@ export const handle = async function ({ event, resolve }) {
 		if (adminPassword) {
 			const isAdmin = await compare(ADMIN_PASSWORD, adminPassword);
 			if (!isAdmin) {
-				throw error(401, 'Not authorized');
+				throw redirect(303, '/login');
 			}
 		} else {
-			throw error(401, 'Not authorized');
+			throw redirect(303, '/login');
 		}
 	}
 
