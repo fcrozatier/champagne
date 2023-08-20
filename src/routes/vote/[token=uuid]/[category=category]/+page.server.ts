@@ -140,6 +140,42 @@ export const load: PageServerLoad = async (event) => {
 			};
 		}
 
+		const random = await session.executeWrite((tx) => {
+			return tx.run<AssignedEntries>(
+				`
+				MATCH (u:User)
+				WHERE u.token = $token
+				WITH u
+				MATCH (a:Entry)<-[:CREATED]-(c:User)
+				WHERE a.category=$category
+				AND NOT c = u
+				WITH a, rand() as r
+				ORDER BY r
+				LIMIT 2
+				WITH collect(a) as entries
+				WITH entries[0] AS n1, entries[1] as n2
+				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
+        RETURN n1, n2
+      `,
+				{
+					token,
+					category
+				}
+			);
+		});
+
+		if (random?.records[0]?.length) {
+			const row = random.records[0];
+			console.log('show user random entries');
+			// Return new assigned entries
+			return {
+				entries: shuffleTuple([
+					toNativeTypes(row.get('n1').properties),
+					toNativeTypes(row.get('n2').properties)
+				])
+			};
+		}
+
 		// If we cannot find a pair of :NOT_ASSIGNED entries to compare, we are past the first round, and now duplicating votes to increase reliability.
 		// Try to find entries with only :Step number of relations (:LOSES_TO+:ASSIGNED)
 		// in the current category
