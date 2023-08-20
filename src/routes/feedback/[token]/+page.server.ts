@@ -22,7 +22,7 @@ export const load: PageServerLoad = async (event) => {
 		});
 
 		if (!res?.records?.length) {
-			return { invalidToken: true };
+			return { noFeedback: true };
 		}
 
 		const feedbacks: string[] = [];
