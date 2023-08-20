@@ -13,7 +13,10 @@ interface AssignedEntries {
 }
 
 export const load: PageServerLoad = async (event) => {
-	const token = event.locals.token;
+	const { token } = event.params;
+	if (!token) {
+		throw redirect(302, `/vote/`);
+	}
 	if (!voteOpen()) {
 		throw redirect(302, `/vote/${token}`);
 	}
