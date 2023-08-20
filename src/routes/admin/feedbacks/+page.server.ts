@@ -15,6 +15,7 @@ export const load: PageServerLoad = async () => {
 				`
 				MATCH (f:Feedback)
 				WHERE f.validated IS NULL
+				AND f.explicit = true
 				RETURN f LIMIT 25
       `
 			);
