@@ -12,6 +12,7 @@ export const load: PageServerLoad = async () => {
 			return tx.run<{ n: Entry; reason: string; email: string; creators: string[] }>(
 				`
 				MATCH (n:Entry)<-[f:FLAG]-(u:User)
+				WHERE n.flagged IS NULL
 				WITH n, u, f
 				MATCH (c:Creator)-[:CREATED]->(n)
 				RETURN n, f.reason as reason, u.email as email, collect(DISTINCT c.email) as creators LIMIT 100
