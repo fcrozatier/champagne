@@ -152,18 +152,27 @@
 			</p>
 			<ul>
 				<li>
-					<b>Motivation</b>: is the notion well motivated?
+					Clarity: Jargon should be explained, the goals of the lesson should be understandable with
+					minimal background, and the submission should generally display empathy for people
+					unfamiliar with the topic.
 				</li>
 				<li>
-					<b>Explanation</b>: is the explanation clear?
+					Motivation: It should be clear to the reader/viewer within the first 30 seconds why they
+					should care.
 				</li>
 				<li>
-					<b>Originality</b>: does the entry bring a new way to approach a notion or else a personal
-					touch etc.?
+					Novelty: It doesn't necessarily have to be an original idea or original topic, but it
+					should offer someone an experience they might otherwise not have by searching around
+					online. Some of the greatest value comes from covering common topics in better ways. Other
+					times there's value in surfacing otherwise obscure ideas which more people should know
+					about.
 				</li>
 				<li>
-					<b>Length</b>: is the time to read/watch appropriate for the underlying concept?
+					Memorability: Something should make the piece easy to remember even several months later.
+					Maybe it's the beauty of the presentation, the enthusiasm of the presenter, or the
+					mind-blowingness of an aha moment
 				</li>
+				<li>Length: is the time to read/watch appropriate for the underlying concept?</li>
 			</ul>
 			<p>
 				If possible, please provide feedback to each creator. Remember to be as constructive as
