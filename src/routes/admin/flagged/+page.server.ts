@@ -86,8 +86,7 @@ export const actions: Actions = {
 						MATCH (n:Entry)
 						WHERE n.link = selection.link
 						OPTIONAL MATCH (n)-[:FEEDBACK]->(f:Feedback)
-						DETACH DELETE n
-						DETACH DELETE f
+						SET n.flagged = true
 					`,
 					{ selection: validation.data.selection }
 				);

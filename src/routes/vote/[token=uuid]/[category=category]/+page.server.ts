@@ -152,6 +152,7 @@ export const load: PageServerLoad = async (event) => {
 				MATCH (a:Entry)<-[:CREATED]-(c:User)
 				WHERE a.category=$category
 				AND NOT c = u
+				AND a.flagged IS NULL
 				WITH a, rand() as r
 				ORDER BY r
 				LIMIT 2
