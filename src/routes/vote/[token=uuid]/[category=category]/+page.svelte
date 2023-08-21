@@ -16,6 +16,8 @@
 	let flagEntry: EntryProperties | null = null;
 
 	$: entries = data.entries as [EntryProperties, EntryProperties];
+
+	const descriptions = [0, 0];
 </script>
 
 <article>
@@ -94,25 +96,30 @@
 						<p>{entry.description}</p>
 						<p>Link: <a href={entry.link} target="_blank">{entry.link}</a></p>
 						<input type="hidden" name="entry-{i}" value={entry.number} />
-						<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
-						<textarea
-							id="feedback-{i}"
-							name="feedback-{i}"
-							class="textarea-bordered textarea w-full text-base"
-							placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
-							maxlength="2000"
-							rows="8"
-						/>
-
-						<button
-							type="button"
-							class="btn-outline btn-error btn-xs btn"
-							on:click={() => {
-								flagEntry = entry;
-								flagDialog.showModal();
-							}}
-							>Report problem
-						</button>
+						<div class="form-control">
+							<label for="feedback-{i}" class="label">Your feedback for this entry:</label>
+							<textarea
+								id="feedback-{i}"
+								name="feedback-{i}"
+								class="textarea-bordered textarea w-full text-base"
+								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
+								maxlength="2000"
+								on:input={(e) => (descriptions[i] = e.currentTarget.value.length)}
+								rows="8"
+							/>
+							<div class="label">
+								<button
+									type="button"
+									class="btn-outline btn-error btn-xs btn"
+									on:click={() => {
+										flagEntry = entry;
+										flagDialog.showModal();
+									}}
+									>Report problem
+								</button>
+								<span class="label-text-alt self-start">{descriptions[i]}/2000</span>
+							</div>
+						</div>
 					</div>
 				{/each}
 			</div>
