@@ -151,14 +151,21 @@ export const load: PageServerLoad = async (event) => {
 				WITH u
 				MATCH (a:Entry)<-[:CREATED]-(c:User)
 				WHERE a.category=$category
+				AND not (u)-[:FLAG]->(a)
 				AND NOT c = u
 				AND a.flagged IS NULL
 				WITH a, rand() as r
 				ORDER BY r
 				LIMIT 2
 				WITH collect(a) as entries
-				WITH entries[0] AS n1, entries[1] as n2
-				CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
+				CALL {
+					with entries
+					with entries
+					WITH entries[0] AS n1, entries[1] as n2
+					where not n1 IS  NULL and not n2 is NULL
+					CREATE (n1)-[:ASSIGNED {userToken: $token, timestamp: timestamp()}]->(n2)
+					RETURN n1, n2
+				}
         RETURN n1, n2
       `,
 				{
@@ -178,6 +185,9 @@ export const load: PageServerLoad = async (event) => {
 					toNativeTypes(row.get('n2').properties)
 				])
 			};
+		} else {
+			console.log("can't find a random pair for this user");
+			return { stopVote: true };
 		}
 
 		// If we cannot find a pair of :NOT_ASSIGNED entries to compare, we are past the first round, and now duplicating votes to increase reliability.
@@ -304,7 +314,7 @@ export const actions: Actions = {
 				MATCH (n1:Entry)-[r:ASSIGNED]-(n2:Entry)
 				WHERE n1.link = $link AND r.userToken = $token
 				DELETE r
-				CREATE (u)-[:FLAG {reason: $reason}]->(n1)-[:NOT_ASSIGNED]->(n2)
+				CREATE (u)-[:FLAG {reason: $reason}]->(n1)
 			`,
 					{
 						link: validation.data.link,
