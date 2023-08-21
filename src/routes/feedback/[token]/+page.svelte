@@ -25,7 +25,7 @@
 	{:else if data.feedbacks}
 		{#each data.feedbacks as feedback, i}
 			<h3>Feedback {i + 1}</h3>
-			<p class="capitalize">{feedback}</p>
+			<p>{feedback}</p>
 		{/each}
 	{/if}
 </article>
