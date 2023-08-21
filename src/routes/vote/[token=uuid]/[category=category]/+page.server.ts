@@ -6,6 +6,7 @@ import type { PageServerLoad, Actions } from './$types';
 import { FlagSchema, validateForm, VoteSchema } from '$lib/server/validation';
 import { profanity } from '$lib/server/profanity';
 import { PUBLIC_RATE_LIMIT, PUBLIC_VOTE_LIMIT } from '$env/static/public';
+import { listFormatter } from '$lib/config';
 
 interface AssignedEntries {
 	n1: Entry;
@@ -338,7 +339,11 @@ export const actions: Actions = {
 		const validation = await validateForm(request, VoteSchema);
 
 		if (!validation.success) {
-			return fail(400, { id, voteFail: true });
+			const fieldErrors = validation.error.flatten()['fieldErrors'];
+			const feedbackErrors = new Set(
+				[fieldErrors['feedback-0'], fieldErrors['feedback-1']].filter((x) => x !== undefined).flat()
+			) as Set<string>;
+			return fail(400, { id, voteFail: true, reason: listFormatter.format([...feedbackErrors]) });
 		}
 
 		const entryNumberA = validation.data['entry-0'];
