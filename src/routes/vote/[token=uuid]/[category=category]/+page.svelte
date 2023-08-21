@@ -18,6 +18,18 @@
 	$: entries = data.entries as [EntryProperties, EntryProperties];
 
 	const descriptions = [0, 0];
+
+	function updateDescription(target: HTMLTextAreaElement, i: number) {
+		descriptions[i] = target.value.length;
+	}
+
+	async function onPaste(e: ClipboardEvent) {
+		const feedback = e.clipboardData?.getData('text') ?? '';
+		if (feedback.length > 2000) {
+			alert('Oh! It looks like this feedback is too long. It should be 2000 characters max');
+			e.preventDefault();
+		}
+	}
 </script>
 
 <article>
@@ -34,8 +46,13 @@
 		</div>
 	{:else if form?.id === 'VOTE' && form?.voteFail}
 		<div class="layout-prose">
-			<p class="text-error">Something went wrong.</p>
+			<p class="text-error">
+				<span> Something went wrong. </span>
 
+				{#if form?.id === 'VOTE' && form?.voteFail && form?.reason}
+					<span>{form?.reason}</span>
+				{/if}
+			</p>
 			<NewVote {page} />
 		</div>
 	{:else if form?.id === 'VOTE' && form?.voteSuccess}
@@ -104,7 +121,8 @@
 								class="textarea-bordered textarea w-full text-base"
 								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
 								maxlength="2000"
-								on:input={(e) => (descriptions[i] = e.currentTarget.value.length)}
+								on:input={(e) => updateDescription(e.currentTarget, i)}
+								on:paste={(e) => onPaste(e)}
 								rows="8"
 							/>
 							<div class="label">
