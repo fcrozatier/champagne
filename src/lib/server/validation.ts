@@ -115,11 +115,17 @@ const CreatorSchema = z.object({
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
 
-const FEEDBACK_CHARACTER_LIMIT = 2000;
 const FeedbackSchema = z
 	.string()
 	.trim()
-	.max(FEEDBACK_CHARACTER_LIMIT, { message: 'Feedback too long' })
+	.refine(
+		(feedback) => {
+			return feedback.length - (feedback.match(/\r\n/g) ?? []).length <= 2000;
+		},
+		{
+			message: 'Feedback too long'
+		}
+	)
 	.optional();
 
 export const VoteSchema = z.object({

@@ -22,14 +22,6 @@
 	function updateDescription(target: HTMLTextAreaElement, i: number) {
 		descriptions[i] = target.value.length;
 	}
-
-	async function onPaste(e: ClipboardEvent) {
-		const feedback = e.clipboardData?.getData('text') ?? '';
-		if (feedback.length > 2000) {
-			alert('Oh! It looks like this feedback is too long. It should be 2000 characters max');
-			e.preventDefault();
-		}
-	}
 </script>
 
 <article>
@@ -122,7 +114,6 @@
 								placeholder={`(Motivation, Explanation, Originality, Length, Overall)`}
 								maxlength="2000"
 								on:input={(e) => updateDescription(e.currentTarget, i)}
-								on:paste={(e) => onPaste(e)}
 								rows="8"
 							/>
 							<div class="label">
