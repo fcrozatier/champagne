@@ -49,7 +49,7 @@
 							/></td
 						>
 						<td class="flex justify-center"><p>{feedback.explicit ? '☢️' : ''}</p></td>
-						<td><p>{feedback.value}</p></td>
+						<td><p class="whitespace-pre-wrap">{feedback.value}</p></td>
 					</tr>
 				{:else}
 					<p class="px-6">No feedback to review</p>
