@@ -115,7 +115,7 @@ const CreatorSchema = z.object({
 
 export const RegistrationSchema = z.discriminatedUnion('userType', [JudgeSchema, CreatorSchema]);
 
-const FeedbackSchema = z
+export const FeedbackSchema = z
 	.string()
 	.trim()
 	.refine(
