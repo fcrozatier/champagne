@@ -88,7 +88,7 @@
 			<div class="form-control gap-1">
 				<label for="site" class="label flex gap-2">
 					<span class="flex-1">
-						How satisfied are you with the Peer Review and website this year?
+						How satisfied are you with the Peer Review website this year?
 					</span>
 				</label>
 				<input
