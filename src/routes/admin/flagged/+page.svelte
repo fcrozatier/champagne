@@ -71,13 +71,17 @@
 				{/each}
 			</tbody>
 		</table>
-
-		<button type="submit" formaction="?/ignore" class="btn" disabled={!selected.length}
-			>Ignore</button
-		>
-		<button type="submit" formaction="?/remove" class="btn-error btn" disabled={!selected.length}
-			>Remove</button
-		>
+		<div>
+			<button type="submit" formaction="?/ignore" class="btn" disabled={!selected.length}
+				>Ignore</button
+			>
+			<button type="submit" formaction="?/remove" class="btn-error btn" disabled={!selected.length}
+				>Flag</button
+			>
+			<p class="text-sm">
+				(Flagging is not destructive: a flagged creator will still have access to his feedbacks)
+			</p>
+		</div>
 	</form>
 </article>
 
