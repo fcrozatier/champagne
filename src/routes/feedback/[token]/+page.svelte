@@ -58,7 +58,9 @@
 		>
 			<div class="form-control gap-1">
 				<label for="some" class="label flex gap-2">
-					<span class="flex-1"> How satisfied are you with the Summer of Math Exposition? </span>
+					<span class="flex-1">
+						How satisfied are you with the SoME event (communication/organization)?
+					</span>
 				</label>
 				<input
 					id="some"
