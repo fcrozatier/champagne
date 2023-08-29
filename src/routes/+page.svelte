@@ -253,7 +253,7 @@
 	</details>
 	<details>
 		<summary>
-			<div class="text-xl font-medium">Does it have to be in english?</div>
+			<div class="text-xl font-medium">Does it have to be in English?</div>
 		</summary>
 		<p>It has to be available in English: subtitles or translation are needed.</p>
 		<p>
