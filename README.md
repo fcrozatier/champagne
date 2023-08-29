@@ -8,7 +8,7 @@ Champagne is a voting platform for massive competitions. It implements a peer ra
 
 [![How I built the SoME3 voting system with graph theory](./static/img/video-thumbnail.png)](https://www.youtube.com/watch?v=XSDBbCaO-kc)
 
-The platform is used for the [Summer of Maths Exposition](https://www.3blue1brown.com/blog/some1) competition, live at [some.3b1b.co](https://some.3b1b.co)
+The platform is used for the [Summer of Math Exposition](https://www.3blue1brown.com/blog/some1) competition, live at [some.3b1b.co](https://some.3b1b.co)
 
 ## Features
 
