@@ -16,12 +16,16 @@ export const listFormatter = new Intl.ListFormat('en', { type: 'disjunction', st
 /**
  * Batch sending templates only
  */
-export const templateNames = ['token_reminder'] as const;
+export const templateNames = ['token_reminder', 'end of peer review'] as const;
 
 /**
  * The value is the template email subject
  */
 export const emailTemplates = {
+	'end of peer review': {
+		subject: `The ${COMPETITION_FULL_NAME} Peer Review is now over!`,
+		variables: ['token']
+	},
 	token_reminder: {
 		subject: `${COMPETITION_FULL_NAME} vote is starting soon`,
 		variables: ['token']
