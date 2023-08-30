@@ -45,7 +45,7 @@
 		<li>It has to be available in English: subtitles or translation are needed</li>
 		<p>
 			If you want to put out an explainer in another language, wonderful! Please do! But the judges
-			here will be english speakers, so to be considered for the contest the lesson has to be
+			here will be English speakers, so to be considered for the contest the lesson has to be
 			accessible to them.
 		</p>
 		<li>It has to be publicly visible and available for people to consume for free</li>
