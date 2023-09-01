@@ -23,14 +23,14 @@
 </svelte:head>
 
 <article class="layout-prose">
-	{#if Date.parse(PUBLIC_RESULTS_AVAILABLE) > Date.now()}
+	<!-- {#if Date.parse(PUBLIC_RESULTS_AVAILABLE) > Date.now()}
 		<header class="text-green-600">
 			<p>
 				Hey! Good job on finding this route, it's not officially open but you can already check your
 				feedback (at your own risk)
 			</p>
 		</header>
-	{/if}
+	{/if} -->
 
 	<p>
 		We have been blown away by the quality of submissions this year. We hope that this competition
