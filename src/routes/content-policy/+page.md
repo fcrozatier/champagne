@@ -72,7 +72,7 @@ So let's break this down. Here is a list of software you can and cannot use for 
 
 **Maybe OK:**
 
-- Software with restrictive licenses (forbidding commercial use) that you have a formal agreement with. Note that we have explicit permission to use the following tools for this competition:
+- Software with restrictive licenses (forbidding commercial use) that you have a formal agreement with or allows for commercial use. Note that we have explicit permission to use the following tools for this competition:
   - Geogebra
   - Desmos
 
