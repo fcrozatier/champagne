@@ -39,11 +39,42 @@
 	];
 
 	const winners = [
-		'https://explanaria.github.io/crystalgroups/',
-		'https://www.youtube.com/embed/5M2RWtD4EzI',
-		'https://www.youtube.com/embed/gsZiJeaMO48',
-		'https://www.youtube.com/embed/a-767WnbaCQ',
-		'https://www.youtube.com/embed/6hVPNONm7xw'
+		{
+			title: 'Title can become very very very long, and that is just an example! ',
+			description:
+				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi laudantium odit numquam cum consequuntur quis nihil quod in alias quas vel porro, nemo voluptatum illo unde? Reiciendis corporis necessitatibus cupiditate. Eveniet, dicta iste? Aut suscipit maxime ut vero ad explicabo voluptate, architecto repellat ab. Atque quia neque commodi magnam perspiciatis possimus, quaerat minima optio deserunt quisquam, fuga recusandae quos pariatur illum necessitatibus qui quod velit quasi modi eligendi. Aperiam ad neque voluptas nam nihil ipsa tempora fugiat, soluta, aliquam exercitationem aspernatur ullam deserunt minima non! Possimus nisi quam, explicabo, nam numquam, culpa ad a temporibus amet praesentium quas? Deleniti ab saepe debitis rerum quis, vel distinctio, fuga necessitatibus quisquam iste vero, corporis modi ut nam assumenda cum dolore dolorum esse dicta quasi tempore rem. Esse ea modi commodi animi, eligendi, voluptate, dolorem eaque et iure suscipit eos veniam fugit necessitatibus harum voluptas.',
+			link: 'https://www.youtube.com/embed/5M2RWtD4EzI',
+			video: true
+		},
+		{
+			title: 'Title',
+			description:
+				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi laudantium odit numquam cum consequuntur quis nihil quod in alias quas vel porro, nemo voluptatum illo unde? Reiciendis corporis necessitatibus cupiditate. Eveniet, dicta iste? Aut suscipit maxime ut vero ad explicabo voluptate, architecto repellat ab. Atque quia neque commodi magnam perspiciatis possimus, quaerat minima optio deserunt quisquam, fuga recusandae quos pariatur illum necessitatibus qui quod velit quasi modi eligendi. Aperiam ad neque voluptas nam nihil ipsa tempora fugiat, soluta, aliquam exercitationem aspernatur ullam deserunt minima non! Possimus nisi quam, explicabo, nam numquam, culpa ad a temporibus amet praesentium quas? Deleniti ab saepe debitis rerum quis, vel distinctio, fuga necessitatibus quisquam iste vero, corporis modi ut nam assumenda cum dolore dolorum esse dicta quasi tempore rem. Esse ea modi commodi animi, eligendi, voluptate, dolorem eaque et iure suscipit eos veniam fugit necessitatibus harum voluptas.',
+			link: 'https://www.youtube.com/embed/gsZiJeaMO48',
+			video: true
+		},
+		{
+			title: 'Title',
+			description:
+				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi laudantium odit numquam cum consequuntur quis nihil quod in alias quas vel porro, nemo voluptatum illo unde? Reiciendis corporis necessitatibus cupiditate. Eveniet, dicta iste? Aut suscipit maxime ut vero ad explicabo voluptate, architecto repellat ab. Atque quia neque commodi magnam perspiciatis possimus, quaerat minima optio deserunt quisquam, fuga recusandae quos pariatur illum necessitatibus qui quod velit quasi modi eligendi. Aperiam ad neque voluptas nam nihil ipsa tempora fugiat, soluta, aliquam exercitationem aspernatur ullam deserunt minima non! Possimus nisi quam, explicabo, nam numquam, culpa ad a temporibus amet praesentium quas? Deleniti ab saepe debitis rerum quis, vel distinctio, fuga necessitatibus quisquam iste vero, corporis modi ut nam assumenda cum dolore dolorum esse dicta quasi tempore rem. Esse ea modi commodi animi, eligendi, voluptate, dolorem eaque et iure suscipit eos veniam fugit necessitatibus harum voluptas.',
+			link: 'https://www.youtube.com/embed/a-767WnbaCQ',
+			video: true
+		},
+		{
+			title: 'Title',
+			description:
+				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi laudantium odit numquam cum consequuntur quis nihil quod in alias quas vel porro, nemo voluptatum illo unde? Reiciendis corporis necessitatibus cupiditate. Eveniet, dicta iste? Aut suscipit maxime ut vero ad explicabo voluptate, architecto repellat ab. Atque quia neque commodi magnam perspiciatis possimus, quaerat minima optio deserunt quisquam, fuga recusandae quos pariatur illum necessitatibus qui quod velit quasi modi eligendi. Aperiam ad neque voluptas nam nihil ipsa tempora fugiat, soluta, aliquam exercitationem aspernatur ullam deserunt minima non! Possimus nisi quam, explicabo, nam numquam, culpa ad a temporibus amet praesentium quas? Deleniti ab saepe debitis rerum quis, vel distinctio, fuga necessitatibus quisquam iste vero, corporis modi ut nam assumenda cum dolore dolorum esse dicta quasi tempore rem. Esse ea modi commodi animi, eligendi, voluptate, dolorem eaque et iure suscipit eos veniam fugit necessitatibus harum voluptas.',
+			link: 'https://www.youtube.com/embed/6hVPNONm7xw',
+			video: true
+		},
+		{
+			title: 'Title',
+			description:
+				'Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi laudantium odit numquam cum consequuntur quis nihil quod in alias quas vel porro, nemo voluptatum illo unde? Reiciendis corporis necessitatibus cupiditate. Eveniet, dicta iste? Aut suscipit maxime ut vero ad explicabo voluptate, architecto repellat ab. Atque quia neque commodi magnam perspiciatis possimus, quaerat minima optio deserunt quisquam, fuga recusandae quos pariatur illum necessitatibus qui quod velit quasi modi eligendi. Aperiam ad neque voluptas nam nihil ipsa tempora fugiat, soluta, aliquam exercitationem aspernatur ullam deserunt minima non! Possimus nisi quam, explicabo, nam numquam, culpa ad a temporibus amet praesentium quas? Deleniti ab saepe debitis rerum quis, vel distinctio, fuga necessitatibus quisquam iste vero, corporis modi ut nam assumenda cum dolore dolorum esse dicta quasi tempore rem. Esse ea modi commodi animi, eligendi, voluptate, dolorem eaque et iure suscipit eos veniam fugit necessitatibus harum voluptas.',
+			link: 'https://explanaria.github.io/crystalgroups/',
+			video: false,
+			thumbnail: '/img/winner.webp'
+		}
 	];
 
 	const dateFormat = {
@@ -73,7 +104,7 @@
 	<title>{COMPETITION_SHORT_NAME}</title>
 </svelte:head>
 
-<article class="layout-prose pb-20">
+<section class="layout-prose pb-10">
 	<p class=" mb-16 text-center text-3xl font-light">Discover and create new math content.</p>
 	<p>
 		The {COMPETITION_FULL_NAME} ({COMPETITION_SHORT_NAME}) is an annual competition to foster the
@@ -81,71 +112,51 @@
 		Five winners will be selected to receive $1,000 and a golden pi creature, and twenty honorable
 		mentions will receive $500 each. <a href="#rules">Learn more</a>
 	</p>
+</section>
 
-	<h2 class="mb-6 text-4xl font-black">Timeline</h2>
-	<p>The competition has three phases:</p>
-	<ul class="-ml-7 list-outside">
-		{#each phases as phase, i}
-			<li class={phase.isOpen ? 'marker:text-green-500' : ''}>
-				<div class="mb-4 mt-8">
-					<span class="flex items-center gap-2 text-xl font-semibold">
-						Phase {i + 1}:
-						{phase.title}
-						{#if phase.isOpen}
-							<span class="badge badge-success">current</span>
-						{/if}
-					</span>
-					<span class="text-sm text-gray-500"
-						>{#if phase.dates.length > 1}
-							From <Time datetime={phase.dates[0]} options={dateFormat} /> to
-							<Time datetime={phase.dates[1]} options={dateFormat} />
-						{:else}
-							Before <Time datetime={phase.dates[0]} options={dateFormat} />
-						{/if}</span
-					>
+<section class="pb-28">
+	<h2 class="mb-20 text-5xl font-black text-center">The 5 winners are</h2>
+
+	<div class="grid gap-16">
+		{#each winners as winner}
+			<div class="flex flex-wrap items-start justify-center gap-6 lg:gap-10">
+				<div class="px-4">
+					{#if winner.video}
+						<iframe
+							width="420"
+							class="aspect-video rounded-lg max-w-full"
+							src={winner.link}
+							title="YouTube video player"
+							frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							allowfullscreen
+							loading="lazy"
+						/>
+					{:else}
+						<a href={winner.link} target="_blank" class="w-[420px]">
+							<img
+								src={winner.thumbnail}
+								alt="Winner thumbnail"
+								width="420"
+								class="aspect-video rounded-lg max-w-full m-0"
+								loading="lazy"
+							/>
+						</a>
+					{/if}
 				</div>
-				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				<p class="text-sm">{@html phase.description}</p>
-				{#if phase.isOpen}
-					<p class="mt-6">
-						{#if i === 0}
-							<a class="btn-primary btn" href="/register"
-								>Join in <span class="ml-2 inline-block">&rarr;</span></a
-							>
-						{:else if i === 1}
-							{#if data.token}
-								<a class="btn-primary btn" href="/vote/{data.token}">Vote</a>
-							{:else}
-								<button
-									type="button"
-									class="btn-outline btn"
-									on:click={() => {
-										personalLinkDialog.showModal();
-									}}
-									>Resend me my personal link
-								</button>
-							{/if}
-						{:else if i === 2}
-							<a class="btn-primary btn" href="/feedback/{data.token}">See feedbacks</a>
-						{/if}
-					</p>
-				{/if}
-			</li>
+				<div class="max-w-sm mx-4">
+					<h3 class="mt-0 mb-3">{winner.title}</h3>
+					<p class="line-clamp-6 leading-snug">{winner.description}</p>
+				</div>
+			</div>
 		{/each}
-	</ul>
-
-	{#if !competitionStarted()}
-		{#if !PUBLIC_REGISTRATION_START}
-			<p>The competition has not started yet.</p>
-			<p>Stay tuned for the announcement of phase 1!</p>
-		{/if}
-	{/if}
-</article>
+	</div>
+</section>
 
 <section class="text-ligh bg-black/95 pb-32 pt-24 text-center" style:color="var(--light-gold)">
 	<div class="mx-auto max-w-prose">
 		<h2 class="my-0 text-5xl font-black" style:color="var(--light-gold)">
-			Last year's competition
+			The 20 honorable mentions
 		</h2>
 		<p class="mt-8 font-light tracking-wider">
 			Discover the 5 winners of the last edition. <br />
@@ -158,174 +169,27 @@
 			>
 		</p>
 	</div>
-	<div class="mx-4">
-		<div
-			class="scrollbar mx-auto flex max-w-prose snap-x snap-proximity snap-always items-center gap-10 overflow-x-scroll pb-2"
-			style:--scrollbar-thumb="var(--light-gold)"
-		>
-			{#each winners as winner}
-				<div class="snap-center">
-					{#if winner.includes('youtube')}
-						<iframe
-							width="420"
-							class="aspect-video rounded-lg"
-							src={winner}
-							title="YouTube video player"
-							frameborder="0"
-							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-							allowfullscreen
-							loading="lazy"
-						/>
-					{:else}
-						<a href={winner} target="_blank" class="inline-block w-[420px]">
-							<img
-								src="/img/winner.webp"
-								alt="Winner thumbnail"
-								width="420"
-								class="aspect-video rounded-lg"
-								loading="lazy"
-							/>
-						</a>
-					{/if}
+	<div class="custom-grid px-4">
+		{#each Array.from({ length: 16 }) as _, i}
+			<div class="flex flex-col gap-3">
+				<div class="">
+					<iframe
+						width="360"
+						class="aspect-video rounded-lg max-w-full"
+						src={winners[0].link}
+						title="YouTube video player"
+						frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+						loading="lazy"
+					/>
 				</div>
-			{/each}
-		</div>
+				<div class="px-2">
+					<h4 class="mt-0" style:color="var(--light-gold)">{winners[0].title}</h4>
+				</div>
+			</div>
+		{/each}
 	</div>
-</section>
-
-<section id="rules" class="layout-prose pt-8">
-	<h2 class="mb-16 text-4xl font-black">How it works</h2>
-
-	<details>
-		<summary>
-			<div class="text-xl font-medium">Is there a topic constraint?</div>
-		</summary>
-		<p>It has to be about math.</p>
-		<p>
-			Here we mean &laquo; math &raquo; very broadly, and more applied topics like physics or
-			computer science are abundantly welcome. It just has to be the case that a viewer/reader might
-			come away knowing something mathematical they didn't before.
-		</p>
-		<p>
-			The topic could be at any level, whether that's basic math for young children or higher-level
-			math. If you're assuming a certain background level for the target audience, kindly mention it
-			below. It's hard because we don't want to discourage topics with a very niche target audience,
-			as those lessons can sometimes be the most valuable. However, if your lesson assumes
-			particular expertise, e.g. a comfort with algebraic geometry, keep in mind that our judges may
-			not fit into this category. So to actually win the contest, it's helpful if the topic is
-			accessible to someone with, say, a background in standard undergrad math topics.
-		</p>
-	</details>
-	<details>
-		<summary>
-			<div class="text-xl font-medium">How many entries can I submit?</div>
-		</summary>
-		<p>One entry per person / group</p>
-		<p>
-			We hope you make more, but we only have the capacity to judge participants based on a single
-			entry.
-		</p>
-	</details>
-	<details>
-		<summary>
-			<div class="text-xl font-medium">Can I use an old entry?</div>
-		</summary>
-		<p>It has to be something new you make this summer</p>
-		<p>
-			The spirit of this is to encourage people who've never put stuff online before. If you want to
-			work on something you sort of started once before, that's probably fine, but it can't be
-			something you already published before this contest. Optimally, you'd use this as a chance to
-			try something new you otherwise might not have.
-		</p>
-	</details>
-	<details>
-		<summary>
-			<div class="text-xl font-medium">When is the registration deadline?</div>
-		</summary>
-		<p>
-			Creators can register until
-			<Time datetime={PUBLIC_REGISTRATION_END} />.
-		</p>
-		<p>
-			If you want to participate as a judge you can register at any time, even after the vote has
-			open.
-		</p>
-	</details>
-	<details>
-		<summary>
-			<div class="text-xl font-medium">Does it have to be in English?</div>
-		</summary>
-		<p>It has to be available in English: subtitles or translation are needed.</p>
-		<p>
-			If you want to put out an explainer in another language, wonderful! Please do! But the judges
-			here will be English speakers, so to be considered for the contest the lesson has to be
-			accessible to them.
-		</p>
-	</details>
-	<details>
-		<summary>
-			<div class="text-xl font-medium">Can I use copyrighted material?</div>
-		</summary>
-		<p>By registering as a creator you agree to the following copyright notice:</p>
-		<p class="indent-8 italic">
-			I have permission to use all material contained in my submission for the {COMPETITION_FULL_NAME}.
-		</p>
-		<ul>
-			<li>
-				<a href="/content-policy#fair-use">Copyrighted material policy and fair use guidelines</a>
-			</li>
-			<li><a href="/content-policy#cc">Creative Commons guidelines</a></li>
-			<li><a href="/content-policy#ai">AI policy</a></li>
-		</ul>
-
-		<p>
-			Exception: We have a standing agreement with Desmos that you may use this software in the
-			competition.
-		</p>
-	</details>
-	<details>
-		<summary>
-			<div class="text-xl font-medium">How will winners be selected?</div>
-		</summary>
-		<p>Here's what we're looking for:</p>
-		<ul>
-			<li>
-				<b> Clarity: </b>
-				Jargon should be explained, the goals of the lesson should be understandable with minimal background,
-				and the submission should generally display empathy for people unfamiliar with the topic.
-			</li>
-			<li>
-				<b>Motivation:</b> It should be clear to the reader/viewer within the first 30 seconds why they
-				should care.
-			</li>
-			<li>
-				<b>Novelty:</b> It doesn't necessarily have to be an original idea or original topic, but it
-				should offer someone an experience they might otherwise not have by searching around online.
-				Some of the greatest value comes from covering common topics in better ways. Other times there's
-				value in surfacing otherwise obscure ideas which more people should know about.
-			</li>
-			<li>
-				<b>Memorability:</b> Something should make the piece easy to remember even several months later.
-				Maybe it's the beauty of the presentation, the enthusiasm of the presenter, or the mind-blowingness
-				of an aha moment.
-			</li>
-		</ul>
-		<p>
-			A peer review process will help filter the better entries. Then the admins will manually
-			select the best entries.
-		</p>
-		<strong>
-			If your entry does not respect the rules or copyright notice you will not be eligible to
-			accept any prize money.
-		</strong>
-		<p>
-			For longer works, judges might not be able to consume the full video/post. Again, what's hard
-			about this is that sometimes great explainers are longer, such as a full lecture and we don't
-			want to discourage those. Just understand that to select winners, there is only so much time
-			available for review, so the substance of your work should be clearly visible with a 5-10
-			minute view.
-		</p>
-	</details>
 </section>
 
 <section class="mt-10 pt-10">
@@ -339,43 +203,15 @@
 	</div>
 </section>
 
-<dialog class="mb-auto" bind:this={personalLinkDialog}>
-	<form
-		class=""
-		method="post"
-		action="?/resend_link"
-		use:clickOutside={closeDialog}
-		use:enhance={({ submitter }) => {
-			submitter?.setAttribute('disabled', 'on');
-			return async ({ update }) => {
-				await update();
-				submitter?.removeAttribute('disabled');
-			};
-		}}
-	>
-		<h2 class="mt-0">Personal link</h2>
-		<p>You will receive an email with your personal link.</p>
-		<label for="email" class="label inline-flex gap-4"
-			>Email <small class="font-light text-gray-700">(the one you registered with)</small></label
-		>
-		<input
-			id="email"
-			type="email"
-			name="email"
-			placeholder="john@gmail.com"
-			class="input-bordered input w-full max-w-xs"
-			bind:value={email}
-			required
-		/>
+<style>
+	.custom-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 320px));
+		justify-content: center;
+		gap: theme(space.12) theme(space.16);
+	}
 
-		<p class="flex gap-4">
-			<button type="button" class="btn-outline btn" on:click={closeDialog}>Close</button>
-			<button type="submit" class="btn-primary btn">Send email</button>
-		</p>
-		{#if form?.error || form?.emailInvalid}
-			<span class="text-error">Something went wrong.</span>
-		{:else if form?.success}
-			<span class="text-success">Email sent!</span>
-		{/if}
-	</form>
-</dialog>
+	* {
+		/* outline: 1px solid red; */
+	}
+</style>
