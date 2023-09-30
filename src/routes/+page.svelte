@@ -12,9 +12,7 @@
 	<p class=" mb-16 text-center text-3xl font-light">Discover and create new math content.</p>
 	<p>
 		The {COMPETITION_FULL_NAME} ({COMPETITION_SHORT_NAME}) is an annual competition to foster the
-		creation of excellent math content online. You can participate as either a creator or judge.
-		Five winners will be selected to receive $1,000 and a golden pi creature, and twenty honorable
-		mentions will receive $500 each.
+		creation of excellent math content online. Here are the winners for this hear's competition
 	</p>
 </section>
 
