@@ -112,6 +112,21 @@
 	</div>
 </section>
 
+<section>
+	<div class="text-center">
+		<h2 class="mb-10 text-4xl font-black">All entries</h2>
+
+		<p>You can find the whole list of entries here:</p>
+		<div>
+			<a
+				href="https://www.youtube.com/playlist?list=PLnQX-jgAF5pQS2GUFCsatSyZkSH7e8UM8"
+				target="_blank"><button class="btn btn-neutral">All videos</button></a
+			>
+			<a href="/non-videos"><button class="btn btn-neutral">All non-videos</button></a>
+		</div>
+	</div>
+</section>
+
 <section class="mt-10 pt-10">
 	<h2 class="text-center text-2xl font-light">
 		Prizes and operations for this contest have been generously funded by
