@@ -12,7 +12,13 @@
 	<p class=" mb-16 text-center text-3xl font-light">Discover and create new math content.</p>
 	<p>
 		The {COMPETITION_FULL_NAME} ({COMPETITION_SHORT_NAME}) is an annual competition to foster the
-		creation of excellent math content online. Here are the winners for this hear's competition
+		creation of excellent math content online. You can find the SoME3 winners below. The full list
+		of non video entries is available <a href="/non-videos">here</a>. The playlist of all video
+		entries is available
+		<a
+			href="https://www.youtube.com/playlist?list=PLnQX-jgAF5pQS2GUFCsatSyZkSH7e8UM8"
+			target="_blank">here</a
+		>
 	</p>
 </section>
 
