@@ -248,7 +248,7 @@
 	{
 		title: 'Knotting is math. (So does everything.)',
 		description:
-			'In this blog, I argue an analogy of the study of mathematics to a simple knot trick. 1. Demonstrate the process of abstraction on the problem 2. Breaking down the problem into pieces to be combinded into novelty.',
+			'In this blog, I argue an analogy of the study of mathematics to a simple knot trick. 1. Demonstrate the process of abstraction on the problem 2. Breaking down the problem into pieces to be combined into novelty.',
 		thumbnail: 'aHR0cHM6Ly93d3cudmlyaWUubmV0L2Jsb2dzL21hdGhyb3BlL2luZGV4Lmh0bWw=.webp',
 		link: 'https://www.virie.net/blogs/mathrope/index.html'
 	},
@@ -522,7 +522,7 @@
 		link: 'https://github.com/donno2048/fmath/blob/master/test.ipynb'
 	},
 	{
-		title: 'Why 24  -  String Therory? String Practice!',
+		title: 'Why 24  -  String Theory? String Practice!',
 		description:
 			'Discovering the beauty of twine string by observing natural patterns. Starting with making cordage from natural fibers, we continue our research using crochet models to end up making discoveries about these intriguing surfaces.',
 		thumbnail: 'aHR0cDovL3d3dy5kZW9uemljaHRiYXJlc2Nob29sLm5sL1doeTI0L2luZGV4Lmh0bWw=.webp',
