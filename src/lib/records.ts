@@ -243,7 +243,7 @@
 			'A free Android app which features four theorems from trigonometry, with the options to view a brief animated explanation, an interactive demonstration or an animated proof. Android app link: https://play.google.com/store/apps/details?id=com.thetreasuresoftrigonometry.app.ttot',
 		thumbnail:
 			'aHR0cHM6Ly93d3cuZHJvcGJveC5jb20vc2NsL2ZpLzl1c2t3MmQxd3I5dXhnN2hocmxocS9UaGVUcmVhc3VyZXNvZlRyaWdvbm9tZXRyeS5wZGY/cmxrZXk9ODBlM3U4bG81ejdqYWRqeWJqY2h5cXBjMSZkbD0w.webp',
-		link: 'https://www.dropbox.com/scl/fi/9uskw2d1wr9uxg7hhrlhq/TheTreasuresofTrigonometry.pdf?rlkey=80e3u8lo5z7jadjybjchyqpc1&dl=0'
+		link: 'https://play.google.com/store/apps/details?id=com.thetreasuresoftrigonometry.app.ttot'
 	},
 	{
 		title: 'Knotting is math. (So does everything.)',
