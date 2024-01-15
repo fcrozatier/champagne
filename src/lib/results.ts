@@ -31,7 +31,7 @@ export const winners = [
 		title: 'How Computers Use Numbers',
 		description:
 			'An exploration of how modern computers interpret bits as numbers, building some common number formats from the ground up',
-		link: 'https://mabi.tmpinc.io/numbers/',
+		link: 'https://mabi.land/numbers/',
 		thumbnail: '/img/winners/How Computers Use Numbers.webp',
 		video: false
 	}
